@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "qwen2.5:7b",
+  "question_id": 4,
+  "type": "정상 사례",
+  "called_at": "2026-09-15T12:12:27.925459+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"주문이 아직 배송되지 않았는데, 언제쯤 배송되는지 안내받고 싶습니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "- category: 배송 확인\n- summary: 고객이 주문 배송 여부와 예정 배송 시간에 대해 문의하였습니다.\n- info: \n```json\n{\n  \"주문 상태\": \"배송되지 않았음\",\n  \"고객 요구사항\": \"배송 예정 시점 안내\"\n}\n```\n- note: 현재 예정 배송 시간이나 예상 배송 일자가 제공되지 않았습니다.",
+  "raw": "- category: 배송 확인\n- summary: 고객이 주문 배송 여부와 예정 배송 시간에 대해 문의하였습니다.\n- info: \n```json\n{\n  \"주문 상태\": \"배송되지 않았음\",\n  \"고객 요구사항\": \"배송 예정 시점 안내\"\n}\n```\n- note: 현재 예정 배송 시간이나 예상 배송 일자가 제공되지 않았습니다."
+}

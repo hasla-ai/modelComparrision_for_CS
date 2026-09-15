@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "llama3.2:3b",
+  "question_id": 4,
+  "type": "정상 사례",
+  "called_at": "2026-09-15T11:44:36.235027+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"주문이 아직 배송되지 않았는데, 언제쯤 배송되는지 안내받고 싶습니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "- category: 배송 인식 질문\n- summary: 배송 일정 확인이 필요합니다.\n- info: {\n    \"주문 번호\": \"\",\n    \"배송 일정\": null\n}\n- note: 주문 번호를 확인하셔야 배송 일정을 알 수 있습니다.",
+  "raw": "- category: 배송 인식 질문\n- summary: 배송 일정 확인이 필요합니다.\n- info: {\n    \"주문 번호\": \"\",\n    \"배송 일정\": null\n}\n- note: 주문 번호를 확인하셔야 배송 일정을 알 수 있습니다."
+}

@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "qwen2.5:7b",
+  "question_id": 3,
+  "type": "정상 사례",
+  "called_at": "2026-09-15T11:44:13.494192+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"프로그램을 실행하면 '구문 분석 오류'라는 메시지만 뜨고 실행이 안 됩니다. 어떻게 해야 하나요?\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "- category: 소프트웨어 오류\n- summary: 사용자는 프로그램을 실행하려 했지만, '구문 분석 오류' 메시지만 뜨\u001b[K\n며 실행되지 않습니다.\n- info: \n```json\n{\n  \"error_message\": \"구문 분석 오류\",\n  \"action\": \"실행\",\n  \"issue\": \"실행 불가\",\n  \"product\": \"구체적인 프로그램 이름 미제공\"\n}\n```\n- note: 프로그램의 이름이 제공되지 않았습니다. 이를 통해 추가적인 대응 방안\u001b[K\n을 세우는 데 어려움이 있을 수 있습니다.",
+  "raw": "- category: 소프트웨어 오류\n- summary: 사용자는 프로그램을 실행하려 했지만, '구문 분석 오류' 메시지만 뜨\u001b[K\n며 실행되지 않습니다.\n- info: \n```json\n{\n  \"error_message\": \"구문 분석 오류\",\n  \"action\": \"실행\",\n  \"issue\": \"실행 불가\",\n  \"product\": \"구체적인 프로그램 이름 미제공\"\n}\n```\n- note: 프로그램의 이름이 제공되지 않았습니다. 이를 통해 추가적인 대응 방안\u001b[K\n을 세우는 데 어려움이 있을 수 있습니다."
+}

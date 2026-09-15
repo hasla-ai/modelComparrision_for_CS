@@ -1,0 +1,14 @@
+{
+  "experiment_id": "step3_warmup_01",
+  "model": "llama3.2:3b",
+  "called_at": "2026-09-15T11:07:15.314336+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "워밍업용 짧은 요청입니다. 간단히 한 문장으로 답하세요.",
+  "status": "ok",
+  "response": "안녕하세요! how are you today?",
+  "raw": "안녕하세요! how are you today?"
+}

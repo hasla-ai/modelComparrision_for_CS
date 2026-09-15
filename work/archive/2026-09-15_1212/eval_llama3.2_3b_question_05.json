@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "llama3.2:3b",
+  "question_id": 5,
+  "type": "정상 사례",
+  "called_at": "2026-09-15T12:12:51.917723+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"계정이 잠겨서 로그인할 수 없습니다. 해제 부탁드립니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출합니다:\n\n- category: 계정 로그인 문제\n- summary: 계정이 잠겨 로그인할 수 없습니다.\n- info:\n  - 계정 상태: 잠그된 상태\n  - 로그인 문제: 로그인 시 에러가 발생합니다.\n- note: None",
+  "raw": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출합니다:\n\n- category: 계정 로그인 문제\n- summary: 계정이 잠겨 로그인할 수 없습니다.\n- info:\n  - 계정 상태: 잠그된 상태\n  - 로그인 문제: 로그인 시 에러가 발생합니다.\n- note: None"
+}

@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "llama3.2:3b",
+  "question_id": 7,
+  "type": "경계 사례",
+  "called_at": "2026-09-15T12:32:01.660041+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"로그인이 안 되고, 로그인 후에 보이는 화면도 깨져서 보입니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "```json\n{\n  \"category\": \"로그인 문제\",\n  \"summary\": \"로그인이 안되고 화면이 깨져 showing.\",\n  \"info\": {\n    \"type\": \"로그인 문제\",\n    \"detail\": \"로그인이 안되고 화면이 깨져 showing.\"\n  },\n  \"note\": \"이-information에 대한 추가적인 구체적인 정보가 필요합니다.\"\n}\n```\n\n이 고객문의는 로그인이 안되는 문제와 화면이 깨져 showing하는 문제를 포함하고\u001b[K\n 있습니다. 이 informações를 분류하기 위해 로그인 문제라고 분류하고, 한 문장\u001b[K\n의 요약을 provide하겠습니다.\n\n`info`에는 로그인 문제의 detail 정보가 포함되어 있습니다. 이러한信息는 로그\u001b[K\n인이 안되는 이유를 파악하고, 해결책을 찾기 위해 필요합니다.\n\n`note`에 대한 정보는 이 문의에 대한 추가적인 구체적인 정보가 필요합니다. 이\u001b[K\n를 위해 더 많은 정보를 제공하는지 여부를 확인하는 것이 필요합니다.",
+  "raw": "```json\n{\n  \"category\": \"로그인 문제\",\n  \"summary\": \"로그인이 안되고 화면이 깨져 showing.\",\n  \"info\": {\n    \"type\": \"로그인 문제\",\n    \"detail\": \"로그인이 안되고 화면이 깨져 showing.\"\n  },\n  \"note\": \"이-information에 대한 추가적인 구체적인 정보가 필요합니다.\"\n}\n```\n\n이 고객문의는 로그인이 안되는 문제와 화면이 깨져 showing하는 문제를 포함하고\u001b[K\n 있습니다. 이 informações를 분류하기 위해 로그인 문제라고 분류하고, 한 문장\u001b[K\n의 요약을 provide하겠습니다.\n\n`info`에는 로그인 문제의 detail 정보가 포함되어 있습니다. 이러한信息는 로그\u001b[K\n인이 안되는 이유를 파악하고, 해결책을 찾기 위해 필요합니다.\n\n`note`에 대한 정보는 이 문의에 대한 추가적인 구체적인 정보가 필요합니다. 이\u001b[K\n를 위해 더 많은 정보를 제공하는지 여부를 확인하는 것이 필요합니다."
+}

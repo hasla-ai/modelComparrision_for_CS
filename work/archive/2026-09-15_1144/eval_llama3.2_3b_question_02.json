@@ -1,0 +1,16 @@
+{
+  "experiment_id": "step4_evaluation",
+  "model": "llama3.2:3b",
+  "question_id": 2,
+  "type": "정상 사례",
+  "called_at": "2026-09-15T11:44:34.779821+09:00",
+  "params": {
+    "num_ctx": 4096,
+    "temperature": 0.0,
+    "stream": false
+  },
+  "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"방금 결제를 했는데 실패했다고 뜨고, 환불은 어떻게 되는지 궁금합니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+  "status": "ok",
+  "response": "```json\n{\n  \"category\": \"결제 실패\",\n  \"summary\": \"결제 실패 후 환불 정보를 hỏi합니다.\",\n  \"info\": {\n    \"question\": \"결제 실패\",\n    \"info_type\": \"환불\"\n  },\n  \"note\": \"환불 정보는 결제 실패의 specifics에 따라 다르니, 자세한 정보는 고\u001b[K\n객 서비스에 문의해 주세요.\"\n}\n```",
+  "raw": "```json\n{\n  \"category\": \"결제 실패\",\n  \"summary\": \"결제 실패 후 환불 정보를 hỏi합니다.\",\n  \"info\": {\n    \"question\": \"결제 실패\",\n    \"info_type\": \"환불\"\n  },\n  \"note\": \"환불 정보는 결제 실패의 specifics에 따라 다르니, 자세한 정보는 고\u001b[K\n객 서비스에 문의해 주세요.\"\n}\n```"
+}
