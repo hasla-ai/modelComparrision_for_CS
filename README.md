@@ -21,7 +21,9 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── docs/
 │   ├── model_selection_spec.md    # 요구사항 반영 명세, 게이트/우선순위, 실험 결과
-│   └── experiment_design.md       # 평가셋 설계 방법론, taxonomy 매핑, Cloud 5문항 선정 근거
+│   ├── experiment_design.md       # 평가셋 설계 방법론, taxonomy 매핑, Cloud 5문항 선정 근거
+│   ├── quality_scoring_spec.md    # 품질 채점 기능 명세 (6개 축, 게이트/가중합, 신뢰도 확보)
+│   └── final_selection_report.md  # STEP 8 최종 모델 선정 리포트 (결론: llama3.2:3b)
 └── work/                    # 실행 결과 저장 위치
     ├── 01_env/              # 환경 점검 기록
     ├── 02_calls/            # 호출·평가 JSON (최신)
