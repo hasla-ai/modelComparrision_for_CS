@@ -15,7 +15,8 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 03_measure_time.py       # 응답 전체 소요 시간 측정
 ├── 02_call_models.py        # step3: 모델 2종 호출 + 워밍업
 ├── 04_local_experiment.py   # step4: data/02_prompts_and_eval.json을 QUESTIONS로 로드해 반복 실행 + 지표 집계
-├── 05_quality_scoring.py    # step5: 04 결과를 규칙+LLM-judge로 채점 (docs/quality_scoring_spec.md 구현)
+├── 05_quality_scoring.py    # step5: 04(또는 06) 결과를 규칙+LLM-judge로 채점 (docs/quality_scoring_spec.md 구현)
+├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── docs/
@@ -80,9 +81,13 @@ uv run python 03_measure_time.py
 uv run python 02_call_models.py       # -> work/02_calls/call_*.json, warmup_*.json
 uv run python 04_local_experiment.py  # -> work/04_experiment/04_local_experiment_results.csv, .json (질문 10개 x 모델 2종 x 2회 = 40회)
 uv run python 05_quality_scoring.py   # -> work/04_experiment/05_quality_scoring_results.csv, .json (04 결과를 채점)
+uv run python 06_cloud_comparison.py  # -> work/06_cloud_comparison/06_cloud_comparison_results.csv, .json (사전 선정된 Cloud 비교 5문항)
+uv run python 05_quality_scoring.py work/06_cloud_comparison/06_cloud_comparison_results.json  # 06 결과도 같은 방식으로 채점
 ```
 
 `05_quality_scoring.py`는 `qwen3:4b-instruct-2507-q4_K_M`을 채점자(judge)로 사용합니다. `ollama pull qwen3:4b-instruct-2507-q4_K_M`으로 미리 받아두세요(채점 대상 모델과 겹치지 않아야 합니다).
+
+`06_cloud_comparison.py`는 `02_luna_chat.py`와 동일한 OpenAI Responses API(`gpt-5.6-luna`)만 사용합니다. Upstage Solar 등 다른 Cloud API는 이 실험에서 쓰지 않습니다. 키 입력 방식과 비용 안내는 `02_luna_chat.py`와 동일합니다 — 키를 요청하면 터미널에 붙여넣고 Enter를 누르며, 화면에 보이지 않고 코드·로그·노션에 남지 않습니다. **키를 스크립트 인자나 셸 명령에 직접 넣지 마세요.** 실행 중 `getpass` 프롬프트에서만 입력해야 셸 히스토리에 남지 않습니다.
 
 `04_local_experiment.py`는 `data/02_prompts_and_eval.json`을 직접 읽어 질문 목록(`QUESTIONS`)을 만듭니다. 문항을 바꾸려면 이 JSON 파일만 수정하면 됩니다.
 

@@ -1,5 +1,6 @@
 import json
 import re
+import sys
 import time
 import datetime
 from pathlib import Path
@@ -13,9 +14,19 @@ import requests
 OLLAMA_API_URL = "http://localhost:11434/api/generate"
 
 BASE_DIR = Path(__file__).resolve().parent
-RESULTS_FILE = BASE_DIR / "work" / "04_experiment" / "04_local_experiment_results.json"
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
-OUTPUT_DIR = BASE_DIR / "work" / "04_experiment"
+
+# 인자 없이 실행하면 로컬 40회 본실험을 채점(기존 동작 유지).
+# 다른 결과 파일(예: Cloud 비교 결과)을 채점하려면 경로를 인자로 전달:
+#   uv run python 05_quality_scoring.py work/06_cloud_comparison/06_cloud_comparison_results.json
+if len(sys.argv) > 1:
+    RESULTS_FILE = Path(sys.argv[1])
+    OUTPUT_DIR = RESULTS_FILE.parent
+    OUTPUT_PREFIX = RESULTS_FILE.stem.replace("_results", "") + "_scored"
+else:
+    RESULTS_FILE = BASE_DIR / "work" / "04_experiment" / "04_local_experiment_results.json"
+    OUTPUT_DIR = BASE_DIR / "work" / "04_experiment"
+    OUTPUT_PREFIX = "05_quality_scoring_results"
 
 # 채점 대상(qwen2.5:7b, llama3.2:3b)과 겹치지 않는 별도 judge 모델
 # (docs/quality_scoring_spec.md §5.1 — judge 편향 방지)
@@ -294,12 +305,12 @@ def main():
         time.sleep(0.1)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    json_out = OUTPUT_DIR / "05_quality_scoring_results.json"
+    json_out = OUTPUT_DIR / f"{OUTPUT_PREFIX}.json"
     with open(json_out, "w", encoding="utf-8") as f:
         json.dump(scored, f, ensure_ascii=False, indent=2)
 
     df = pd.DataFrame(scored)
-    csv_out = OUTPUT_DIR / "05_quality_scoring_results.csv"
+    csv_out = OUTPUT_DIR / f"{OUTPUT_PREFIX}.csv"
     df.to_csv(csv_out, index=False, encoding="utf-8-sig")
 
     print(f"\n저장됨: {json_out}, {csv_out}")
