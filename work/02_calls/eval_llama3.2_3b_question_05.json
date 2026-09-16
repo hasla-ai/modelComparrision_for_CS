@@ -3,7 +3,7 @@
   "model": "llama3.2:3b",
   "question_id": 5,
   "type": "정상 사례",
-  "called_at": "2026-09-15T12:31:59.090130+09:00",
+  "called_at": "2026-09-16T16:25:40.576398+09:00",
   "params": {
     "num_ctx": 4096,
     "temperature": 0.0,
@@ -11,6 +11,6 @@
   },
   "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"계정이 잠겨서 로그인할 수 없습니다. 해제 부탁드립니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
   "status": "ok",
-  "response": "여기是 고객 문의를 분류하고 핵심 정보를 JSON으로 추출한 예:\n\n- category: 계정 잠기ssue\n- summary: 계정이 잠겨 로그인할 수 없습니다.\n- info: \n    - type: 계정 잠기ssue\n    - status: 잠겨\n    - solution: 계정 해제 prosess를 수행하여 로그인할 수 있습니다.\n    - contact: 고객Support@example.com\n- note: 계정 잠기ssue는 일반적으로 계정이 사용하지 못하거나 비어 있는 경우에\u001b[K\n 발생합니다.",
-  "raw": "여기是 고객 문의를 분류하고 핵심 정보를 JSON으로 추출한 예:\n\n- category: 계정 잠기ssue\n- summary: 계정이 잠겨 로그인할 수 없습니다.\n- info: \n    - type: 계정 잠기ssue\n    - status: 잠겨\n    - solution: 계정 해제 prosess를 수행하여 로그인할 수 있습니다.\n    - contact: 고객Support@example.com\n- note: 계정 잠기ssue는 일반적으로 계정이 사용하지 못하거나 비어 있는 경우에\u001b[K\n 발생합니다."
+  "response": "下列는 고객 문의를 분류하고 핵심 정보를 JSON으로 추출한 예입니다.\n\n```json\n{\n  \"category\": \"계정 오류\",\n  \"summary\": \"계정이 잠겨 로그인할 수 없습니다.\",\n  \"info\": {\n    \"계정 상태\": \"잠김\",\n    \"로그인 문제\": \"계정 로그인 에러\",\n    \"해제 आवश요\": \"계정 해제\"\n  },\n  \"note\": \"\"\n}\n```\n\n이 결과는 고객 문의를 계정 오류로 분류하고, 핵심 정보를 JSON으로 추출했습니\u001b[K\n다. summary는 한 문장으로 요약되었으며, info는 계정 상태, 로그인 문제, 해제\u001b[K\n आवश요로 나누어졌습니다. note는 정보 부족 또는 예외 사항이 없으므로 비어 있\u001b[K\n습니다.",
+  "raw": "下列는 고객 문의를 분류하고 핵심 정보를 JSON으로 추출한 예입니다.\n\n```json\n{\n  \"category\": \"계정 오류\",\n  \"summary\": \"계정이 잠겨 로그인할 수 없습니다.\",\n  \"info\": {\n    \"계정 상태\": \"잠김\",\n    \"로그인 문제\": \"계정 로그인 에러\",\n    \"해제 आवश요\": \"계정 해제\"\n  },\n  \"note\": \"\"\n}\n```\n\n이 결과는 고객 문의를 계정 오류로 분류하고, 핵심 정보를 JSON으로 추출했습니\u001b[K\n다. summary는 한 문장으로 요약되었으며, info는 계정 상태, 로그인 문제, 해제\u001b[K\n आवश요로 나누어졌습니다. note는 정보 부족 또는 예외 사항이 없으므로 비어 있\u001b[K\n습니다."
 }

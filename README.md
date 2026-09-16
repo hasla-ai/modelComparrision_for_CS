@@ -14,10 +14,13 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 02_luna_chat.py          # OpenAI API에 질문 1번
 ├── 03_measure_time.py       # 응답 전체 소요 시간 측정
 ├── 02_call_models.py        # step3: 모델 2종 호출 + 워밍업
-├── run_evaluation.py        # step4: 질문 10개 평가 (QUESTIONS 정의처)
+├── run_evaluation.py        # step4: 질문 10개 평가 (data/02_prompts_and_eval.json을 QUESTIONS로 로드)
 ├── 04_local_experiment.py   # 반복 실행 + 지표 집계 (run_evaluation의 QUESTIONS 사용)
 ├── data/
-│   └── 02_prompts_and_eval.json
+│   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
+├── docs/
+│   ├── model_selection_spec.md    # 요구사항 반영 명세, 게이트/우선순위, 실험 결과
+│   └── experiment_design.md       # 평가셋 설계 방법론, taxonomy 매핑, Cloud 5문항 선정 근거
 └── work/                    # 실행 결과 저장 위치
     ├── 01_env/              # 환경 점검 기록
     ├── 02_calls/            # 호출·평가 JSON (최신)
