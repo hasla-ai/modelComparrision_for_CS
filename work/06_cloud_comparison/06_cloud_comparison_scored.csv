@@ -1,0 +1,79 @@
+﻿model_name,question_id,category,run_index,prompt,eval_criteria,response_text,total_time_sec,ttft_sec,input_tokens,generated_tokens,tps,is_success,error_message,manual_score,called_at,parsed_category,parsed_summary,parsed_note,format_valid,category_match,field_extraction_detail,field_extraction_score,abstention_appropriate,hallucination_flag_rule,summary_fidelity_score,summary_has_unsupported_claim,hallucination_flag,overall_gate_pass,weighted_score,needs_human_review,grader,rubric_version,graded_at,judge_error
+gpt-5.6-luna,1,정상 사례,1,"다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.
+문의: ""로그인이 갑자기 안 되고, 비밀번호 재설정 메일이 오지 않습니다. 급합니다.""
+출력 형식:
+- category: 문의 유형
+- summary: 한 문장 요약
+- info: 핵심 정보 JSON
+- note: 정보 부족 또는 예외 사항이 있으면 기록","분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수","- category: 계정 로그인/비밀번호 재설정
+- summary: 갑자기 로그인이 되지 않으며 비밀번호 재설정 이메일도 수신하지 못해 긴급한 지원이 필요한 상황입니다.
+- info:
+  ```json
+  {
+    ""문제"": [
+      ""로그인 불가"",
+      ""비밀번호 재설정 메일 미수신""
+    ],
+    ""긴급도"": ""높음"",
+    ""발생시점"": ""갑자기"",
+    ""계정정보"": null,
+    ""등록 이메일"": null,
+    ""오류 메시지"": null
+  }
+  ```
+- note: 계정 식별 정보, 등록 이메일 주소, 구체적인 오류 메시지, 비밀번호 재설정 요청 시각이 제공되지 않았습니다.",3.839,,91,171,44.54,True,,,2026-09-16T16:53:28.896624+09:00,계정 로그인/비밀번호 재설정,갑자기 로그인이 되지 않으며 비밀번호 재설정 이메일도 수신하지 못해 긴급한 지원이 필요한 상황입니다.,"계정 식별 정보, 등록 이메일 주소, 구체적인 오류 메시지, 비밀번호 재설정 요청 시각이 제공되지 않았습니다.",True,True,"{'증상': False, '긴급도': True}",0.5,,False,0.6666666666666666,False,False,True,0.7416666666666667,False,rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M,v1-2026-09,2026-09-16T16:53:57.205721+09:00,
+gpt-5.6-luna,2,정상 사례,1,"다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.
+문의: ""방금 결제를 했는데 실패했다고 뜨고, 환불은 어떻게 되는지 궁금합니다.""
+출력 형식:
+- category: 문의 유형
+- summary: 한 문장 요약
+- info: 핵심 정보 JSON
+- note: 정보 부족 또는 예외 사항이 있으면 기록","분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수","- category: 결제 실패 및 환불 문의
+- summary: 결제가 실패로 표시된 후 환불 처리 방법을 문의함.
+- info: {
+  ""payment_status"": ""실패"",
+  ""refund_inquiry"": true,
+  ""payment_time"": ""방금"",
+  ""transaction_id"": null,
+  ""payment_method"": null,
+  ""amount"": null
+}
+- note: 결제 수단, 결제 금액, 거래 ID 및 실제 출금 여부 정보가 부족함. 실패 결제의 환불 또는 승인 취소 처리 여부는 결제 수단과 거래 상태 확인이 필요함.",2.746,,90,134,48.8,True,,,2026-09-16T16:53:31.628922+09:00,결제 실패 및 환불 문의,결제가 실패로 표시된 후 환불 처리 방법을 문의함.,"결제 수단, 결제 금액, 거래 ID 및 실제 출금 여부 정보가 부족함. 실패 결제의 환불 또는 승인 취소 처리 여부는 결제 수단과 거래 상태 확인이 필요함.",True,True,"{'증상': False, '요청사항': False}",0.0,,False,1.0,False,False,True,0.65,False,rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M,v1-2026-09,2026-09-16T16:54:00.117165+09:00,
+gpt-5.6-luna,6,경계 사례,1,"다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.
+문의: ""가끔 화면이 멈춥니다. 언제부터인지 잘 모르겠고, 어떤 상황에서 그런지도 정확히 기억나지 않습니다.""
+출력 형식:
+- category: 문의 유형
+- summary: 한 문장 요약
+- info: 핵심 정보 JSON
+- note: 정보 부족 또는 예외 사항이 있으면 기록","분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수","- category: 기술 문제 신고
+- summary: 간헐적으로 화면이 멈추지만 발생 시점과 조건은 불명확함.
+- info: {""증상"":""화면 멈춤"",""발생 빈도"":""가끔"",""최초 발생 시점"":null,""재현 조건"":null}
+- note: 발생 시점, 재현 상황, 사용 환경 및 오류 메시지 정보가 부족함.",5.986,,98,92,15.37,True,,,2026-09-16T16:53:37.622891+09:00,기술 문제 신고,간헐적으로 화면이 멈추지만 발생 시점과 조건은 불명확함.,"발생 시점, 재현 상황, 사용 환경 및 오류 메시지 정보가 부족함.",True,False,{'증상': True},1.0,,False,1.0,False,False,True,0.6,False,rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M,v1-2026-09,2026-09-16T16:54:03.126453+09:00,
+gpt-5.6-luna,9,정보 부족 사례,1,"다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.
+문의: ""안 됩니다.""
+출력 형식:
+- category: 문의 유형
+- summary: 한 문장 요약
+- info: 핵심 정보 JSON
+- note: 정보 부족 또는 예외 사항이 있으면 기록","분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수","- category: 기능/서비스 이용 장애
+- summary: 고객이 어떤 기능이나 서비스가 작동하지 않는다고 보고함.
+- info: {}
+- note: 구체적인 대상 기능, 오류 메시지, 발생 시점 및 재현 조건이 없어 원인 파악이 어렵습니다.",1.518,,71,65,42.82,True,,,2026-09-16T16:53:39.141747+09:00,기능/서비스 이용 장애,고객이 어떤 기능이나 서비스가 작동하지 않는다고 보고함.,"구체적인 대상 기능, 오류 메시지, 발생 시점 및 재현 조건이 없어 원인 파악이 어렵습니다.",True,False,{},,False,False,1.0,True,False,False,,False,rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M,v1-2026-09,2026-09-16T16:54:06.035011+09:00,
+gpt-5.6-luna,10,범위 밖 사례,1,"다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.
+문의: ""이 서비스 정책으로 인해 발생한 손해를 전부 보상해 주세요.""
+출력 형식:
+- category: 문의 유형
+- summary: 한 문장 요약
+- info: 핵심 정보 JSON
+- note: 정보 부족 또는 예외 사항이 있으면 기록","분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수","- category: 보상 요청
+- summary: 서비스 정책으로 인해 발생한 손해에 대한 전액 보상을 요청함.
+- info: {
+  ""request_type"": ""전액 보상"",
+  ""claimed_cause"": ""서비스 정책"",
+  ""claimed_damage"": ""손해"",
+  ""damage_amount"": null,
+  ""incident_date"": null,
+  ""service_or_product"": null,
+  ""evidence"": null
+}
+- note: 손해의 구체적인 내용과 금액, 발생 일시, 관련 서비스·정책, 인과관계 및 증빙 자료가 없어 보상 가능 여부를 판단하기 어려움.",2.371,,85,139,58.63,True,,,2026-09-16T16:53:41.518085+09:00,보상 요청,서비스 정책으로 인해 발생한 손해에 대한 전액 보상을 요청함.,"손해의 구체적인 내용과 금액, 발생 일시, 관련 서비스·정책, 인과관계 및 증빙 자료가 없어 보상 가능 여부를 판단하기 어려움.",True,True,{'요청사항': False},0.0,False,False,1.0,False,False,False,,False,rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M,v1-2026-09,2026-09-16T16:54:09.046112+09:00,
