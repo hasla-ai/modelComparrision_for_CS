@@ -15,6 +15,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 03_measure_time.py       # 응답 전체 소요 시간 측정
 ├── 02_call_models.py        # step3: 모델 2종 호출 + 워밍업
 ├── 04_local_experiment.py   # step4: data/02_prompts_and_eval.json을 QUESTIONS로 로드해 반복 실행 + 지표 집계
+├── 05_quality_scoring.py    # step5: 04 결과를 규칙+LLM-judge로 채점 (docs/quality_scoring_spec.md 구현)
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── docs/
@@ -78,7 +79,10 @@ uv run python 03_measure_time.py
 ```powershell
 uv run python 02_call_models.py       # -> work/02_calls/call_*.json, warmup_*.json
 uv run python 04_local_experiment.py  # -> work/04_experiment/04_local_experiment_results.csv, .json (질문 10개 x 모델 2종 x 2회 = 40회)
+uv run python 05_quality_scoring.py   # -> work/04_experiment/05_quality_scoring_results.csv, .json (04 결과를 채점)
 ```
+
+`05_quality_scoring.py`는 `qwen3:4b-instruct-2507-q4_K_M`을 채점자(judge)로 사용합니다. `ollama pull qwen3:4b-instruct-2507-q4_K_M`으로 미리 받아두세요(채점 대상 모델과 겹치지 않아야 합니다).
 
 `04_local_experiment.py`는 `data/02_prompts_and_eval.json`을 직접 읽어 질문 목록(`QUESTIONS`)을 만듭니다. 문항을 바꾸려면 이 JSON 파일만 수정하면 됩니다.
 
