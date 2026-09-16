@@ -1,6 +1,6 @@
 {
   "rubric_version": "v1-2026-09",
-  "note": "gold 필드는 run_evaluation.py의 QUESTIONS와 1:1 대응. 실행 전에 확정, 이후 변경 시 rubric_version을 올리고 사유를 기록.",
+  "note": "gold 필드는 04_local_experiment.py가 로드하는 QUESTIONS와 1:1 대응. 실행 전에 확정, 이후 변경 시 rubric_version을 올리고 사유를 기록.",
   "questions": [
     {
       "id": 1,

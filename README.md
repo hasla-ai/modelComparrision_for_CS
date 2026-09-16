@@ -14,8 +14,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 02_luna_chat.py          # OpenAI API에 질문 1번
 ├── 03_measure_time.py       # 응답 전체 소요 시간 측정
 ├── 02_call_models.py        # step3: 모델 2종 호출 + 워밍업
-├── run_evaluation.py        # step4: 질문 10개 평가 (data/02_prompts_and_eval.json을 QUESTIONS로 로드)
-├── 04_local_experiment.py   # 반복 실행 + 지표 집계 (run_evaluation의 QUESTIONS 사용)
+├── 04_local_experiment.py   # step4: data/02_prompts_and_eval.json을 QUESTIONS로 로드해 반복 실행 + 지표 집계
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── docs/
@@ -78,10 +77,11 @@ uv run python 03_measure_time.py
 
 ```powershell
 uv run python 02_call_models.py       # -> work/02_calls/call_*.json, warmup_*.json
-uv run python run_evaluation.py       # -> work/02_calls/eval_*.json (질문 10개 x 모델 2종)
-uv run python 04_local_experiment.py  # -> work/04_experiment/04_local_experiment_results.csv, .json
+uv run python 04_local_experiment.py  # -> work/04_experiment/04_local_experiment_results.csv, .json (질문 10개 x 모델 2종 x 2회 = 40회)
 ```
 
-`04_local_experiment.py`는 `run_evaluation.py`에서 질문 목록(`QUESTIONS`)만 가져다 씁니다. 평가 루프는 `main()` 안에 있으므로 임포트만으로 실행되지 않습니다. 평가 결과가 필요하면 `run_evaluation.py`를 직접 실행하세요.
+`04_local_experiment.py`는 `data/02_prompts_and_eval.json`을 직접 읽어 질문 목록(`QUESTIONS`)을 만듭니다. 문항을 바꾸려면 이 JSON 파일만 수정하면 됩니다.
 
-같은 이름의 결과 파일은 덮어쓰기 됩니다. 이전 실행을 남겨두려면 `work/02_calls`를 `work/archive/<날짜>`로 옮긴 뒤 다시 실행하세요.
+`work/02_calls/eval_*.json`(질문 10개 x 모델 2종, 반복 없음)은 예전에 있던 `run_evaluation.py`로 만든 1회성 결과이며, 그 스크립트는 `04_local_experiment.py`로 기능이 흡수되어 삭제했습니다. 해당 파일들은 과거 실행 기록으로만 남아있고 재생성하는 스크립트는 없습니다.
+
+같은 이름의 결과 파일은 덮어쓰기 됩니다. 이전 실행을 남겨두려면 `work/04_experiment`를 `work/archive/<날짜>`로 옮긴 뒤 다시 실행하세요.

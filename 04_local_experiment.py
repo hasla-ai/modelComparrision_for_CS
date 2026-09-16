@@ -4,7 +4,6 @@ import requests
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
-import sys
 
 # ==========================================
 # 1. 설정값 정의
@@ -14,10 +13,33 @@ OLLAMA_API_URL = "http://localhost:11434/api/generate"
 # 어느 폴더에서 실행하든 항상 프로젝트 안 work/04_experiment에 저장
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = BASE_DIR / "work" / "04_experiment"
+QUESTIONS_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
 
-# 같은 루트에 있는 run_evaluation.py에서 QUESTIONS를 가져옴
-sys.path.insert(0, str(BASE_DIR))
-from run_evaluation import QUESTIONS
+# JSON의 info_sufficiency 값을 실험 결과에 쓰는 한글 유형 라벨로 매핑
+_TYPE_LABELS = {
+    "정상": "정상 사례",
+    "경계": "경계 사례",
+    "특수: 정보부족": "정보 부족 사례",
+    "특수: 범위밖": "범위 밖 사례",
+}
+
+def load_questions():
+    with open(QUESTIONS_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    questions = []
+    for q in data["questions"]:
+        info_sufficiency = q["taxonomy"]["info_sufficiency"]
+        questions.append({
+            "question_id": q["id"],
+            "type": _TYPE_LABELS.get(info_sufficiency, info_sufficiency),
+            "prompt": q["prompt"],
+            "eval_criteria": q.get("eval_criteria", ""),
+            "cloud_comparison": q.get("cloud_comparison", False),
+        })
+    return questions
+
+QUESTIONS = load_questions()
 
 # 비교 대상 로컬 모델 2종 지정
 TARGET_MODELS = [
