@@ -20,21 +20,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "긴급도": false
+      "증상": true,
+      "긴급도": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.6666666666666666,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.5666666666666667,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:03.675764+09:00",
+    "graded_at": "2026-09-16T16:58:13.134078+09:00",
     "judge_error": null
   },
   {
@@ -58,21 +58,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "긴급도": false
+      "증상": true,
+      "긴급도": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.6666666666666666,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.5666666666666667,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:06.531329+09:00",
+    "graded_at": "2026-09-16T16:58:15.838862+09:00",
     "judge_error": null
   },
   {
@@ -96,21 +96,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:09.575347+09:00",
+    "graded_at": "2026-09-16T16:58:18.771000+09:00",
     "judge_error": null
   },
   {
@@ -134,21 +134,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:12.529795+09:00",
+    "graded_at": "2026-09-16T16:58:21.600742+09:00",
     "judge_error": null
   },
   {
@@ -172,21 +172,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "오류 메시지": false
+      "증상": true,
+      "오류 메시지": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 0.875,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:15.493243+09:00",
+    "graded_at": "2026-09-16T16:58:24.417598+09:00",
     "judge_error": null
   },
   {
@@ -210,21 +210,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "오류 메시지": false
+      "증상": true,
+      "오류 메시지": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 0.875,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:18.250914+09:00",
+    "graded_at": "2026-09-16T16:58:27.104588+09:00",
     "judge_error": null
   },
   {
@@ -248,20 +248,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 0.875,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:21.185956+09:00",
+    "graded_at": "2026-09-16T16:58:29.917264+09:00",
     "judge_error": null
   },
   {
@@ -285,20 +285,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 0.875,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:23.950437+09:00",
+    "graded_at": "2026-09-16T16:58:32.590080+09:00",
     "judge_error": null
   },
   {
@@ -322,21 +322,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:26.957141+09:00",
+    "graded_at": "2026-09-16T16:58:35.447627+09:00",
     "judge_error": null
   },
   {
@@ -360,21 +360,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:29.859944+09:00",
+    "graded_at": "2026-09-16T16:58:38.110163+09:00",
     "judge_error": null
   },
   {
@@ -398,20 +398,20 @@
     "format_valid": true,
     "category_match": false,
     "field_extraction_detail": {
-      "증상": false
+      "증상": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.25,
+    "weighted_score": 0.6,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:32.917002+09:00",
+    "graded_at": "2026-09-16T16:58:40.978991+09:00",
     "judge_error": null
   },
   {
@@ -435,20 +435,20 @@
     "format_valid": true,
     "category_match": false,
     "field_extraction_detail": {
-      "증상": false
+      "증상": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.125,
+    "weighted_score": 0.475,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:35.813966+09:00",
+    "graded_at": "2026-09-16T16:58:44.081234+09:00",
     "judge_error": null
   },
   {
@@ -472,21 +472,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상1(로그인 불가)": false,
-      "증상2(화면 깨짐)": false
+      "증상1(로그인 불가)": true,
+      "증상2(화면 깨짐)": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:38.804215+09:00",
+    "graded_at": "2026-09-16T16:58:47.138743+09:00",
     "judge_error": null
   },
   {
@@ -510,21 +510,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상1(로그인 불가)": false,
-      "증상2(화면 깨짐)": false
+      "증상1(로그인 불가)": true,
+      "증상2(화면 깨짐)": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:41.842659+09:00",
+    "graded_at": "2026-09-16T16:58:50.159934+09:00",
     "judge_error": null
   },
   {
@@ -559,7 +559,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:44.780473+09:00",
+    "graded_at": "2026-09-16T16:58:53.211275+09:00",
     "judge_error": null
   },
   {
@@ -594,7 +594,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:47.523373+09:00",
+    "graded_at": "2026-09-16T16:58:55.977215+09:00",
     "judge_error": null
   },
   {
@@ -629,7 +629,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:50.444325+09:00",
+    "graded_at": "2026-09-16T16:58:58.914084+09:00",
     "judge_error": null
   },
   {
@@ -664,7 +664,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:53.222672+09:00",
+    "graded_at": "2026-09-16T16:59:01.843016+09:00",
     "judge_error": null
   },
   {
@@ -688,9 +688,9 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": false,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
@@ -701,7 +701,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:56.306365+09:00",
+    "graded_at": "2026-09-16T16:59:04.859884+09:00",
     "judge_error": null
   },
   {
@@ -725,12 +725,12 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": false,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": false,
@@ -738,7 +738,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:36:59.236905+09:00",
+    "graded_at": "2026-09-16T16:59:07.851968+09:00",
     "judge_error": null
   },
   {
@@ -762,21 +762,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "긴급도": false
+      "증상": true,
+      "긴급도": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.6666666666666666,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.5666666666666667,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:02.260565+09:00",
+    "graded_at": "2026-09-16T16:59:10.907614+09:00",
     "judge_error": null
   },
   {
@@ -800,21 +800,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "긴급도": false
+      "증상": true,
+      "긴급도": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.6666666666666666,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.5666666666666667,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:05.281427+09:00",
+    "graded_at": "2026-09-16T16:59:13.980161+09:00",
     "judge_error": null
   },
   {
@@ -838,21 +838,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:08.291771+09:00",
+    "graded_at": "2026-09-16T16:59:17.120472+09:00",
     "judge_error": null
   },
   {
@@ -876,21 +876,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:11.236723+09:00",
+    "graded_at": "2026-09-16T16:59:20.216681+09:00",
     "judge_error": null
   },
   {
@@ -914,21 +914,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "오류 메시지": false
+      "증상": true,
+      "오류 메시지": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 0.5,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 0.875,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:14.201588+09:00",
+    "graded_at": "2026-09-16T16:59:23.203098+09:00",
     "judge_error": null
   },
   {
@@ -952,21 +952,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "오류 메시지": false
+      "증상": true,
+      "오류 메시지": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:17.130080+09:00",
+    "graded_at": "2026-09-16T16:59:26.187227+09:00",
     "judge_error": null
   },
   {
@@ -990,20 +990,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:20.105123+09:00",
+    "graded_at": "2026-09-16T16:59:29.191637+09:00",
     "judge_error": null
   },
   {
@@ -1027,20 +1027,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.525,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:23.078300+09:00",
+    "graded_at": "2026-09-16T16:59:32.184636+09:00",
     "judge_error": null
   },
   {
@@ -1064,21 +1064,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:26.082875+09:00",
+    "graded_at": "2026-09-16T16:59:35.262411+09:00",
     "judge_error": null
   },
   {
@@ -1102,21 +1102,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상": false,
-      "요청사항": false
+      "증상": true,
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:29.035490+09:00",
+    "graded_at": "2026-09-16T16:59:38.343427+09:00",
     "judge_error": null
   },
   {
@@ -1140,20 +1140,20 @@
     "format_valid": true,
     "category_match": false,
     "field_extraction_detail": {
-      "증상": false
+      "증상": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.125,
+    "weighted_score": 0.6,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:31.999774+09:00",
+    "graded_at": "2026-09-16T16:59:41.311913+09:00",
     "judge_error": null
   },
   {
@@ -1177,20 +1177,20 @@
     "format_valid": true,
     "category_match": false,
     "field_extraction_detail": {
-      "증상": false
+      "증상": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
-    "summary_fidelity_score": 0.5,
+    "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.125,
+    "weighted_score": 0.6,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:34.949676+09:00",
+    "graded_at": "2026-09-16T16:59:44.248794+09:00",
     "judge_error": null
   },
   {
@@ -1214,21 +1214,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상1(로그인 불가)": false,
-      "증상2(화면 깨짐)": false
+      "증상1(로그인 불가)": true,
+      "증상2(화면 깨짐)": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:37.971751+09:00",
+    "graded_at": "2026-09-16T16:59:47.257244+09:00",
     "judge_error": null
   },
   {
@@ -1252,21 +1252,21 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "증상1(로그인 불가)": false,
-      "증상2(화면 깨짐)": false
+      "증상1(로그인 불가)": true,
+      "증상2(화면 깨짐)": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": null,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:40.951353+09:00",
+    "graded_at": "2026-09-16T16:59:50.290983+09:00",
     "judge_error": null
   },
   {
@@ -1301,7 +1301,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:43.919283+09:00",
+    "graded_at": "2026-09-16T16:59:53.337844+09:00",
     "judge_error": null
   },
   {
@@ -1336,7 +1336,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:46.705259+09:00",
+    "graded_at": "2026-09-16T16:59:56.281726+09:00",
     "judge_error": null
   },
   {
@@ -1371,7 +1371,7 @@
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:49.647733+09:00",
+    "graded_at": "2026-09-16T16:59:59.237690+09:00",
     "judge_error": null
   },
   {
@@ -1399,14 +1399,14 @@
     "abstention_appropriate": false,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
-    "summary_has_unsupported_claim": true,
+    "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": false,
     "weighted_score": null,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:52.485712+09:00",
+    "graded_at": "2026-09-16T17:00:02.118043+09:00",
     "judge_error": null
   },
   {
@@ -1430,20 +1430,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
-    "abstention_appropriate": true,
+    "field_extraction_score": 1.0,
+    "abstention_appropriate": false,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
-    "hallucination_flag": false,
-    "overall_gate_pass": true,
-    "weighted_score": 0.65,
-    "needs_human_review": false,
+    "hallucination_flag": true,
+    "overall_gate_pass": false,
+    "weighted_score": null,
+    "needs_human_review": true,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:55.520956+09:00",
+    "graded_at": "2026-09-16T17:00:05.165544+09:00",
     "judge_error": null
   },
   {
@@ -1467,20 +1467,20 @@
     "format_valid": true,
     "category_match": true,
     "field_extraction_detail": {
-      "요청사항": false
+      "요청사항": true
     },
-    "field_extraction_score": 0.0,
+    "field_extraction_score": 1.0,
     "abstention_appropriate": true,
     "hallucination_flag_rule": false,
     "summary_fidelity_score": 1.0,
     "summary_has_unsupported_claim": false,
     "hallucination_flag": false,
     "overall_gate_pass": true,
-    "weighted_score": 0.65,
+    "weighted_score": 1.0,
     "needs_human_review": false,
     "grader": "rule+llm_judge:qwen3:4b-instruct-2507-q4_K_M",
     "rubric_version": "v1-2026-09",
-    "graded_at": "2026-09-16T16:37:58.608936+09:00",
+    "graded_at": "2026-09-16T17:00:08.119335+09:00",
     "judge_error": null
   }
 ]

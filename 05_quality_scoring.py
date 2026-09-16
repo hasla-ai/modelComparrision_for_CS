@@ -143,7 +143,10 @@ def rule_based_score(parsed: dict, gold: dict) -> dict:
 # ==========================================
 def call_judge(question_text: str, parsed: dict, gold: dict) -> dict:
     key_facts = gold["key_facts_for_summary"]
+    expected_fields = gold["expected_fields"]
+    info_text = json.dumps(parsed["info"], ensure_ascii=False) if isinstance(parsed["info"], (dict, list)) else str(parsed["info"] or "")
     prompt = f"""당신은 CS 문의 자동응답의 품질을 채점하는 평가자입니다. 아래 정보만 보고 JSON으로만 답하세요.
+모델이 쓴 표현이 정답 라벨과 문자 그대로 같지 않아도, 같은 의미이면 "포함됨"으로 판정하세요.
 
 [원본 문의]
 {question_text}
@@ -154,6 +157,12 @@ def call_judge(question_text: str, parsed: dict, gold: dict) -> dict:
 [모델이 낸 note]
 {parsed['note']}
 
+[모델이 낸 info(핵심 정보 추출 결과)]
+{info_text}
+
+[필수 추출 필드 목록 (0부터 시작하는 인덱스)]
+{json.dumps(list(enumerate(expected_fields)), ensure_ascii=False)}
+
 [핵심 사실 목록 (0부터 시작하는 인덱스)]
 {json.dumps(list(enumerate(key_facts)), ensure_ascii=False)}
 
@@ -161,6 +170,7 @@ def call_judge(question_text: str, parsed: dict, gold: dict) -> dict:
 {gold['expected_note_behavior']}
 
 다음 키를 가진 JSON 객체 하나만 출력하세요. 다른 설명은 쓰지 마세요.
+- fields_covered: 필수 추출 필드 목록 중 info에 실제로(다른 표현이어도 같은 의미로) 포함된 것들의 인덱스 배열
 - summary_facts_covered: 핵심 사실 목록 중 요약에 실제로 포함된 것들의 인덱스 배열 (핵심 사실이 없으면 빈 배열)
 - summary_has_unsupported_claim: 요약이 원본 문의에 없는 사실을 지어냈으면 true, 아니면 false
 - hallucination_confirmed: 응답이 상담원 권한 밖 사항(보상/환불 등)을 확정적으로 약속했으면 true, 아니면 false
@@ -179,6 +189,7 @@ def call_judge(question_text: str, parsed: dict, gold: dict) -> dict:
         raw = resp.json().get("response", "")
         judged = json.loads(raw)
         return {
+            "fields_covered": judged.get("fields_covered", []),
             "summary_facts_covered": judged.get("summary_facts_covered", []),
             "summary_has_unsupported_claim": judged.get("summary_has_unsupported_claim"),
             "hallucination_confirmed": judged.get("hallucination_confirmed"),
@@ -187,6 +198,7 @@ def call_judge(question_text: str, parsed: dict, gold: dict) -> dict:
         }
     except Exception as e:
         return {
+            "fields_covered": None,
             "summary_facts_covered": None,
             "summary_has_unsupported_claim": None,
             "hallucination_confirmed": None,
@@ -205,6 +217,17 @@ def combine(rule: dict, judge: dict, gold: dict) -> dict:
         len(facts_covered) / len(key_facts) if key_facts and isinstance(facts_covered, list)
         else (1.0 if not key_facts else None)
     )
+
+    # 필드 추출: 규칙(문자 그대로 포함)과 judge(같은 의미면 포함) 중 하나라도 맞으면 인정
+    # — 모델이 gold 라벨과 다른 표현("문제"↔"증상")을 써도 의미가 같으면 놓치지 않도록 함
+    expected_fields = gold["expected_fields"]
+    field_detail = dict(rule["field_extraction_detail"])
+    judge_fields = judge["fields_covered"]
+    if isinstance(judge_fields, list):
+        for idx in judge_fields:
+            if isinstance(idx, int) and 0 <= idx < len(expected_fields):
+                field_detail[expected_fields[idx]] = True
+    field_extraction_score = sum(field_detail.values()) / len(field_detail) if field_detail else None
 
     # 환각: 규칙 1차와 judge 2차가 불일치하면 자동 확정하지 않고 사람 검토로 넘김(None)
     rule_flag = rule["hallucination_flag_rule"]
@@ -231,8 +254,8 @@ def combine(rule: dict, judge: dict, gold: dict) -> dict:
         parts = []
         if rule["category_match"] is not None:
             parts.append(("category_match", float(rule["category_match"])))
-        if rule["field_extraction_score"] is not None:
-            parts.append(("field_extraction_score", rule["field_extraction_score"]))
+        if field_extraction_score is not None:
+            parts.append(("field_extraction_score", field_extraction_score))
         if summary_fidelity_score is not None:
             parts.append(("summary_fidelity_score", summary_fidelity_score))
         total_weight = sum(WEIGHTS[k] for k, _ in parts)
@@ -240,6 +263,8 @@ def combine(rule: dict, judge: dict, gold: dict) -> dict:
             weighted_score = sum(WEIGHTS[k] * v for k, v in parts) / total_weight
 
     return {
+        "field_extraction_score": field_extraction_score,
+        "field_extraction_detail": field_detail,
         "summary_fidelity_score": summary_fidelity_score,
         "summary_has_unsupported_claim": judge["summary_has_unsupported_claim"],
         "hallucination_flag": hallucination_flag,
