@@ -2,6 +2,7 @@
 
 최종 모델 선정 근거와 실험 결과 전체는 [FINAL_REPORT.md](FINAL_REPORT.md)에 있습니다 (문제 정의 → 후보 조사 → 실행 환경 → 평가 기준 → 로컬 40회 실험 → Local–Cloud 비교 → 최종 선정 → 한계·후속).
 결과만 쉬운 말로 빠르게 보려면 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
+역할별 책임과 산출물 대응은 [ROLES_AND_DELIVERABLES.md](ROLES_AND_DELIVERABLES.md)에 있습니다 (`roles_manifest.json`에서 자동 생성·자체 검증).
 
 ## 폴더 구조
 
@@ -20,6 +21,9 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
+├── ROLES_AND_DELIVERABLES.md # 역할 분담과 산출물 대응 (자동 생성)
+├── roles_manifest.json      # 역할·책임·산출물의 단일 출처
+├── generate_roles_doc.py    # 위 JSON → 문서 생성 + 산출물 존재 검증
 ├── PUBLIC_REPORT.md         # 프로젝트 결과 요약 (쉬운 말 버전)
 └── work/                    # 실행 결과 저장 위치
     ├── 01_env/              # 환경 점검 기록

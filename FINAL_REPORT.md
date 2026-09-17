@@ -277,7 +277,7 @@ uv run python 05_quality_scoring.py work/06_cloud_comparison/06_cloud_comparison
 
 ---
 
-## 부록. 요구사항 평가표 대응
+## 부록 A. 요구사항 평가표 대응
 
 | # | 요구사항 | 본문 위치 | 증빙 |
 | --- | --- | --- | --- |
