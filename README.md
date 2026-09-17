@@ -3,7 +3,8 @@
 Ollama 설치와 CLI 대화를 마친 뒤, VS Code와 uv로 실행하는 작은 예제입니다.
 자세한 환경 준비와 지표 설명은 [두 번째 노션 가이드](https://app.notion.com/p/3d41698118388039be07cca84e1f743c)를 확인하세요.
 
-프로젝트 결과를 쉬운 말로 정리한 요약은 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
+최종 모델 선정 근거와 실험 결과 전체는 [FINAL_REPORT.md](FINAL_REPORT.md)에 있습니다 (문제 정의 → 후보 조사 → 실행 환경 → 평가 기준 → 로컬 40회 실험 → Local–Cloud 비교 → 최종 선정 → 한계·후속).
+결과만 쉬운 말로 빠르게 보려면 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
 
 ## 폴더 구조
 
@@ -21,6 +22,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
+├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
 ├── PUBLIC_REPORT.md         # 프로젝트 결과 요약 (쉬운 말 버전)
 └── work/                    # 실행 결과 저장 위치
     ├── 01_env/              # 환경 점검 기록
