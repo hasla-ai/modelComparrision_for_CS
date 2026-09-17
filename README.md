@@ -3,6 +3,8 @@
 Ollama 설치와 CLI 대화를 마친 뒤, VS Code와 uv로 실행하는 작은 예제입니다.
 자세한 환경 준비와 지표 설명은 [두 번째 노션 가이드](https://app.notion.com/p/3d41698118388039be07cca84e1f743c)를 확인하세요.
 
+프로젝트 결과를 쉬운 말로 정리한 요약은 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
+
 ## 폴더 구조
 
 ```
@@ -15,15 +17,11 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 03_measure_time.py       # 응답 전체 소요 시간 측정
 ├── 02_call_models.py        # step3: 모델 2종 호출 + 워밍업
 ├── 04_local_experiment.py   # step4: data/02_prompts_and_eval.json을 QUESTIONS로 로드해 반복 실행 + 지표 집계
-├── 05_quality_scoring.py    # step5: 04(또는 06) 결과를 규칙+LLM-judge로 채점 (docs/quality_scoring_spec.md 구현)
+├── 05_quality_scoring.py    # step5: 04(또는 06) 결과를 규칙+LLM-judge로 채점
 ├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
-├── docs/
-│   ├── model_selection_spec.md    # 요구사항 반영 명세, 게이트/우선순위, 실험 결과
-│   ├── experiment_design.md       # 평가셋 설계 방법론, taxonomy 매핑, Cloud 5문항 선정 근거
-│   ├── quality_scoring_spec.md    # 품질 채점 기능 명세 (6개 축, 게이트/가중합, 신뢰도 확보)
-│   └── final_selection_report.md  # STEP 8 최종 모델 선정 리포트 (결론: llama3.2:3b)
+├── PUBLIC_REPORT.md         # 프로젝트 결과 요약 (쉬운 말 버전)
 └── work/                    # 실행 결과 저장 위치
     ├── 01_env/              # 환경 점검 기록
     ├── 02_calls/            # 호출·평가 JSON (최신)
