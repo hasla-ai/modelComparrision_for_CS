@@ -1,3 +1,5 @@
+## **사내 CS·기술지원 문의 자동 분류·요약 시스템 — 로컬 LLM 모델 선정** ## 
+
 최종 모델 선정 근거와 실험 결과 전체는 [FINAL_REPORT.md](FINAL_REPORT.md)에 있습니다 (문제 정의 → 후보 조사 → 실행 환경 → 평가 기준 → 로컬 40회 실험 → Local–Cloud 비교 → 최종 선정 → 한계·후속).
 결과만 쉬운 말로 빠르게 보려면 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
 
