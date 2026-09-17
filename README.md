@@ -1,8 +1,3 @@
-# Python으로 모델에 첫 질문 보내기
-
-Ollama 설치와 CLI 대화를 마친 뒤, VS Code와 uv로 실행하는 작은 예제입니다.
-자세한 환경 준비와 지표 설명은 [두 번째 노션 가이드](https://app.notion.com/p/3d41698118388039be07cca84e1f743c)를 확인하세요.
-
 최종 모델 선정 근거와 실험 결과 전체는 [FINAL_REPORT.md](FINAL_REPORT.md)에 있습니다 (문제 정의 → 후보 조사 → 실행 환경 → 평가 기준 → 로컬 40회 실험 → Local–Cloud 비교 → 최종 선정 → 한계·후속).
 결과만 쉬운 말로 빠르게 보려면 [PUBLIC_REPORT.md](PUBLIC_REPORT.md)를 참고하세요.
 
