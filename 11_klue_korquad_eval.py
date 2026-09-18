@@ -214,73 +214,90 @@ def build_tasks(rng) -> list[dict]:
 # 4. 메인 — 과제 → 모델 → 문항
 # ==========================================
 def main() -> int:
-    if require("datasets") is None:
-        return 1
-    if not preflight():
-        return 1
+    # --report-only 는 저장된 원본만 읽으므로 datasets·Ollama가 필요 없다
+    if "--report-only" not in sys.argv:
+        if require("datasets") is None:
+            return 1
+        if not preflight():
+            return 1
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(RANDOM_SEED)
 
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] KLUE·KorQuAD 벤치마크 시작")
     print("-> 데이터셋 로딩 중 (최초 실행 시 다운로드)")
-    tasks = build_tasks(rng)
-    by_task = {}
-    for t in tasks:
-        by_task.setdefault(t["task"], []).append(t)
-    total = len(tasks) * len(MODELS)
-    print(f"-> 과제 {len(by_task)}종, 문항 {len(tasks)}개 × 모델 {len(MODELS)} = {total}회\n")
+    report_only = "--report-only" in sys.argv
+    if report_only:
+        # 모델을 다시 부르지 않고 저장된 원본에서 요약만 재생성한다.
+        # 요약 서식을 고쳤을 때 GPU 시간을 다시 쓰지 않기 위한 경로다.
+        src_json = OUTPUT_DIR / "11_benchmark_results.json"
+        if not src_json.exists():
+            print(f"원본이 없습니다: {src_json}")
+            return 1
+        with open(src_json, encoding="utf-8") as f:
+            rows = json.load(f)["records"]
+        by_task = {}
+        for r in rows:
+            by_task.setdefault(r["task"], []).append(r)
+        print(f"--report-only: 저장된 {len(rows)}건에서 요약만 다시 만듭니다 (모델 호출 없음)")
+    else:
+        tasks = build_tasks(rng)
+        by_task = {}
+        for t in tasks:
+            by_task.setdefault(t["task"], []).append(t)
+        total = len(tasks) * len(MODELS)
+        print(f"-> 과제 {len(by_task)}종, 문항 {len(tasks)}개 × 모델 {len(MODELS)} = {total}회\n")
 
-    rows, done = [], 0
-    # 과제를 바깥에 둔다(프롬프트 형식이 과제마다 다름). 모델은 로드 비용 때문에 블록.
-    for task_name, items in by_task.items():
-        print("#" * 64)
-        print(f"# {task_name}  ({len(items)}문항 × {len(MODELS)}모델)")
-        print("#" * 64)
-        for model in MODELS:
-            for other in MODELS:
-                if other != model:
-                    unload(other)
-            print(f"  [{model}] 워밍업... ", end="", flush=True)
-            w = run_query(model, WARMUP_PROMPT)
-            print("완료" if w["success"] else f"실패({w['err']})")
+        rows, done = [], 0
+        # 과제를 바깥에 둔다(프롬프트 형식이 과제마다 다름). 모델은 로드 비용 때문에 블록.
+        for task_name, items in by_task.items():
+            print("#" * 64)
+            print(f"# {task_name}  ({len(items)}문항 × {len(MODELS)}모델)")
+            print("#" * 64)
+            for model in MODELS:
+                for other in MODELS:
+                    if other != model:
+                        unload(other)
+                print(f"  [{model}] 워밍업... ", end="", flush=True)
+                w = run_query(model, WARMUP_PROMPT)
+                print("완료" if w["success"] else f"실패({w['err']})")
 
-            for it in items:
-                done += 1
-                res = run_query(model, it["prompt"])
-                pred = res["text"]
+                for it in items:
+                    done += 1
+                    res = run_query(model, it["prompt"])
+                    pred = res["text"]
 
-                if it["unanswerable"]:
-                    correct = says_no_answer(pred)
-                    exact = partial = correct
-                    mode = "기권 정답" if correct else "지어냄"
-                elif it["task"] == "ynat":
-                    p = norm(first_line_answer(pred))
-                    exact = any(p == norm(g) for g in it["gold"])
-                    partial = exact or any(norm(g) in p for g in it["gold"])
-                    correct = exact or partial
-                    mode = "정답" if correct else "오답"
-                else:
-                    exact, partial = span_match(pred, it["gold"])
-                    # 답이 있는데 기권하면 과잉 기권으로 따로 표시
-                    if not partial and says_no_answer(pred):
-                        mode = "과잉 기권"
+                    if it["unanswerable"]:
+                        correct = says_no_answer(pred)
+                        exact = partial = correct
+                        mode = "기권 정답" if correct else "지어냄"
+                    elif it["task"] == "ynat":
+                        p = norm(first_line_answer(pred))
+                        exact = any(p == norm(g) for g in it["gold"])
+                        partial = exact or any(norm(g) in p for g in it["gold"])
+                        correct = exact or partial
+                        mode = "정답" if correct else "오답"
                     else:
-                        mode = "정답" if partial else "오답"
-                    correct = partial
+                        exact, partial = span_match(pred, it["gold"])
+                        # 답이 있는데 기권하면 과잉 기권으로 따로 표시
+                        if not partial and says_no_answer(pred):
+                            mode = "과잉 기권"
+                        else:
+                            mode = "정답" if partial else "오답"
+                        correct = partial
 
-                rows.append({
-                    "task": it["task"], "axis": it["axis"], "model_name": model,
-                    "item_id": it["item_id"], "unanswerable": it["unanswerable"],
-                    "gold": " | ".join(map(str, it["gold"]))[:200],
-                    "prediction": pred[:400], "exact": exact, "partial": partial,
-                    "correct": correct, "mode": mode,
-                    "total_time_sec": res["sec"], "is_success": res["success"],
-                    "error_message": res["err"],
-                })
-                if done % 20 == 0 or done == total:
-                    print(f"    진행 {done}/{total}")
-            unload(model)
+                    rows.append({
+                        "task": it["task"], "axis": it["axis"], "model_name": model,
+                        "item_id": it["item_id"], "unanswerable": it["unanswerable"],
+                        "gold": " | ".join(map(str, it["gold"]))[:200],
+                        "prediction": pred[:400], "exact": exact, "partial": partial,
+                        "correct": correct, "mode": mode,
+                        "total_time_sec": res["sec"], "is_success": res["success"],
+                        "error_message": res["err"],
+                    })
+                    if done % 20 == 0 or done == total:
+                        print(f"    진행 {done}/{total}")
+                unload(model)
 
     # ══ 집계 ═════════════════════════════════════════════════════════
     def agg(task, model):
@@ -289,6 +306,9 @@ def main() -> int:
         n = len(rs)
         return {
             "n": n,
+            # 표시용 건수는 여기서 직접 센다. 반올림한 비율에 n을 곱해 int()로
+            # 되돌리면 0.57×100 = 56.999… → 56 처럼 한 건씩 어긋난다.
+            "hit": sum(1 for r in ok if r["correct"]),
             "acc": round(sum(r["correct"] for r in ok) / n, 4) if n else None,
             "exact": round(sum(r["exact"] for r in ok) / n, 4) if n else None,
             "over_abstain": sum(1 for r in ok if r["mode"] == "과잉 기권"),
@@ -316,7 +336,7 @@ def main() -> int:
         cells = []
         for m in MODELS:
             a = summary[t][m]
-            cells.append(f"{a['acc']:.3f} ({int(a['acc']*a['n'])}/{a['n']})" if a["acc"] is not None else "-")
+            cells.append(f"{a['acc']:.3f} ({a['hit']}/{a['n']})" if a["acc"] is not None else "-")
         add(f"| {label.get(t, t)} | {axis} | " + " | ".join(cells) + " |")
     add("")
 

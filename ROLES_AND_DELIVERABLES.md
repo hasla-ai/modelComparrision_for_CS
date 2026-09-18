@@ -11,10 +11,10 @@
 | # | 역할 | 담당 영역 | 맡은 체크리스트 | 산출물 |
 | --- | --- | --- | --- | --- |
 | 1 | **Project Lead**<br>프로젝트 리드 | 범위·일정·리스크를 관리하고, 실험 결과를 사업 판단으로 바꾼다. | 4 | 공개 3건 |
-| 2 | **Requirement Lead / Business Analyst**<br>요구사항 담당 | 무엇을 '좋은 모델'로 볼지를 실험 착수 전에 문서로 못 박는다. | 1, 2, 3 | 공개 2건 · 비공개 2건 |
+| 2 | **Requirement Lead / Business Analyst**<br>요구사항 담당 | 무엇을 '좋은 모델'로 볼지를 실험 착수 전에 문서로 못 박는다. | 1, 2, 3 | 공개 6건 · 비공개 2건 |
 | 3 | **ML Researcher & Env Engineer**<br>모델 리서치 / 환경 담당 | 후보를 근거로 고르고, 제3자가 같은 조건에서 재현할 수 있게 환경을 기록한다. | 5, 6, 7, 8 | 공개 8건 |
 | 4 | **Performance Engineer**<br>실험 / 성능 측정 담당 | 동일 조건을 통제한 상태로 반복 실행하고, 실패까지 포함해 원본을 남긴다. | 9, 10, 11, 12, 13 | 공개 12건 |
-| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 18건 · 비공개 1건 |
+| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 22건 · 비공개 1건 |
 
 `비공개`는 방법론 자산(게이트 설계·가중치·루브릭 내부 정의)이라 저장소에 올리지 않고 로컬에만 보관하는 문서다. 결과와 판단 근거는 모두 공개 문서에 담겨 있다.
 
@@ -81,6 +81,10 @@
 | `data/02_prompts_and_eval.json` | 질문·gold 라벨·채점 기준·Cloud 선정 플래그의 단일 출처 | 있음 |
 | `docs/model_selection_spec.md` | 게이트·우선순위 상세 명세 | 로컬 보관 · 확인됨 |
 | `docs/experiment_design.md` | taxonomy 설계와 커버리지 갭 분석 | 로컬 보관 · 확인됨 |
+| `build_eval_set_v2.py` | 평가셋 10 → 54문항 확장 빌더 (7개 검증 통과 시에만 기록) | 있음 |
+| `data/02_prompts_and_eval.v1.json` | 10문항 판 백업 — 본 보고서 수치의 기준 | 있음 |
+| `data/eval_set_coverage.md` | 카테고리×정보충분도 18칸 커버리지 표 | 있음 |
+| `data/eval_set_v2_review.md` | 54문항 전체 검토용 대조표 | 있음 |
 
 **대응하는 발제문 체크리스트**
 
@@ -229,6 +233,10 @@
 | `work/09_embedding/09_embedding_report.md` | 임베딩 실습 결과 보고서 (4부) | 있음 |
 | `work/09_embedding/09_embedding_similarity.csv` | 유사도 원본 56쌍 | 있음 |
 | `work/09_embedding/09_embedding_results.json` | 임베딩 실습 원본 결과 | 있음 |
+| `12_rubric_sensitivity.py` | 채점 관대성 민감도 재채점 (모델 호출 없음) | 있음 |
+| `work/12_rubric_sensitivity/12_rubric_sensitivity.md` | 관대/엄격 기준 대조 및 판정 | 있음 |
+| `work/11_klue_korquad/11_benchmark_summary.md` | KLUE·KorQuAD 결과 요약 | 있음 |
+| `deps_check.py` | 의존성 로딩 실패 원인 구분 헬퍼 | 있음 |
 
 **대응하는 발제문 체크리스트**
 
@@ -245,6 +253,6 @@
 이 문서는 `roles_manifest.json`에서 자동 생성된다. 생성할 때마다 체크리스트 18문항이 빠짐없이 한 번씩 배정됐는지, 각 역할이 주장하는 산출물이 실제로 저장소에 있는지 확인한다.
 
 - 체크리스트 18문항 전부 배정 완료, 중복 없음
-- 공개 산출물 43건 전부 저장소에 존재
+- 공개 산출물 51건 전부 저장소에 존재
 
 *roles_manifest.json (단일 출처) → generate_roles_doc.py → ROLES_AND_DELIVERABLES.md*

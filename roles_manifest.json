@@ -90,6 +90,26 @@
           "path": "docs/experiment_design.md",
           "note": "taxonomy 설계와 커버리지 갭 분석",
           "public": false
+        },
+        {
+          "path": "build_eval_set_v2.py",
+          "note": "평가셋 10 → 54문항 확장 빌더 (7개 검증 통과 시에만 기록)",
+          "public": true
+        },
+        {
+          "path": "data/02_prompts_and_eval.v1.json",
+          "note": "10문항 판 백업 — 본 보고서 수치의 기준",
+          "public": true
+        },
+        {
+          "path": "data/eval_set_coverage.md",
+          "note": "카테고리×정보충분도 18칸 커버리지 표",
+          "public": true
+        },
+        {
+          "path": "data/eval_set_v2_review.md",
+          "note": "54문항 전체 검토용 대조표",
+          "public": true
         }
       ]
     },
@@ -377,6 +397,26 @@
         {
           "path": "work/09_embedding/09_embedding_results.json",
           "note": "임베딩 실습 원본 결과",
+          "public": true
+        },
+        {
+          "path": "12_rubric_sensitivity.py",
+          "note": "채점 관대성 민감도 재채점 (모델 호출 없음)",
+          "public": true
+        },
+        {
+          "path": "work/12_rubric_sensitivity/12_rubric_sensitivity.md",
+          "note": "관대/엄격 기준 대조 및 판정",
+          "public": true
+        },
+        {
+          "path": "work/11_klue_korquad/11_benchmark_summary.md",
+          "note": "KLUE·KorQuAD 결과 요약",
+          "public": true
+        },
+        {
+          "path": "deps_check.py",
+          "note": "의존성 로딩 실패 원인 구분 헬퍼",
           "public": true
         }
       ]
