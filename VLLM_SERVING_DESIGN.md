@@ -304,24 +304,28 @@ for pass_idx in 1..2:
 
 ## 13. 산출물
 
+> 스크립트 번호 13~18과 부록 I는 **AI Hub CS 도메인 일반화 독립 실험**이 이미 쓰고 있다.
+> 이 설계서는 19·20번과 부록 J·K를 쓴다. 두 작업은 서로 독립이며 공유하는 것은
+> `05_quality_scoring.py`(채점기)와 `data/02_prompts_and_eval.json`(54문항) 뿐이다.
+
 ```
 VLLM_SERVING_DESIGN.md                  # 이 문서
 backends.py                             # Ollama / vLLM 어댑터 (프롬프트 해시 로깅 포함)
-13_serving_comparison.py                # 단계 0 — 3구성 × 54문항 × 2패스 = 324회
-14_concurrency_benchmark.py             # 단계 1 — 닫힌 루프 스윕 + 개방 루프 1회
-work/13_serving/
-├── 13_serving_results.csv              # 요청별 원본
-├── 13_serving_scored.csv               # 기존 채점기 적용 결과
-├── 13_prompt_hashes.csv                # 세 구성의 문항별 프롬프트 해시 대조
-└── 13_serving_summary.md
-work/14_concurrency/
-├── 14_latency_raw.csv                  # 요청별 TTFT·총시간
-├── 14_gpu_poll.csv                     # 1초 간격 VRAM·사용률
-├── 14_vllm_metrics.csv                 # 실행·대기 요청 수, KV 사용률
-└── 14_concurrency_summary.md           # 게이트 유지 한계 N, 무릎 지점
+19_serving_comparison.py                # 단계 0 — 3구성 × 54문항 × 2패스 = 324회
+20_concurrency_benchmark.py             # 단계 1 — 닫힌 루프 스윕 + 개방 루프 1회
+work/19_serving/
+├── 19_serving_results.csv              # 요청별 원본
+├── 19_serving_scored.csv               # 기존 채점기 적용 결과
+├── 19_prompt_hashes.csv                # 세 구성의 문항별 프롬프트 해시 대조
+└── 19_serving_summary.md
+work/20_concurrency/
+├── 20_latency_raw.csv                  # 요청별 TTFT·총시간
+├── 20_gpu_poll.csv                     # 1초 간격 VRAM·사용률
+├── 20_vllm_metrics.csv                 # 실행·대기 요청 수, KV 사용률
+└── 20_concurrency_summary.md           # 게이트 유지 한계 N, 무릎 지점
 ```
 
-보고서에는 **부록 I(서빙 교체)** 와 **부록 J(동시성)** 로 들어간다. 부록 J가 §8 열린 항목의 「처리량·동시성 테스트」를 닫는다.
+보고서에는 **부록 J(서빙 교체)** 와 **부록 K(동시성)** 로 들어간다. 부록 K가 §8 열린 항목의 「처리량·동시성 테스트」를 닫는다.
 
 ---
 
@@ -344,16 +348,16 @@ ollama pull llama3.2:3b
 
 ```powershell
 # ── 사전 점검 — 여기서 막히면 진행하지 않는다 ─────────────────
-uv run python 13_serving_comparison.py --check-prompts   # C1 대조만 수행
+uv run python 19_serving_comparison.py --check-prompts   # C1 대조만 수행
 
 # ── 단계 0 ───────────────────────────────────────────────────
-uv run python 13_serving_comparison.py                   # 324회
-uv run python 05_quality_scoring.py work/13_serving/13_serving_results.json
+uv run python 19_serving_comparison.py                   # 324회
+uv run python 05_quality_scoring.py work/19_serving/19_serving_results.json
 uv run python 12_rubric_sensitivity.py                   # 엄격 기준 병기
 
 # ── 단계 1 ───────────────────────────────────────────────────
-uv run python 14_concurrency_benchmark.py --sweep        # 닫힌 루프 N=1..16
-uv run python 14_concurrency_benchmark.py --open-loop    # 포아송 도착 5분 × 2수준
+uv run python 20_concurrency_benchmark.py --sweep        # 닫힌 루프 N=1..16
+uv run python 20_concurrency_benchmark.py --open-loop    # 포아송 도착 5분 × 2수준
 ```
 
 `--check-prompts`는 모델을 호출하지 않는다. 세 구성에 같은 문항 1개를 보내 서버가 받은 프롬프트를 덤프하고 해시를 대조할 뿐이다. **이 점검을 통과하기 전에는 324회를 돌리지 않는다.**
