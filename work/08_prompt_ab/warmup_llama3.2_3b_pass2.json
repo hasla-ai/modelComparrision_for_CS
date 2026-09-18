@@ -1,0 +1,13 @@
+{
+  "model": "llama3.2:3b",
+  "pass_index": 2,
+  "prompt": "워밍업용 짧은 요청입니다. 간단히 한 문장으로 답하세요.",
+  "called_at": "2026-09-18T09:48:12.620829",
+  "success": true,
+  "response_text": "네, 어떻게 도와드릴까요?",
+  "total_time_sec": 4.253,
+  "ttft_sec": 2.1,
+  "eval_count_tokens": 10,
+  "tps": 109.34,
+  "error_msg": ""
+}

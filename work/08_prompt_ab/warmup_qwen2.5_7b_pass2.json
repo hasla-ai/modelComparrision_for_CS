@@ -1,0 +1,13 @@
+{
+  "model": "qwen2.5:7b",
+  "pass_index": 2,
+  "prompt": "워밍업용 짧은 요청입니다. 간단히 한 문장으로 답하세요.",
+  "called_at": "2026-09-18T09:46:34.607639",
+  "success": true,
+  "response_text": "좋은 질문을 기다리고 있습니다!",
+  "total_time_sec": 4.603,
+  "ttft_sec": 2.376,
+  "eval_count_tokens": 11,
+  "tps": 63.31,
+  "error_msg": ""
+}

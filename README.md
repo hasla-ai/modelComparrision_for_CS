@@ -24,6 +24,9 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 08_prompt_ab_report.py   # A/B 결과 비교와 자동 판정
 ├── PROMPT_AB_DESIGN.md      # 프롬프트 보강 A/B 실험 설계서
 ├── 09_embedding_experiment.py # 도전 실습 B: 문장 임베딩과 코사인 유사도
+├── 10_klue_embedding_eval.py # KLUE-STS·NLI로 임베딩 검증 (LLM 호출 없음)
+├── 11_klue_korquad_eval.py  # KLUE-YNAT·MRC·KorQuAD로 생성 모델 능력 측정
+├── KLUE_KORQUAD_DESIGN.md   # 공개 벤치마크 반영 설계서
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
@@ -38,6 +41,8 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
     ├── 07_quantization/     # 양자화 비교 결과 + 자원 실측
     ├── 08_prompt_ab/        # 프롬프트 보강 A/B 결과 + 판정 요약
     ├── 09_embedding/        # 임베딩 유사도 결과 + 실습 보고서
+    ├── 10_klue_embedding/   # KLUE-STS·NLI 검증 결과
+    ├── 11_klue_korquad/     # 벤치마크 결과 + 요약
     └── archive/             # 지난 실행 보관
 ```
 
@@ -162,3 +167,23 @@ uv run python 09_embedding_experiment.py
 4. **프로젝트 적용** — 질문 10개를 임베딩해 같은 카테고리 쌍과 다른 카테고리 쌍의 평균 유사도를 비교합니다
 
 유사도는 **표현이 얼마나 닮았는가**를 재지 **내용이 사실인가**를 재지 않습니다. 이 구분이 실습의 핵심입니다.
+
+## KLUE·KorQuAD 반영
+
+공개 한국어 벤치마크를 평가에 반영하되, **벤치마크와 루브릭을 섞지 않습니다.** 벤치마크는 모델의 일반 능력을 재고, 이 프로젝트의 루브릭은 제품 요구 충족(JSON 스키마, 권한 밖 확답 금지, 기권 적절성)을 잽니다. 따라서 **벤치마크 점수는 게이트에도 선정 가중치에도 넣지 않고**, 후보 조사 단계의 사전 정보와 10문항 파일럿의 외부 타당도 점검에만 씁니다. 근거는 [KLUE_KORQUAD_DESIGN.md](KLUE_KORQUAD_DESIGN.md)에 있습니다.
+
+| 프로젝트 축 | 벤치마크 | 10문항으로 부족했던 점 |
+| --- | --- | --- |
+| 분류 | KLUE-YNAT | 정상 사례 5건, 두 모델 동점이라 변별 불가 |
+| 추출 | KorQuAD 1.0 / KLUE-MRC(답 있음) | 채점 버그 수정 후 1.000 포화로 변별력 상실 |
+| **기권** | **KLUE-MRC(답 없음)** | **최대 약점인데 Q9 하나(모델당 2건)로만 판단** |
+| 의미 유사도 | KLUE-STS | 임베딩 모델을 검증 없이 사용 중 |
+| 유사도 ≠ 사실성 | KLUE-NLI(모순 라벨) | 손으로 고른 2쌍이 근거의 전부 |
+
+```powershell
+uv add datasets
+uv run python 10_klue_embedding_eval.py    # STS 상관 + NLI 모순 분리, LLM 호출 없음
+uv run python 11_klue_korquad_eval.py      # YNAT 100 + KorQuAD 60 + MRC 80, 모델 2종
+```
+
+해석 규칙 네 가지를 실행 전에 고정했습니다 — 선정을 바꾸지 않을 것, 도메인이 다르다는 사실을 매번 붙일 것, 공개 데이터라 사전학습 오염 가능성이 있으니 절대값 대신 상대 비교만 할 것, 10문항 결과와 어긋나면 어긋남 자체를 보고할 것.
