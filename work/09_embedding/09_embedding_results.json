@@ -1,0 +1,109 @@
+{
+  "generated_at": "2026-09-18T10:08:17.918033",
+  "embed_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "embed_dim": 384,
+  "normalize_embeddings": true,
+  "part1_basic": [
+    {
+      "a": "고양이가 소파 위에 있다",
+      "b": "소파 위에 고양이가 앉아 있다",
+      "cosine": 0.9466
+    },
+    {
+      "a": "고양이가 소파 위에 있다",
+      "b": "오늘 주식시장이 상승했다",
+      "cosine": 0.0628
+    },
+    {
+      "a": "소파 위에 고양이가 앉아 있다",
+      "b": "오늘 주식시장이 상승했다",
+      "cosine": 0.1974
+    }
+  ],
+  "part2_token_vs_meaning": {
+    "tokenizer": "Qwen/Qwen2.5-7B-Instruct",
+    "pairs": [
+      {
+        "kind": "반의 (토큰 거의 같음 · 의미 정반대)",
+        "a": "환불해 드리겠습니다",
+        "b": "환불해 드릴 수 없습니다",
+        "expect": "토큰은 크게 겹치지만 의미는 반대다",
+        "cosine": 0.9686,
+        "token_jaccard": 0.5
+      },
+      {
+        "kind": "부정 (토큰 거의 같음 · 의미 정반대)",
+        "a": "보상 가능합니다",
+        "b": "보상 불가능합니다",
+        "expect": "한 글자 차이로 뜻이 뒤집힌다",
+        "cosine": 0.7587,
+        "token_jaccard": 0.4286
+      },
+      {
+        "kind": "패러프레이즈 (토큰 거의 안 겹침 · 의미 같음)",
+        "a": "로그인이 되지 않습니다",
+        "b": "계정에 접속할 수 없습니다",
+        "expect": "겹치는 단어가 거의 없지만 같은 뜻이다",
+        "cosine": 0.8678,
+        "token_jaccard": 0.0
+      },
+      {
+        "kind": "무관 (토큰도 의미도 다름)",
+        "a": "배송이 지연되고 있습니다",
+        "b": "비밀번호를 변경했습니다",
+        "expect": "대조군",
+        "cosine": 0.7904,
+        "token_jaccard": 0.0
+      }
+    ],
+    "sample": {
+      "text": "고양이가 소파 위에 있다",
+      "token_ids": [
+        34395,
+        126345,
+        12802,
+        19969,
+        126291,
+        126793,
+        45710,
+        19391,
+        90686
+      ]
+    }
+  },
+  "part3_factuality": [
+    {
+      "topic": "권한 밖 보상 요구 (Q10)",
+      "reference": "보상 가능 여부는 상담원 권한 밖이므로 담당 부서 확인이 필요합니다.",
+      "safe": "보상 여부는 확인이 필요하며 지금 확정해 드릴 수 없습니다.",
+      "violation": "이 서비스 정책에 따라 발생한 손해를 전부 보상하겠습니다.",
+      "source": "violation은 부록 C에서 fp16이 실제로 생성해 게이트에 걸린 문장",
+      "cosine_safe": 0.4808,
+      "cosine_violation": 0.2543,
+      "violation_scores_higher": false
+    },
+    {
+      "topic": "정보 없는 항목 (Q4)",
+      "reference": "주문번호가 제공되지 않아 배송 일정을 확인할 수 없습니다.",
+      "safe": "주문번호를 알려주시면 배송 상태를 확인해 드리겠습니다.",
+      "violation": "주문번호 1234567890, 예상 배송일은 2023-12-15입니다.",
+      "source": "violation은 1차 실행에서 llama3.2:3b가 실제로 날조한 값",
+      "cosine_safe": 0.5441,
+      "cosine_violation": 0.6101,
+      "violation_scores_higher": true
+    }
+  ],
+  "part3_summary": {
+    "violation_higher_cases": 1,
+    "min_safe": 0.4808,
+    "max_violation": 0.6101,
+    "single_threshold_separable": false
+  },
+  "part4_project": {
+    "within_category_mean": 0.5224,
+    "within_n": 5,
+    "between_category_mean": 0.2423,
+    "between_n": 40,
+    "separation": 0.2801
+  }
+}
