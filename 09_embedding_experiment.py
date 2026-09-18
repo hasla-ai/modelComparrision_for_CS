@@ -33,6 +33,8 @@ from pathlib import Path
 
 import numpy as np
 
+from deps_check import require
+
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = BASE_DIR / "work" / "09_embedding"
 QUESTIONS_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -129,11 +131,10 @@ def load_project_questions() -> list[dict]:
 
 
 def main() -> int:
-    try:
-        from sentence_transformers import SentenceTransformer
-    except ImportError:
-        print("sentence-transformers가 설치되어 있지 않습니다.\n\n  uv add sentence-transformers\n")
+    st = require("sentence_transformers", "sentence-transformers")
+    if st is None:
         return 1
+    SentenceTransformer = st.SentenceTransformer
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 임베딩 실습 시작")

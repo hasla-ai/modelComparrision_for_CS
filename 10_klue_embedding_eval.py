@@ -29,6 +29,8 @@ from pathlib import Path
 
 import numpy as np
 
+from deps_check import require
+
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = BASE_DIR / "work" / "10_klue_embedding"
 
@@ -90,15 +92,11 @@ def best_threshold(sim_pos, sim_neg):
 
 
 def main() -> int:
-    try:
-        from sentence_transformers import SentenceTransformer
-    except ImportError:
-        print("sentence-transformers가 없습니다.  uv add sentence-transformers")
+    st = require("sentence_transformers", "sentence-transformers")
+    if st is None:
         return 1
-    try:
-        import datasets  # noqa: F401
-    except ImportError:
-        print("datasets가 없습니다.  uv add datasets")
+    SentenceTransformer = st.SentenceTransformer
+    if require("datasets") is None:
         return 1
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

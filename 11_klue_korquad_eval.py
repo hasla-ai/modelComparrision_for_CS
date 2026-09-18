@@ -37,6 +37,8 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
+
+from deps_check import require
 import requests
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -212,10 +214,7 @@ def build_tasks(rng) -> list[dict]:
 # 4. 메인 — 과제 → 모델 → 문항
 # ==========================================
 def main() -> int:
-    try:
-        import datasets  # noqa: F401
-    except ImportError:
-        print("datasets가 없습니다.  uv add datasets")
+    if require("datasets") is None:
         return 1
     if not preflight():
         return 1
