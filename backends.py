@@ -26,6 +26,16 @@ TTFT 를 어떻게 재는가
   스트리밍으로 호출하고 `ttft_sec` 은 벽시계 기준으로 통일한다.
   Ollama 는 서버 값도 같이 오므로 `ttft_server_sec` 에 따로 남겨 둔다
   (기존 40회 실험의 `ttft_sec` 은 이 서버 값이었다 — 같은 열에 섞지 말 것).
+
+TPS 도 같은 문제가 있다
+  Ollama 의 TPS 는 서버가 알려준 `eval_duration`(순수 생성 구간)으로 나눈 값이고,
+  vLLM 에는 그런 필드가 없어 클라이언트 벽시계로 나눌 수밖에 없다. **두 값은
+  같은 자가 아니므로 나란히 놓고 비교하면 안 된다.** 그래서 엔진 고유값은
+  `tps` 에 그대로 두되, 두 엔진에 같은 식을 적용한 `tps_wall` 을 따로 만든다.
+
+      tps_wall = 생성 토큰 / (총 소요 시간 - TTFT)
+
+  엔진 간 비교는 `tps_wall` 로만 한다.
 """
 
 from __future__ import annotations
@@ -80,7 +90,9 @@ class CallResult:
     ttft_server_sec: float | None = None   # Ollama 만: load+prompt_eval (기존 40회의 그 값)
     prompt_tokens: int | None = None   # 서버가 센 입력 토큰 수 — 템플릿 대조용
     generated_tokens: int = 0
-    tps: float = 0.0
+    tps: float = 0.0                   # 엔진 고유 계산 — 엔진 간 비교 금지
+    tps_wall: float = 0.0              # 엔진 공통 자: 생성 토큰 / (총시간 - TTFT)
+    tps_source: str = ""               # tps 가 무엇으로 계산됐는지
     error_message: str = ""
     raw_meta: dict = field(default_factory=dict)
 
@@ -98,6 +110,16 @@ class Backend:
         self.base_url = base_url.rstrip("/")
         self.sampler_profile = sampler_profile
         self.sampler = dict(SAMPLER_PROFILES[sampler_profile])
+        # 부하 시험에서 매 호출마다 새 TCP 연결을 열면 연결 비용이 지연에 섞인다.
+        # requests.Session 은 스레드 안전이 아니므로 **워커마다 별도 인스턴스**를
+        # 만들어 쓸 것 (20_concurrency_benchmark.py 가 그렇게 한다).
+        self._session = requests.Session()
+
+    def close(self) -> None:
+        try:
+            self._session.close()
+        except Exception:
+            pass
 
     def generate(self, prompt: str, timeout: int = DEFAULT_TIMEOUT) -> CallResult:
         raise NotImplementedError
@@ -169,7 +191,7 @@ class OllamaBackend(Backend):
         ttft = None
         final: dict = {}
         try:
-            with requests.post(f"{self.base_url}/api/generate", json=payload,
+            with self._session.post(f"{self.base_url}/api/generate", json=payload,
                                timeout=timeout, stream=True) as resp:
                 if resp.status_code != 200:
                     out.error_message = f"HTTP {resp.status_code}: {resp.text[:200]}"
@@ -203,6 +225,9 @@ class OllamaBackend(Backend):
             out.prompt_tokens = final.get("prompt_eval_count")
             out.generated_tokens = eval_count
             out.tps = round(eval_count / eval_dur, 2) if eval_dur > 0 else 0.0
+            out.tps_source = "server_eval_duration"
+            gen_wall = max(total - out.ttft_sec, 1e-9)
+            out.tps_wall = round(eval_count / gen_wall, 2) if eval_count else 0.0
             out.raw_meta = {k: final.get(k) for k in
                             ("total_duration", "load_duration", "prompt_eval_duration",
                              "prompt_eval_count", "eval_duration", "eval_count", "done_reason")}
@@ -294,7 +319,7 @@ class VLLMBackend(Backend):
         ttft = None
         usage: dict = {}
         try:
-            with requests.post(f"{self.base_url}/v1/chat/completions", json=payload,
+            with self._session.post(f"{self.base_url}/v1/chat/completions", json=payload,
                                timeout=timeout, stream=True) as resp:
                 if resp.status_code != 200:
                     out.error_message = f"HTTP {resp.status_code}: {resp.text[:200]}"
@@ -327,9 +352,11 @@ class VLLMBackend(Backend):
             out.ttft_sec = round(ttft if ttft is not None else total, 3)
             out.prompt_tokens = usage.get("prompt_tokens")
             out.generated_tokens = gen
-            # Ollama 의 TPS 는 순수 생성 구간 기준이다. 같은 뜻이 되도록
-            # 첫 토큰 이후 구간으로 나눈다.
+            # vLLM 에는 서버가 알려주는 생성 구간이 없다. 벽시계밖에 없으므로
+            # tps 와 tps_wall 이 같은 값이 되고, 그 사실을 tps_source 에 남긴다.
             out.tps = round(gen / gen_time, 2) if gen else 0.0
+            out.tps_source = "client_wallclock"
+            out.tps_wall = out.tps
             out.raw_meta = {"usage": usage}
         except Exception as exc:
             out.error_message = f"{type(exc).__name__}: {exc}"
