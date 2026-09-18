@@ -149,12 +149,50 @@ vllm serve <model> \
 ```python
 # backends.py
 class Backend:
-    def generate(self, prompt: str, params: dict) -> dict:
-        """반환: {text, ttft_sec, total_sec, prompt_tokens, completion_tokens}"""
+    def generate(self, prompt: str, timeout: int) -> CallResult:
+        """반환: text, ttft_sec, total_sec, prompt_tokens, generated_tokens, tps_wall"""
 
-class OllamaBackend(Backend):   # POST /api/generate
-class VLLMBackend(Backend):     # POST /v1/completions  (※ /v1/chat/completions 아님 — §8 C1)
+class OllamaBackend(Backend):   # POST /api/generate   (raw 없음 = 서버가 템플릿 적용)
+class VLLMBackend(Backend):     # POST /v1/chat/completions
 ```
+
+> **초안 수정**: 처음에는 vLLM 쪽을 `/v1/completions`(원문 그대로 투입)로 적었으나,
+> `04_local_experiment.py` 를 확인하니 **`raw` 를 쓰지 않아 Ollama 가 chat template 을
+> 적용**하고 있었다. 기존 185회가 전부 템플릿이 씌워진 입력이었다는 뜻이므로, 대응되는
+> vLLM 엔드포인트는 `/v1/chat/completions` 다. 여기를 잘못 고르면 C1 이 반드시 터진다.
+
+### 5.5 샘플러 프로파일 — 하나로 정할 수 없어 둘로 나눴다
+
+기존 실험은 `temperature: 0.1` 만 지정하고 `top_p`·`top_k`·`repeat_penalty`·
+`num_predict`·`seed` 를 Ollama 기본값에 맡겼다. vLLM 기본값은 그것과 다르다.
+
+- 그대로 두면 → "엔진 차이"에 "샘플러 차이"가 섞인다
+- 명시적으로 맞추면 → 구성 A 가 더 이상 185회 기준선이 아니다
+
+둘 다 필요하므로 프로파일로 나누고 **모든 레코드에 `sampler_profile` 을 남긴다.**
+
+| 프로파일 | 내용 | 용도 |
+| --- | --- | --- |
+| `fixed` | temperature·top_p·top_k·repeat_penalty·max_tokens·seed 를 세 구성에 같은 값으로 명시 | 구성 간 비교 (기본값) |
+| `baseline` | temperature 만 지정 (= 04 와 동일) | 기존 185회 재현. **Ollama 전용** — vLLM 은 거절한다 |
+
+`fixed` 로 돌린 구성 A 의 수치를 §5.1 의 3.38초·0.810 옆에 나란히 놓지 않는다.
+
+### 5.6 TPS 는 엔진마다 다른 자를 쓴다
+
+Ollama 의 TPS 는 서버가 알려주는 `eval_duration`(순수 생성 구간) 기준이고,
+vLLM 에는 그 필드가 없어 클라이언트 벽시계밖에 없다. **두 값을 나란히 놓으면 안 된다.**
+
+그래서 엔진 고유값은 `tps` 에 그대로 두고, 두 엔진에 같은 식을 적용한 값을 따로 만든다.
+
+```
+tps_wall = 생성 토큰 / (총 소요 시간 − TTFT)
+```
+
+**엔진 간 비교는 `tps_wall` 로만 한다.** `tps_source` 열에 어느 자였는지 남는다.
+TTFT 도 같은 이유로 벽시계 기준(`ttft_sec`)으로 통일하고, Ollama 의 서버 값은
+`ttft_server_sec` 에 따로 둔다 — 기존 40회의 `ttft_sec` 이 이 서버 값이었으므로
+같은 열에 섞으면 안 된다.
 
 **보내는 프롬프트 문자열은 바이트 단위로 같아야 한다.** 어댑터는 전송 직전 프롬프트의 SHA-256을 로그에 남기고, 세 구성의 해시가 문항별로 일치하는지 실행 후 대조한다. 불일치가 하나라도 있으면 그 실행은 폐기한다.
 
@@ -316,7 +354,8 @@ backends.py                             # Ollama / vLLM 어댑터 (프롬프트 
 work/19_serving/
 ├── 19_serving_results.csv              # 요청별 원본
 ├── 19_serving_scored.csv               # 기존 채점기 적용 결과
-├── 19_prompt_hashes.csv                # 세 구성의 문항별 프롬프트 해시 대조
+├── 19_prompt_hashes.csv                # 사전 점검 — 해시·서버 입력 토큰·템플릿 대조
+├── 19_serving_warmups.json             # 워밍업 기록 (집계 제외분)
 └── 19_serving_summary.md
 work/20_concurrency/
 ├── 20_latency_raw.csv                  # 요청별 TTFT·총시간
