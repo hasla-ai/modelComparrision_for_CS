@@ -176,7 +176,8 @@
         "VRAM은 실측하지 못했음을 0으로 처리하지 않고 ‘미측정’ 사유로 기록",
         "Cloud 1회 vs 로컬 2회라는 반복 수 차이를 표에 그대로 병기",
         "양자화 비교는 계열·파라미터가 같은 세 버전으로 한정 — 서로 다른 모델의 차이를 양자화 효과로 해석하지 않기 위함",
-        "반복 2회를 '패스'로 분리하고 패스 2의 버전 순서를 뒤집어 시간 드리프트를 상쇄 — 버전을 한 덩어리로 몰면 늦게 도는 버전의 불리함이 양자화 효과로 오독된다"
+        "반복 2회를 '패스'로 분리하고 패스 2의 버전 순서를 뒤집어 시간 드리프트를 상쇄 — 버전을 한 덩어리로 몰면 늦게 도는 버전의 불리함이 양자화 효과로 오독된다",
+        "양자화 실험 결과 fp16이 78.5%만 GPU에 올라간 것을 실측으로 확인 — 8GB 환경에서 fp16은 장비 증설 없이 고려 대상이 아니라는 결론의 근거"
       ],
       "checklist_items": [
         9,
@@ -229,6 +230,21 @@
         {
           "path": "QUANT_EXPERIMENT_DESIGN.md",
           "note": "양자화 비교 실험 설계서 — 변수 통제, 루프 순서 근거, 측정 지점, 해석 규칙",
+          "public": true
+        },
+        {
+          "path": "work/07_quantization/07_quantization_results.csv",
+          "note": "양자화 3단계 60회 원본 응답·측정값",
+          "public": true
+        },
+        {
+          "path": "work/07_quantization/07_quantization_resources.json",
+          "note": "버전×패스별 자원 실측 6건 (디스크·로드·VRAM·오프로딩 비율)",
+          "public": true
+        },
+        {
+          "path": "work/07_quantization/07_quantization_scored.csv",
+          "note": "동일 루브릭 채점 결과",
           "public": true
         }
       ]
