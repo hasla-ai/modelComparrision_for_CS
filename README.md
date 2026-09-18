@@ -20,6 +20,9 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
 ├── 07_quantization_comparison.py # 도전 실습 A: 같은 모델의 양자화 3단계 비교 + VRAM 실측
 ├── QUANT_EXPERIMENT_DESIGN.md # 도전 실습 A 실험 설계서 (변수 통제·루프·해석 규칙)
+├── 08_prompt_ab_experiment.py # 프롬프트 보강 A/B 실험 (기권·권한·환각 규칙)
+├── 08_prompt_ab_report.py   # A/B 결과 비교와 자동 판정
+├── PROMPT_AB_DESIGN.md      # 프롬프트 보강 A/B 실험 설계서
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
@@ -32,6 +35,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
     ├── 02_calls/            # 호출·평가 JSON (최신)
     ├── 04_experiment/       # 실험 결과 csv/json
     ├── 07_quantization/     # 양자화 비교 결과 + 자원 실측
+    ├── 08_prompt_ab/        # 프롬프트 보강 A/B 결과 + 판정 요약
     └── archive/             # 지난 실행 보관
 ```
 
@@ -121,3 +125,18 @@ uv run python 05_quality_scoring.py work/07_quantization/07_quantization_results
 `work/02_calls/eval_*.json`(질문 10개 x 모델 2종, 반복 없음)은 예전에 있던 `run_evaluation.py`로 만든 1회성 결과이며, 그 스크립트는 `04_local_experiment.py`로 기능이 흡수되어 삭제했습니다. 해당 파일들은 과거 실행 기록으로만 남아있고 재생성하는 스크립트는 없습니다.
 
 같은 이름의 결과 파일은 덮어쓰기 됩니다. 이전 실행을 남겨두려면 `work/04_experiment`를 `work/archive/<날짜>`로 옮긴 뒤 다시 실행하세요.
+
+
+## 프롬프트 보강 A/B 실험
+
+최종 보고서 §7이 '배포 전 필수 조치'로 권고한 시스템 프롬프트 보강을 실제로 적용해, Q9(정보 부족)·Q10(범위 밖) 게이트 탈락이 해소되는지 검증합니다. 동시에 부록 B의 'P(프롬프트로 교정 가능)' 재판정이 이 두 문항에도 성립하는지 확인합니다.
+
+현행 프롬프트는 `category`에 "정보 부족"이 허용값이라고 말하지 않는데 gold는 Q9에서 그 값을 요구합니다. 모델 실패가 아니라 명세 누락일 가능성이 높다는 것이 이 실험의 가설입니다.
+
+```powershell
+uv run python 08_prompt_ab_experiment.py    # 패스 2 x 모델 2 x 질문 10 x 조건 2 = 80회
+uv run python 05_quality_scoring.py work/08_prompt_ab/08_prompt_ab_results.json
+uv run python 08_prompt_ab_report.py        # 비교표와 자동 판정
+```
+
+조건 교체 비용이 0이므로 독립변수를 루프 가장 안쪽에 두고, 같은 질문의 A/B를 몇 초 간격으로 붙여 실행합니다(대응 표본 설계). 쌍 안의 순서도 교대해 '먼저/나중' 편향을 없앱니다. Q9·Q10 개선과 Q1~Q8 회귀를 반드시 함께 보며, 판정 기준은 결과 열람 전에 [PROMPT_AB_DESIGN.md](PROMPT_AB_DESIGN.md) §6에 고정해 두고 `08_prompt_ab_report.py`가 코드로 적용합니다. 추가 다운로드는 없습니다.
