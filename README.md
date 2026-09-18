@@ -18,6 +18,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 04_local_experiment.py   # step4: data/02_prompts_and_eval.json을 QUESTIONS로 로드해 반복 실행 + 지표 집계
 ├── 05_quality_scoring.py    # step5: 04(또는 06) 결과를 규칙+LLM-judge로 채점
 ├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
+├── 07_quantization_comparison.py # 도전 실습 A: 같은 모델의 양자화 3단계 비교 + VRAM 실측
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
@@ -29,6 +30,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
     ├── 01_env/              # 환경 점검 기록
     ├── 02_calls/            # 호출·평가 JSON (최신)
     ├── 04_experiment/       # 실험 결과 csv/json
+    ├── 07_quantization/     # 양자화 비교 결과 + 자원 실측
     └── archive/             # 지난 실행 보관
 ```
 
@@ -93,6 +95,27 @@ uv run python 05_quality_scoring.py work/06_cloud_comparison/06_cloud_comparison
 `06_cloud_comparison.py`는 `02_luna_chat.py`와 동일한 OpenAI Responses API(`gpt-5.6-luna`)만 사용합니다. Upstage Solar 등 다른 Cloud API는 이 실험에서 쓰지 않습니다. 키 입력 방식과 비용 안내는 `02_luna_chat.py`와 동일합니다 — 키를 요청하면 터미널에 붙여넣고 Enter를 누르며, 화면에 보이지 않고 코드·로그·노션에 남지 않습니다. **키를 스크립트 인자나 셸 명령에 직접 넣지 마세요.** 실행 중 `getpass` 프롬프트에서만 입력해야 셸 히스토리에 남지 않습니다.
 
 `04_local_experiment.py`는 `data/02_prompts_and_eval.json`을 직접 읽어 질문 목록(`QUESTIONS`)을 만듭니다. 문항을 바꾸려면 이 JSON 파일만 수정하면 됩니다.
+
+## 도전 실습 A — 양자화 비교 (선택)
+
+같은 모델(llama3.2 3B Instruct)의 양자화 수준만 바꿔 VRAM·속도·품질 변화를 관측합니다. 서로 다른 모델의 차이를 양자화 효과로 해석하지 않기 위해, 계열과 파라미터 수가 같고 양자화만 다른 세 버전으로 한정합니다.
+
+먼저 세 버전을 받습니다. `q4_K_M`은 기존 `llama3.2:3b`와 같은 실체라 즉시 끝나고, 나머지는 각각 약 3.4GB·6.4GB를 내려받습니다.
+
+```powershell
+ollama pull llama3.2:3b-instruct-q4_K_M
+ollama pull llama3.2:3b-instruct-q8_0
+ollama pull llama3.2:3b-instruct-fp16
+```
+
+```powershell
+uv run python 07_quantization_comparison.py    # 3버전 x 질문 10개 x 2회 = 60회
+uv run python 05_quality_scoring.py work/07_quantization/07_quantization_results.json
+```
+
+질문·정답·생성 설정(`temperature=0.1`)·반복 횟수는 `04_local_experiment.py` 본실험과 동일하며, 채점도 같은 파이프라인을 씁니다. 버전마다 워밍업 1회를 본실험과 분리해 저장하고 집계에서 제외하며, 버전 전환 시 이전 모델을 언로드해 콜드스타트 조건을 맞춥니다.
+
+워밍업 직후 모델이 메모리에 올라간 상태에서 Ollama `/api/ps`를 조회해 총 점유(`size`)와 GPU 점유(`size_vram`)를 바이트 단위로 기록합니다. 두 값의 비율이 100% 미만이면 일부가 CPU로 내려간 것이므로, 그 버전의 속도 저하는 양자화가 아니라 오프로딩 때문일 수 있습니다 — 스크립트가 이 경우를 경고로 표시하고 `07_quantization_resources.json`에 비율을 남깁니다. FP16(약 6.4GB)은 8GB VRAM 환경에서 KV 캐시까지 더하면 이 상황이 발생할 수 있습니다.
 
 `work/02_calls/eval_*.json`(질문 10개 x 모델 2종, 반복 없음)은 예전에 있던 `run_evaluation.py`로 만든 1회성 결과이며, 그 스크립트는 `04_local_experiment.py`로 기능이 흡수되어 삭제했습니다. 해당 파일들은 과거 실행 기록으로만 남아있고 재생성하는 스크립트는 없습니다.
 
