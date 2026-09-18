@@ -19,6 +19,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 05_quality_scoring.py    # step5: 04(또는 06) 결과를 규칙+LLM-judge로 채점
 ├── 06_cloud_comparison.py   # step6: Cloud 비교 5문항을 OpenAI(gpt-5.6-luna)로 호출
 ├── 07_quantization_comparison.py # 도전 실습 A: 같은 모델의 양자화 3단계 비교 + VRAM 실측
+├── QUANT_EXPERIMENT_DESIGN.md # 도전 실습 A 실험 설계서 (변수 통제·루프·해석 규칙)
 ├── data/
 │   └── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처
 ├── FINAL_REPORT.md          # 최종 모델 선정 보고서 (요구사항 평가표 대응 포함)
@@ -109,11 +110,11 @@ ollama pull llama3.2:3b-instruct-fp16
 ```
 
 ```powershell
-uv run python 07_quantization_comparison.py    # 3버전 x 질문 10개 x 2회 = 60회
+uv run python 07_quantization_comparison.py    # 패스 2 x 버전 3 x 질문 10 = 60회
 uv run python 05_quality_scoring.py work/07_quantization/07_quantization_results.json
 ```
 
-질문·정답·생성 설정(`temperature=0.1`)·반복 횟수는 `04_local_experiment.py` 본실험과 동일하며, 채점도 같은 파이프라인을 씁니다. 버전마다 워밍업 1회를 본실험과 분리해 저장하고 집계에서 제외하며, 버전 전환 시 이전 모델을 언로드해 콜드스타트 조건을 맞춥니다.
+질문·정답·생성 설정(`temperature=0.1`)·반복 횟수는 `04_local_experiment.py` 본실험과 동일하며, 채점도 같은 파이프라인을 씁니다. 실험 설계의 근거(변수 통제, 루프 순서, 측정 지점, 해석 규칙)는 [QUANT_EXPERIMENT_DESIGN.md](QUANT_EXPERIMENT_DESIGN.md)에 있습니다. 루프는 `패스 → 버전 → 질문` 3중 구조이고, 패스 2는 버전 순서를 뒤집어 GPU 발열 같은 시간 드리프트가 특정 버전에만 쏠리지 않게 합니다. 버전마다 워밍업 1회를 본실험과 분리해 저장하고 집계에서 제외하며, 버전 전환 시 이전 모델을 언로드해 콜드스타트 조건을 맞춥니다.
 
 워밍업 직후 모델이 메모리에 올라간 상태에서 Ollama `/api/ps`를 조회해 총 점유(`size`)와 GPU 점유(`size_vram`)를 바이트 단위로 기록합니다. 두 값의 비율이 100% 미만이면 일부가 CPU로 내려간 것이므로, 그 버전의 속도 저하는 양자화가 아니라 오프로딩 때문일 수 있습니다 — 스크립트가 이 경우를 경고로 표시하고 `07_quantization_resources.json`에 비율을 남깁니다. FP16(약 6.4GB)은 8GB VRAM 환경에서 KV 캐시까지 더하면 이 상황이 발생할 수 있습니다.
 
