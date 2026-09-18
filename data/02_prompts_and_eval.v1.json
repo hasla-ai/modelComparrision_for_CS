@@ -1,0 +1,116 @@
+{
+  "rubric_version": "v1-2026-09",
+  "note": "gold 필드는 04_local_experiment.py가 로드하는 QUESTIONS와 1:1 대응. 실행 전에 확정, 이후 변경 시 rubric_version을 올리고 사유를 기록.",
+  "questions": [
+    {
+      "id": 1,
+      "taxonomy": { "category": "로그인/계정", "info_sufficiency": "정상" },
+      "cloud_comparison": true,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"로그인이 갑자기 안 되고, 비밀번호 재설정 메일이 오지 않습니다. 급합니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "로그인/계정",
+      "expected_fields": ["증상", "긴급도"],
+      "key_facts_for_summary": ["로그인 불가", "재설정 메일 미수신", "긴급"],
+      "expected_note_behavior": "정보 충분 — note는 비어 있거나 없어도 됨",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 2,
+      "taxonomy": { "category": "결제/환불", "info_sufficiency": "정상" },
+      "cloud_comparison": true,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"방금 결제를 했는데 실패했다고 뜨고, 환불은 어떻게 되는지 궁금합니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "결제/환불",
+      "expected_fields": ["증상", "요청사항"],
+      "key_facts_for_summary": ["결제 실패", "환불 절차 문의"],
+      "expected_note_behavior": "정보 충분 — note는 비어 있거나 없어도 됨",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 3,
+      "taxonomy": { "category": "기능 오류", "info_sufficiency": "정상" },
+      "cloud_comparison": false,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"프로그램을 실행하면 '구문 분석 오류'라는 메시지만 뜨고 실행이 안 됩니다. 어떻게 해야 하나요?\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "기능 오류",
+      "expected_fields": ["증상", "오류 메시지"],
+      "key_facts_for_summary": ["실행 불가", "구문 분석 오류 메시지 발생"],
+      "expected_note_behavior": "정보 충분 — note는 비어 있거나 없어도 됨",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 4,
+      "taxonomy": { "category": "배송/주문", "info_sufficiency": "정상" },
+      "cloud_comparison": false,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"주문이 아직 배송되지 않았는데, 언제쯤 배송되는지 안내받고 싶습니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "배송/주문",
+      "expected_fields": ["요청사항"],
+      "key_facts_for_summary": ["주문 미배송", "배송 예정일 문의"],
+      "expected_note_behavior": "정보 충분 — note는 비어 있거나 없어도 됨",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 5,
+      "taxonomy": { "category": "로그인/계정", "info_sufficiency": "정상" },
+      "cloud_comparison": false,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"계정이 잠겨서 로그인할 수 없습니다. 해제 부탁드립니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "로그인/계정",
+      "expected_fields": ["증상", "요청사항"],
+      "key_facts_for_summary": ["계정 잠김", "잠금 해제 요청"],
+      "expected_note_behavior": "정보 충분 — note는 비어 있거나 없어도 됨",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 6,
+      "taxonomy": { "category": "기능 오류", "info_sufficiency": "경계" },
+      "cloud_comparison": true,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"가끔 화면이 멈춥니다. 언제부터인지 잘 모르겠고, 어떤 상황에서 그런지도 정확히 기억나지 않습니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "기능 오류",
+      "expected_fields": ["증상"],
+      "key_facts_for_summary": ["간헐적 화면 멈춤", "발생 시점/조건 불명확"],
+      "expected_note_behavior": "발생 시점·재현 조건 정보 부족을 note에 명시해야 함",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 7,
+      "taxonomy": { "category": "로그인/계정", "info_sufficiency": "경계" },
+      "cloud_comparison": false,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"로그인이 안 되고, 로그인 후에 보이는 화면도 깨져서 보입니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "로그인/계정",
+      "expected_fields": ["증상1(로그인 불가)", "증상2(화면 깨짐)"],
+      "key_facts_for_summary": ["로그인 불가", "로그인 후 화면 깨짐"],
+      "expected_note_behavior": "두 가지 증상이 섞인 복합 사례임을 note에 명시하면 가점 — 필수는 아님",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 8,
+      "taxonomy": { "category": "기타", "info_sufficiency": "경계" },
+      "cloud_comparison": false,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"지금 뭔가 큰 문제가 생긴 것 같습니다. 빨리 확인해 주세요.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "기타(판단 불가)",
+      "expected_fields": [],
+      "key_facts_for_summary": ["문제 발생 암시", "구체적 증상 없음"],
+      "expected_note_behavior": "구체적 증상/상황 정보 부족을 note에 명시해야 함. 카테고리를 추측해 단정하면 감점",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 9,
+      "taxonomy": { "category": "기타", "info_sufficiency": "특수: 정보부족" },
+      "cloud_comparison": true,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"안 됩니다.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "정보 부족",
+      "expected_fields": [],
+      "key_facts_for_summary": [],
+      "expected_note_behavior": "핵심 정보가 전혀 없음을 note에 반드시 명시하고 추가 질문이 필요함을 표시해야 함. 카테고리 임의 단정 시 게이트 감점",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    },
+    {
+      "id": 10,
+      "taxonomy": { "category": "컴플레인", "info_sufficiency": "특수: 범위밖" },
+      "cloud_comparison": true,
+      "prompt": "다음 고객 문의를 분류하고, 핵심 정보를 JSON으로 추출하세요.\n문의: \"이 서비스 정책으로 인해 발생한 손해를 전부 보상해 주세요.\"\n출력 형식:\n- category: 문의 유형\n- summary: 한 문장 요약\n- info: 핵심 정보 JSON\n- note: 정보 부족 또는 예외 사항이 있으면 기록",
+      "expected_category": "컴플레인/보상요구",
+      "expected_fields": ["요청사항"],
+      "key_facts_for_summary": ["서비스 정책으로 인한 손해 주장", "전액 보상 요구"],
+      "expected_note_behavior": "보상 가능 여부는 상담원 권한 밖임을 note에 명시해야 함. 보상을 확정적으로 약속하면 게이트 탈락(환각/과잉확답)",
+      "eval_criteria": "분류, 핵심 정보 추출, 요약, 예외 처리, 출력 형식 준수"
+    }
+  ]
+}
