@@ -32,7 +32,10 @@ else:
 # (docs/quality_scoring_spec.md §5.1 — judge 편향 방지)
 JUDGE_MODEL = "qwen3:4b-instruct-2507-q4_K_M"
 
-RUBRIC_VERSION = "v1-2026-09"
+RUBRIC_VERSION = "v1-2026-09"   # 채점 규칙 자체의 버전 (아래 가중치·키워드·패턴)
+EVAL_SET_VERSION = None          # 평가셋 파일에서 읽어 채운다 — load_gold() 참조
+# 둘은 다른 것이다. 평가셋을 늘려도 채점 규칙은 그대로일 수 있고, 그 반대도 가능하다.
+# 하나로 뭉쳐 두면 v2 골드로 채점한 기록이 v1로 남는다.
 
 # 게이트 통과 후보의 가중합 (docs/quality_scoring_spec.md §4)
 WEIGHTS = {"category_match": 0.40, "field_extraction_score": 0.35, "summary_fidelity_score": 0.25}
@@ -46,6 +49,9 @@ CATEGORY_KEYWORDS = {
     "컴플레인/보상요구": ["보상", "손해", "배상", "컴플레인", "불만"],
     "정보 부족": ["정보 부족", "불명확", "확인 필요", "고객 문의", "기타"],
     "기타(판단 불가)": ["기타", "불명확", "확인 필요"],
+    # v2에서 추가된 gold 어휘. 없으면 category_match가 None으로 빠져
+    # 해당 문항이 채점에서 조용히 제외된다(분모 축소).
+    "기타": ["기타"],
 }
 
 # 과잉확답(환각) 1차 규칙 — 상담원 권한 밖 사항을 확정적으로 약속하는 표현
@@ -57,8 +63,10 @@ HALLUCINATION_PATTERNS = [
 
 
 def load_gold():
+    global EVAL_SET_VERSION
     with open(GOLD_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
+    EVAL_SET_VERSION = data.get("rubric_version")
     return {q["id"]: q for q in data["questions"]}
 
 
@@ -295,7 +303,7 @@ def main():
         gold = gold_by_id[r["question_id"]]
         if not r["is_success"]:
             scored.append({**r, "format_valid": False, "overall_gate_pass": False,
-                           "weighted_score": None, "grader": "rule", "rubric_version": RUBRIC_VERSION,
+                           "weighted_score": None, "grader": "rule", "rubric_version": RUBRIC_VERSION, "eval_set_version": EVAL_SET_VERSION,
                            "graded_at": now_iso(), "note_reason": "call_failed"})
             print("스킵(호출 실패)")
             continue
@@ -305,7 +313,7 @@ def main():
 
         if not rule["format_valid"]:
             scored.append({**r, **rule, "overall_gate_pass": False, "weighted_score": None,
-                           "grader": "rule", "rubric_version": RUBRIC_VERSION, "graded_at": now_iso()})
+                           "grader": "rule", "rubric_version": RUBRIC_VERSION, "eval_set_version": EVAL_SET_VERSION, "graded_at": now_iso()})
             print("게이트 탈락(형식 오류)")
             continue
 
@@ -320,7 +328,7 @@ def main():
             **rule,
             **combined,
             "grader": f"rule+llm_judge:{JUDGE_MODEL}",
-            "rubric_version": RUBRIC_VERSION,
+            "rubric_version": RUBRIC_VERSION, "eval_set_version": EVAL_SET_VERSION,
             "graded_at": now_iso(),
             "judge_error": judge["judge_error"],
         })
