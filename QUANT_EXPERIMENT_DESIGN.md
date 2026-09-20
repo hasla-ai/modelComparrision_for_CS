@@ -1,7 +1,7 @@
 # 도전 실습 A — 양자화 비교 실험 설계서
 
 대상: `llama3.2` 3B Instruct의 양자화 3단계 (`q4_K_M` / `q8_0` / `fp16`)
-환경: Windows 노트북, RTX 5060 (VRAM 8,151 MiB), Ollama 0.34.0
+환경: Windows 노트북, RTX 5060 Laptop GPU (VRAM 8,151 MiB), Ollama 0.34.0
 구현: `07_quantization_comparison.py` · 채점: `05_quality_scoring.py`
 
 ---

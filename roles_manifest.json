@@ -144,7 +144,7 @@
         },
         {
           "path": "work/01_env/env_gpu.txt",
-          "note": "nvidia-smi 원본 — RTX 5060, VRAM 8,151MiB",
+          "note": "nvidia-smi 원본 — RTX 5060 Laptop GPU, VRAM 8,151MiB",
           "public": true
         },
         {
@@ -175,6 +175,16 @@
         {
           "path": "uv.lock",
           "note": "의존성 잠금 — 재현성",
+          "public": true
+        },
+        {
+          "path": "env_snapshot.py",
+          "note": "측정 환경 스냅샷과 비교 가능 여부 지문 (부록 L 조치)",
+          "public": true
+        },
+        {
+          "path": "work/01_env/env_2026-09-20.json",
+          "note": "재측정 시점 환경 기록",
           "public": true
         }
       ]
@@ -266,6 +276,31 @@
         {
           "path": "work/07_quantization/07_quantization_scored.csv",
           "note": "동일 루브릭 채점 결과",
+          "public": true
+        },
+        {
+          "path": "19_serving_comparison.py",
+          "note": "단계 0 — 서빙 구성 A·B·C 비교 (--check-prompts 포함)",
+          "public": true
+        },
+        {
+          "path": "20_concurrency_benchmark.py",
+          "note": "단계 1 — 동시성 측정 (닫힌 루프 + 개방 루프)",
+          "public": true
+        },
+        {
+          "path": "backends.py",
+          "note": "Ollama / vLLM 백엔드 어댑터",
+          "public": true
+        },
+        {
+          "path": "VLLM_SERVING_DESIGN.md",
+          "note": "vLLM 서빙 교체 + 동시성 측정 설계서",
+          "public": true
+        },
+        {
+          "path": "work/20_concurrency/20_concurrency_summary.md",
+          "note": "동시성 측정 결과 — 부록 K",
           "public": true
         }
       ]
@@ -417,6 +452,21 @@
         {
           "path": "deps_check.py",
           "note": "의존성 로딩 실패 원인 구분 헬퍼",
+          "public": true
+        },
+        {
+          "path": "21_call_overhead_diagnostic.py",
+          "note": "호출 경로 상수 오버헤드 진단 — 부록 L",
+          "public": true
+        },
+        {
+          "path": "22_condition_c_experiment.py",
+          "note": "조건 C — 프롬프트에 허용 카테고리 열거",
+          "public": true
+        },
+        {
+          "path": "work/21_call_overhead/21_call_overhead_summary.md",
+          "note": "오버헤드 진단 결과",
           "public": true
         }
       ]

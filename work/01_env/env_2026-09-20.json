@@ -1,0 +1,15 @@
+{
+  "captured_at": "2026-09-20T23:36:08+09:00",
+  "ollama": { "endpoint": "http://localhost:11434", "reachable": true, "version": "0.34.1" },
+  "gpu": { "name": "NVIDIA GeForce RTX 5060 Laptop GPU", "driver_version": "610.88",
+           "vram_total_mib": 8151, "cuda_version": "13.3" },
+  "python": { "version": "3.12.13",
+              "executable": "C:\\Users\\hrjeo\\Python_Model_Start\\.venv\\Scripts\\python.exe" },
+  "os": { "system": "Windows", "release": "11", "machine": "AMD64" },
+  "packages": { "ollama": "0.6.2", "openai": "3.8.0", "requests": "2.34.2",
+                "pandas": "3.0.5", "numpy": "2.5.3", "torch": "2.14.0",
+                "transformers": "5.17.0", "sentence-transformers": "6.0.1",
+                "datasets": "5.0.1" },
+  "fingerprint": "c9abe190",
+  "note": "사용자가 직접 실행해 붙여 준 값. env_snapshot.py --save 없이 돌려 파일이 남지 않아 여기에 기록한다."
+}

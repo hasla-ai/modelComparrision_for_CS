@@ -12,9 +12,9 @@
 | --- | --- | --- | --- | --- |
 | 1 | **Project Lead**<br>프로젝트 리드 | 범위·일정·리스크를 관리하고, 실험 결과를 사업 판단으로 바꾼다. | 4 | 공개 3건 |
 | 2 | **Requirement Lead / Business Analyst**<br>요구사항 담당 | 무엇을 '좋은 모델'로 볼지를 실험 착수 전에 문서로 못 박는다. | 1, 2, 3 | 공개 6건 · 비공개 2건 |
-| 3 | **ML Researcher & Env Engineer**<br>모델 리서치 / 환경 담당 | 후보를 근거로 고르고, 제3자가 같은 조건에서 재현할 수 있게 환경을 기록한다. | 5, 6, 7, 8 | 공개 8건 |
-| 4 | **Performance Engineer**<br>실험 / 성능 측정 담당 | 동일 조건을 통제한 상태로 반복 실행하고, 실패까지 포함해 원본을 남긴다. | 9, 10, 11, 12, 13 | 공개 12건 |
-| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 22건 · 비공개 1건 |
+| 3 | **ML Researcher & Env Engineer**<br>모델 리서치 / 환경 담당 | 후보를 근거로 고르고, 제3자가 같은 조건에서 재현할 수 있게 환경을 기록한다. | 5, 6, 7, 8 | 공개 10건 |
+| 4 | **Performance Engineer**<br>실험 / 성능 측정 담당 | 동일 조건을 통제한 상태로 반복 실행하고, 실패까지 포함해 원본을 남긴다. | 9, 10, 11, 12, 13 | 공개 17건 |
+| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 25건 · 비공개 1건 |
 
 `비공개`는 방법론 자산(게이트 설계·가중치·루브릭 내부 정의)이라 저장소에 올리지 않고 로컬에만 보관하는 문서다. 결과와 판단 근거는 모두 공개 문서에 담겨 있다.
 
@@ -117,13 +117,15 @@
 | 파일 | 내용 | 상태 |
 | --- | --- | --- |
 | `FINAL_REPORT.md` | §2 후보 모델 조사 / §3 실행 환경과 재현성 | 있음 |
-| `work/01_env/env_gpu.txt` | nvidia-smi 원본 — RTX 5060, VRAM 8,151MiB | 있음 |
+| `work/01_env/env_gpu.txt` | nvidia-smi 원본 — RTX 5060 Laptop GPU, VRAM 8,151MiB | 있음 |
 | `work/01_env/env_ollama.txt` | Ollama 0.34.0 | 있음 |
 | `work/01_env/env_python.txt` | Python 버전 캡처 원본 | 있음 |
 | `01_ollama_chat.py` | 로컬 모델 단건 호출 확인 | 있음 |
 | `02_call_models.py` | 워밍업 + 후보 2종 호출, 조건 고정 | 있음 |
 | `pyproject.toml` | 의존성·Python 버전 제약 | 있음 |
 | `uv.lock` | 의존성 잠금 — 재현성 | 있음 |
+| `env_snapshot.py` | 측정 환경 스냅샷과 비교 가능 여부 지문 (부록 L 조치) | 있음 |
+| `work/01_env/env_2026-09-20.json` | 재측정 시점 환경 기록 | 있음 |
 
 **대응하는 발제문 체크리스트**
 
@@ -172,6 +174,11 @@
 | `work/07_quantization/07_quantization_results.csv` | 양자화 3단계 60회 원본 응답·측정값 | 있음 |
 | `work/07_quantization/07_quantization_resources.json` | 버전×패스별 자원 실측 6건 (디스크·로드·VRAM·오프로딩 비율) | 있음 |
 | `work/07_quantization/07_quantization_scored.csv` | 동일 루브릭 채점 결과 | 있음 |
+| `19_serving_comparison.py` | 단계 0 — 서빙 구성 A·B·C 비교 (--check-prompts 포함) | 있음 |
+| `20_concurrency_benchmark.py` | 단계 1 — 동시성 측정 (닫힌 루프 + 개방 루프) | 있음 |
+| `backends.py` | Ollama / vLLM 백엔드 어댑터 | 있음 |
+| `VLLM_SERVING_DESIGN.md` | vLLM 서빙 교체 + 동시성 측정 설계서 | 있음 |
+| `work/20_concurrency/20_concurrency_summary.md` | 동시성 측정 결과 — 부록 K | 있음 |
 
 **대응하는 발제문 체크리스트**
 
@@ -237,6 +244,9 @@
 | `work/12_rubric_sensitivity/12_rubric_sensitivity.md` | 관대/엄격 기준 대조 및 판정 | 있음 |
 | `work/11_klue_korquad/11_benchmark_summary.md` | KLUE·KorQuAD 결과 요약 | 있음 |
 | `deps_check.py` | 의존성 로딩 실패 원인 구분 헬퍼 | 있음 |
+| `21_call_overhead_diagnostic.py` | 호출 경로 상수 오버헤드 진단 — 부록 L | 있음 |
+| `22_condition_c_experiment.py` | 조건 C — 프롬프트에 허용 카테고리 열거 | 있음 |
+| `work/21_call_overhead/21_call_overhead_summary.md` | 오버헤드 진단 결과 | 있음 |
 
 **대응하는 발제문 체크리스트**
 
@@ -253,6 +263,6 @@
 이 문서는 `roles_manifest.json`에서 자동 생성된다. 생성할 때마다 체크리스트 18문항이 빠짐없이 한 번씩 배정됐는지, 각 역할이 주장하는 산출물이 실제로 저장소에 있는지 확인한다.
 
 - 체크리스트 18문항 전부 배정 완료, 중복 없음
-- 공개 산출물 51건 전부 저장소에 존재
+- 공개 산출물 61건 전부 저장소에 존재
 
 *roles_manifest.json (단일 출처) → generate_roles_doc.py → ROLES_AND_DELIVERABLES.md*
