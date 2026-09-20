@@ -59,8 +59,9 @@ from pathlib import Path
 
 import requests
 
-from env_snapshot import snapshot as env_snapshot, save as env_save, \
-    row_fields as env_row_fields, describe as env_describe
+from env_snapshot import snapshot as env_snapshot, save_pair as env_save_pair, \
+    row_fields as env_row_fields, describe as env_describe, \
+    contention_note as env_contention
 
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -189,7 +190,8 @@ def main() -> int:
         return 1
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    env_save(env, OUT_DIR / "21_env.json")
+    env_save_pair(env, env_snapshot(OLLAMA_URL.rsplit("/api/", 1)[0]),
+                  OUT_DIR / "21_env.json")
     with open(OUT_DIR / "21_call_overhead_raw.csv", "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()

@@ -31,8 +31,9 @@ from datetime import datetime
 from pathlib import Path
 
 from backends import CONFIGS, build_backend, prompt_sha256, SAMPLER_PROFILES
-from env_snapshot import snapshot as env_snapshot, save as env_save, \
-    row_fields as env_row_fields, describe as env_describe
+from env_snapshot import snapshot as env_snapshot, save_pair as env_save_pair, \
+    row_fields as env_row_fields, describe as env_describe, \
+    contention_note as env_contention
 
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -372,7 +373,7 @@ def run(configs: list[str], model: str, sampler: str, urls: dict, dry: bool) -> 
                 print(f"  cooldown {COOLDOWN_SEC}초")
                 time.sleep(COOLDOWN_SEC)
 
-    env_save(env, OUT_DIR / "19_env.json")
+    env_save_pair(env, env_snapshot(), OUT_DIR / "19_env.json")
     write_outputs(records, warmups, configs, model, sampler, version, env)
     return 0
 

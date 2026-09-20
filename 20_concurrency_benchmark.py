@@ -45,8 +45,9 @@ from datetime import datetime
 from pathlib import Path
 
 from backends import CONFIGS, build_backend, SAMPLER_PROFILES
-from env_snapshot import snapshot as env_snapshot, save as env_save, \
-    row_fields as env_row_fields, describe as env_describe
+from env_snapshot import snapshot as env_snapshot, save_pair as env_save_pair, \
+    row_fields as env_row_fields, describe as env_describe, \
+    contention_note as env_contention
 
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -689,7 +690,7 @@ def main() -> int:
             w.writeheader()
             w.writerows(warmup_log)
 
-    env_save(env, OUT_DIR / "20_env.json")
+    env_save_pair(env, env_snapshot(), OUT_DIR / "20_env.json")
     write_report(all_rows, sweep, open_res, meta, poller)
     sink.close()
 

@@ -85,6 +85,36 @@ def _ollama(url: str) -> dict:
     return info
 
 
+def _gpu_processes() -> tuple[list[dict], int | None]:
+    """지금 GPU 메모리를 잡고 있는 프로세스 목록.
+
+    왜 필요한가
+      측정 중에 영상 재생·브라우저·게임이 돌고 있으면 노트북 GPU 는 전력과
+      디코더를 나눠 쓴다. 지연과 TPS 가 함께 흔들리는데, 나중에 CSV 만 봐서는
+      "그때 뭐가 같이 돌고 있었나"를 알 길이 없다. 사람의 기억에 맡기지 않는다.
+    """
+    q = _run(["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader,nounits"])
+    procs: list[dict] = []
+    if q:
+        for line in q.splitlines():
+            parts = [x.strip() for x in line.split(",")]
+            if len(parts) < 3:
+                continue
+            try:
+                procs.append({"pid": int(parts[0]), "name": parts[1],
+                              "vram_mib": int(parts[2])})
+            except ValueError:
+                continue
+    used = _run(["nvidia-smi", "--query-gpu=memory.used",
+                 "--format=csv,noheader,nounits"])
+    try:
+        used_mib = int(used.splitlines()[0].strip()) if used else None
+    except (ValueError, AttributeError):
+        used_mib = None
+    return procs, used_mib
+
+
 def _gpu() -> dict:
     info: dict = {"name": None, "driver_version": None,
                   "vram_total_mib": None, "cuda_version": None}
@@ -110,6 +140,19 @@ def _gpu() -> dict:
                     break
             if info["cuda_version"]:
                 break
+
+    # ── 지금 GPU 를 누가 쓰고 있나 ────────────────────────────────
+    procs, used_mib = _gpu_processes()
+    info["vram_used_mib"] = used_mib
+    info["processes"] = procs
+    # ollama 가 아닌 프로세스가 잡은 VRAM — 경쟁의 직접 지표
+    other = sum(pr["vram_mib"] for pr in procs
+                if "ollama" not in pr["name"].lower())
+    info["other_vram_mib"] = other if procs else None
+    # nvidia-smi 가 프로세스를 못 보여 주는 경우(WDDM 등)를 대비한 보조 추정:
+    # 전체 사용량에서 계산 프로세스 합을 뺀 나머지 = 그래픽·디코더 몫
+    if used_mib is not None and procs:
+        info["unattributed_vram_mib"] = max(0, used_mib - sum(p["vram_mib"] for p in procs))
     return info
 
 
@@ -160,7 +203,25 @@ def row_fields(snap: dict) -> dict:
         "env_ollama_version": snap.get("ollama", {}).get("version"),
         "env_driver_version": snap.get("gpu", {}).get("driver_version"),
         "env_captured_at": snap.get("captured_at"),
+        # 이 측정 중에 남이 GPU 를 얼마나 쓰고 있었나 — 지문에는 안 넣는다.
+        # 설정이 아니라 그때그때의 상태이므로, 지문에 넣으면 실행마다 지문이 달라진다.
+        "env_other_gpu_vram_mib": snap.get("gpu", {}).get("other_vram_mib"),
+        "env_gpu_vram_used_mib": snap.get("gpu", {}).get("vram_used_mib"),
     }
+
+
+def save_pair(start: dict, end: dict, path: Path) -> Path:
+    """실행 시작과 끝의 환경을 함께 남긴다.
+
+    한 번만 찍으면 "시작할 때는 조용했는데 중간에 영상을 틀었다" 같은 경우를
+    놓친다. 두 점만 있어도 '실행 내내 같은 상태였나'를 판단할 수 있다.
+    """
+    payload = dict(start)
+    payload["end"] = end
+    payload["contention_changed"] = (
+        start.get("gpu", {}).get("other_vram_mib")
+        != end.get("gpu", {}).get("other_vram_mib"))
+    return save(payload, path)
 
 
 def save(snap: dict, path: Path) -> Path:
@@ -169,11 +230,37 @@ def save(snap: dict, path: Path) -> Path:
     return path
 
 
+# 이만큼 넘게 남이 잡고 있으면 경쟁을 의심한다 (영상 재생·브라우저 합성 등)
+CONTENTION_WARN_MIB = 200
+
+
 def describe(snap: dict) -> str:
     o, g = snap.get("ollama", {}), snap.get("gpu", {})
-    return (f"지문 {snap.get('fingerprint')} · ollama {o.get('version') or '?'} · "
+    base = (f"지문 {snap.get('fingerprint')} · ollama {o.get('version') or '?'} · "
             f"{g.get('name') or 'GPU?'} 드라이버 {g.get('driver_version') or '?'} · "
             f"CUDA {g.get('cuda_version') or '?'}")
+    warn = contention_note(snap)
+    return base + (f"\n       {warn}" if warn else "")
+
+
+def contention_note(snap: dict) -> str | None:
+    """다른 프로세스가 GPU 를 쓰고 있으면 그 사실을 문장으로 돌려준다."""
+    g = snap.get("gpu", {})
+    other = g.get("other_vram_mib")
+    unattr = g.get("unattributed_vram_mib")
+    procs = [p for p in (g.get("processes") or [])
+             if "ollama" not in p["name"].lower()]
+    parts = []
+    if other and other >= CONTENTION_WARN_MIB:
+        top = ", ".join(f"{p['name']}({p['vram_mib']}MiB)"
+                        for p in sorted(procs, key=lambda x: -x["vram_mib"])[:3])
+        parts.append(f"다른 프로세스가 GPU {other} MiB 사용 중 — {top}")
+    if unattr and unattr >= CONTENTION_WARN_MIB:
+        parts.append(f"계산 프로세스로 설명되지 않는 VRAM {unattr} MiB "
+                     f"(그래픽·영상 디코더 몫으로 추정)")
+    if not parts:
+        return None
+    return "GPU 경쟁 주의 — " + " / ".join(parts) + ". 지연·TPS 절대값이 눌릴 수 있다."
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -202,7 +289,9 @@ def cmd_list() -> int:
         print(f"── 지문 {fp}  ({len(items)}개 실행)")
         print(f"   {describe(items[0][1])}")
         for name, snap in items:
-            print(f"     · {name:<24} {snap.get('captured_at')}")
+            note = contention_note(snap)
+            print(f"     · {name:<24} {snap.get('captured_at')}"
+                  + (f"\n       ⚠ {note}" if note else ""))
         print()
 
     if len(groups) == 1:
