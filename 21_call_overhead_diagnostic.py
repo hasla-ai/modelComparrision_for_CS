@@ -59,6 +59,9 @@ from pathlib import Path
 
 import requests
 
+from env_snapshot import snapshot as env_snapshot, save as env_save, \
+    row_fields as env_row_fields, describe as env_describe
+
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
 OUT_DIR = BASE_DIR / "work" / "21_call_overhead"
@@ -147,8 +150,10 @@ def main() -> int:
     globals()["MODEL"] = args.model
 
     qs = load_questions(args.questions)
+    env = env_snapshot(OLLAMA_URL.rsplit("/api/", 1)[0])   # 부록 L
     total = len(CONDITIONS) * len(qs) * args.runs
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 호출 오버헤드 진단")
+    print(f"  환경 {env_describe(env)}")
     print(f"  모델 {MODEL} · 문항 {len(qs)} · 조건 {len(CONDITIONS)} · 반복 {args.runs}")
     print(f"  총 {total}회\n")
 
@@ -170,7 +175,9 @@ def main() -> int:
                     print(f"  [{done}/{total}] {name} q{q['id']} 실패: {res['error']}")
                     continue
                 rows.append({"condition": name, "stream": stream, "run": run,
-                             "question_id": q["id"], **{k: v for k, v in res.items() if k != "ok"}})
+                             "question_id": q["id"],
+                             **{k: v for k, v in res.items() if k != "ok"},
+                             **env_row_fields(env)})
                 print(f"\r  [{done}/{total}] {name:<18} q{q['id']:<3} "
                       f"벽시계 {res['client_wall']:.3f}초  "
                       f"서버total {res['server_total']:.3f}  "
@@ -182,6 +189,7 @@ def main() -> int:
         return 1
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    env_save(env, OUT_DIR / "21_env.json")
     with open(OUT_DIR / "21_call_overhead_raw.csv", "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()
@@ -194,6 +202,8 @@ def main() -> int:
     L = []
     a = L.append
     a("# 호출 경로 상수 오버헤드 진단")
+    a("")
+    a(f"측정 환경 — {env_describe(env)}")
     a("")
     a(f"모델 `{MODEL}` · 문항 1~{args.questions} · 조건당 {args.runs}회 · 총 {len(rows)}건")
     a("")

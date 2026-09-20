@@ -291,6 +291,33 @@ for pass_idx in 1..2:
 
 ---
 
+### 7.1 측정 환경도 함께 기록한다
+
+부록 L 에서 같은 코드·같은 모델·같은 문항의 지연이 나흘 만에 3.8배 달라졌는데
+**원인을 특정하지 못했다.** 당시 환경이 `work/01_env/*.txt` 에 사람이 읽는 형태로만
+한 번 적혀 있었고, 실험 레코드 자체는 자기가 어떤 환경에서 측정됐는지 말해 주지
+않았기 때문이다.
+
+그래서 `env_snapshot.py` 를 모든 성능 스크립트(19·20·21)에 물렸다.
+
+| 남기는 곳 | 내용 |
+| --- | --- |
+| 레코드 각 줄 | `env_fingerprint`, `env_ollama_version`, `env_driver_version`, `env_captured_at` |
+| 실행 폴더 | `<n>_env.json` — Ollama·GPU·드라이버·CUDA·Python·패키지 전체 |
+| 요약 보고서 머리글 | 한 줄 요약 |
+
+**지문(fingerprint)** 은 지연·처리량에 직접 영향을 주는 것만 골라 만든 8자리 해시다
+(Ollama 버전 · GPU 이름 · 드라이버 · CUDA). 파이썬 패키지 버전은 넣지 않는다 —
+pandas 를 올렸다고 추론이 느려지지는 않는다.
+
+> **지문이 다른 두 측정의 절대 지연·처리량을 같은 표에 놓지 않는다.**
+> 차이와 순위는 각 측정 안에서는 유효하므로 그대로 쓸 수 있다.
+
+`uv run python env_snapshot.py --list` 로 기록된 실행들이 어느 환경에 속하는지,
+어느 것끼리 비교 가능한지 확인한다.
+
+---
+
 ## 8. 교란 변수와 통제
 
 | # | 교란 | 왜 위험한가 | 통제 |
@@ -410,6 +437,7 @@ HF 의 Llama 3.x chat_template 은 보통 `Today Date: <오늘 날짜>` 를 넣�
 
 ```
 VLLM_SERVING_DESIGN.md                  # 이 문서
+env_snapshot.py                         # 측정 환경 스냅샷·지문 (§7.1)
 backends.py                             # Ollama / vLLM 어댑터 (프롬프트 해시 로깅 포함)
 19_serving_comparison.py                # 단계 0 — 3구성 × 54문항 × 2패스 = 324회
 20_concurrency_benchmark.py             # 단계 1 — 닫힌 루프 스윕 + 개방 루프 1회
@@ -422,6 +450,7 @@ work/19_serving/
 work/20_concurrency/
 ├── 20_latency_raw.csv                  # 요청별 TTFT·총시간 (닫힌/개방 루프 모두)
 ├── 20_warmups.csv                      # 워밍업 기록 (집계 제외분과 그 크기)
+├── 19_env.json / 20_env.json           # 그 실행의 측정 환경 전체 (§7.1)
 ├── 20_gpu_poll.csv                     # 1초 간격 VRAM·사용률
 ├── 20_vllm_metrics.csv                 # 실행·대기 요청 수, KV 사용률
 └── 20_concurrency_summary.md           # 게이트 유지 한계 N, 무릎 지점

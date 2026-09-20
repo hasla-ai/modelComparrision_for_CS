@@ -31,6 +31,7 @@ Python_Model_Start/          # 프로젝트 루트 (여기서 터미널을 엽�
 ├── 12_rubric_sensitivity.py # 채점 관대성 민감도 재채점 (모델 호출 없음)
 ├── build_eval_set_v2.py     # 평가셋 10 → 54문항 확장 (7개 검증 통과 시에만 기록)
 ├── deps_check.py            # 의존성 로딩 실패 원인을 구분해 출력
+├── env_snapshot.py          # 측정 환경 스냅샷 + 비교 가능 여부 지문
 ├── data/
 │   ├── 02_prompts_and_eval.json   # 질문·gold 라벨·채점 기준의 단일 출처 (v2, 54문항)
 │   ├── 02_prompts_and_eval.v1.json # 10문항 판 백업 — 보고서 수치의 기준
@@ -253,3 +254,18 @@ Ollama → vLLM 은 **네 가지가 동시에 바뀝니다** (엔진·가중치 
 A↔B 가 런타임 효과, B↔C 가 엔진+포맷 효과입니다.
 
 에이전트는 이 문서의 범위가 아닙니다. Ollama도 도구 호출을 지원하므로 **에이전트를 만들려고 vLLM이 필요한 것이 아닙니다.** vLLM을 쓰는 이유는 동시성과 제약 디코딩 두 가지뿐입니다.
+
+## 측정 환경 기록 — 성능 수치가 스스로 환경을 증언하게
+
+같은 코드·같은 모델·같은 문항의 지연 측정이 나흘 만에 3.8배 달라졌는데 원인을 특정하지 못했습니다(FINAL_REPORT 부록 L). 당시 환경이 레코드와 연결돼 있지 않았기 때문입니다.
+
+이제 성능 스크립트(19·20·21)는 실행할 때마다 환경을 함께 남깁니다.
+
+```powershell
+uv run python env_snapshot.py          # 지금 환경과 지문
+uv run python env_snapshot.py --list   # 기록된 실행들이 서로 비교 가능한지
+```
+
+레코드 각 줄에 `env_fingerprint`·`env_ollama_version`·`env_driver_version`·`env_captured_at` 이 붙고, 실행 폴더에 `<n>_env.json` 전체 기록이 남습니다. 지문은 지연·처리량에 직접 영향을 주는 것만(Ollama 버전·GPU·드라이버·CUDA) 골라 만든 8자리 해시입니다.
+
+> **지문이 다른 두 측정의 절대값을 같은 표에 놓지 않습니다.** 차이와 순위는 각 측정 안에서 유효하므로 그대로 씁니다.

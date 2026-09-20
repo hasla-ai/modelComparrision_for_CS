@@ -45,6 +45,8 @@ from datetime import datetime
 from pathlib import Path
 
 from backends import CONFIGS, build_backend, SAMPLER_PROFILES
+from env_snapshot import snapshot as env_snapshot, save as env_save, \
+    row_fields as env_row_fields, describe as env_describe
 
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -168,11 +170,73 @@ class Poller(threading.Thread):
         }
 
 
+class RowSink:
+    """요청이 끝날 때마다 CSV 에 바로 쓴다.
+
+    한 시간짜리 실행을 끝에 한 번 저장하면, 중간에 끊는 순간 전부 잃는다.
+    실제로 그렇게 만들어 놨다가 고쳤다 — 측정한 것은 측정한 즉시 남긴다.
+    """
+
+    def __init__(self, path: Path):
+        self.path = path
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._f = None
+        self._w = None
+        self._lock = threading.Lock()
+        self.n = 0
+
+    def write(self, row: dict) -> None:
+        with self._lock:
+            if self._w is None:
+                self._f = open(self.path, "w", encoding="utf-8-sig", newline="")
+                self._w = csv.DictWriter(self._f, fieldnames=list(row.keys()),
+                                         extrasaction="ignore")
+                self._w.writeheader()
+            self._w.writerow(row)
+            self.n += 1
+            if self.n % 20 == 0:
+                self._f.flush()
+
+    def close(self) -> None:
+        with self._lock:
+            if self._f:
+                self._f.flush()
+                self._f.close()
+                self._f = None
+
+
+class Progress:
+    """블록이 도는 동안 몇 건 끝났는지, 남은 시간이 얼마인지 보여 준다."""
+
+    def __init__(self, total: int, label: str, every: float = 10.0):
+        self.total, self.label, self.every = total, label, every
+        self.done = 0
+        self.t0 = time.time()
+        self._lock = threading.Lock()
+        self._last = 0.0
+
+    def tick(self) -> None:
+        with self._lock:
+            self.done += 1
+            now = time.time()
+            if now - self._last < self.every and self.done < self.total:
+                return
+            self._last = now
+            el = now - self.t0
+            rate = self.done / el if el > 0 else 0
+            eta = (self.total - self.done) / rate if rate > 0 else 0
+            print(f"\r    {self.label} {self.done}/{self.total} "
+                  f"({self.done / self.total * 100:4.0f}%) "
+                  f"{rate:.2f} req/s  남은 시간 ~{eta / 60:.1f}분   ",
+                  end="", flush=True)
+
+
 # ══════════════════════════════════════════════════════════════════
 # 닫힌 루프
 # ══════════════════════════════════════════════════════════════════
 def closed_loop(key, model, sampler, url, prompts, n_workers, n_requests, poller,
-                deadline_sec: float | None = None):
+                deadline_sec: float | None = None, sink=None, progress=None,
+                extra: dict | None = None):
     """워커 n개가 응답을 받는 즉시 다음을 보낸다 → 동시성이 정확히 n으로 유지된다.
 
     `deadline_sec` 를 주면 그 시간이 지날 때까지 계속 돈다(워밍업용).
@@ -201,17 +265,23 @@ def closed_loop(key, model, sampler, url, prompts, n_workers, n_requests, poller
             q = prompts[i % len(prompts)]
             t_start = time.time()
             res = be.generate(q["prompt"])
+            row = {
+                "config": key, "phase": "closed", "concurrency": n_workers,
+                "req_index": i, "question_id": q["id"], "worker": w_idx,
+                "t_start": t_start, "t_end": time.time(),
+                "total_time_sec": res.total_time_sec, "ttft_sec": res.ttft_sec,
+                "prompt_tokens": res.prompt_tokens,
+                "generated_tokens": res.generated_tokens,
+                "tps_wall": res.tps_wall,
+                "is_success": res.success, "error_message": res.error_message,
+                **(extra or {}),
+            }
             with rows_lock:
-                rows.append({
-                    "config": key, "phase": "closed", "concurrency": n_workers,
-                    "req_index": i, "question_id": q["id"], "worker": w_idx,
-                    "t_start": t_start, "t_end": time.time(),
-                    "total_time_sec": res.total_time_sec, "ttft_sec": res.ttft_sec,
-                    "prompt_tokens": res.prompt_tokens,
-                    "generated_tokens": res.generated_tokens,
-                    "tps_wall": res.tps_wall,
-                    "is_success": res.success, "error_message": res.error_message,
-                })
+                rows.append(row)
+            if sink:
+                sink.write(row)          # 측정 즉시 디스크로
+            if progress:
+                progress.tick()
 
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=n_workers) as ex:
@@ -225,7 +295,8 @@ def closed_loop(key, model, sampler, url, prompts, n_workers, n_requests, poller
 # ══════════════════════════════════════════════════════════════════
 # 개방 루프
 # ══════════════════════════════════════════════════════════════════
-def open_loop(key, model, sampler, url, prompts, lam, duration, poller, cap=64):
+def open_loop(key, model, sampler, url, prompts, lam, duration, poller, cap=64,
+              sink=None, extra=None):
     """도착률 λ(요청/초) 로 포아송 도착. 서버가 못 따라가면 동시성이 저절로 늘어난다.
 
     닫힌 루프와 달리 **대기열이 발산할 수 있다.** 발산하는지 보는 것이 목적이므로
@@ -245,8 +316,7 @@ def open_loop(key, model, sampler, url, prompts, lam, duration, poller, cap=64):
         t_start = time.time()
         try:
             res = be.generate(q["prompt"])
-            with rows_lock:
-                rows.append({
+            row = {
                     "config": key, "phase": "open", "concurrency": None,
                     "arrival_rate": lam, "req_index": idx, "question_id": q["id"],
                     "worker": None, "t_start": t_start, "t_end": time.time(),
@@ -255,7 +325,12 @@ def open_loop(key, model, sampler, url, prompts, lam, duration, poller, cap=64):
                     "generated_tokens": res.generated_tokens,
                     "tps_wall": res.tps_wall,
                     "is_success": res.success, "error_message": res.error_message,
-                })
+                    **(extra or {}),
+            }
+            with rows_lock:
+                rows.append(row)
+            if sink:
+                sink.write(row)
         finally:
             be.close()
             sem.release()
@@ -328,12 +403,7 @@ def analyse_sweep(by_level: dict) -> dict:
 def write_report(all_rows, sweep, open_res, meta, poller) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    if all_rows:
-        cols = sorted({k for r in all_rows for k in r})
-        with open(OUT_DIR / "20_latency_raw.csv", "w", encoding="utf-8-sig", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=cols)
-            w.writeheader()
-            w.writerows(all_rows)
+    # 요청별 원본은 RowSink 가 실시간으로 이미 기록했다 — 여기서 다시 쓰지 않는다.
     for name, rows in (("20_gpu_poll.csv", poller.gpu_rows),
                        ("20_vllm_metrics.csv", poller.srv_rows)):
         if rows:
@@ -346,6 +416,9 @@ def write_report(all_rows, sweep, open_res, meta, poller) -> None:
     a = L.append
     a("# 단계 1 — 동시성 측정 결과")
     a("")
+    if meta.get("env"):
+        a(f"측정 환경 — {env_describe(meta['env'])}")
+        a("")
     a(f"평가셋 `{meta['version']}` · 모델 `{meta['model']}` · 샘플러 `{meta['sampler']}`")
     a(f"· **prefix caching: {meta['prefix_caching']}** · 게이트 기준 `P95 ≤ {GATE_P95_SEC}초`")
     a("")
@@ -455,10 +528,12 @@ def main() -> int:
     urls = {k: getattr(args, f"url_{k.lower()}") for k in CONFIGS}
 
     prompts, version = load_prompts()
+    env = env_snapshot()          # 부록 L — 환경을 레코드와 함께 남긴다
     meta = {"version": version, "model": args.model, "sampler": args.sampler,
-            "prefix_caching": args.prefix_caching}
+            "prefix_caching": args.prefix_caching, "env": env}
 
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 단계 1 — 동시성 측정")
+    print(f"  환경 {env_describe(env)}")
     print(f"  평가셋 {version} · 모델 {args.model} · prefix caching {args.prefix_caching}")
     print(f"  구성 {','.join(configs)} · 수준 {levels} · 수준당 {args.requests_per_level}요청")
     print(f"  게이트 기준 P95 ≤ {GATE_P95_SEC}초\n")
@@ -474,6 +549,20 @@ def main() -> int:
     all_rows: list[dict] = []
     warmup_log: list[dict] = []
     sweep: dict = {}
+    run_start = time.time()
+    done_blocks = [0]
+    total_blocks = len(configs) * len(levels) * PASS_COUNT if args.sweep else 0
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    sink = RowSink(OUT_DIR / "20_latency_raw.csv")
+
+    if args.sweep:
+        n_req = total_blocks * args.requests_per_level
+        print(f"  닫힌 루프 {total_blocks}블록 × {args.requests_per_level}요청 = {n_req}요청")
+        print(f"  본실험 기준(요청당 ~3.4초)이면 대략 {n_req * 3.4 / 60:.0f}분 + "
+              f"워밍업·쿨다운 {total_blocks * (WARMUP_SEC + COOLDOWN_SEC) / 60:.0f}분")
+        print("  · 각 요청은 끝나는 즉시 20_latency_raw.csv 에 기록됩니다.")
+        print("  · 중간에 Ctrl-C 로 끊어도 그때까지 측정한 것은 남습니다.")
+        print("  · 짧게 보시려면 --levels 1,2,4 --requests-per-level 20 을 쓰십시오.\n")
     open_res: dict = {}
     poller = Poller(None, "init")
 
@@ -503,20 +592,34 @@ def main() -> int:
                     wt = time.time()
                     wrows, _, _ = closed_loop(key, args.model, args.sampler, url, prompts,
                                               n, 0, poller, deadline_sec=WARMUP_SEC)
+                    w_wall = time.time() - wt
                     warmup_log.append({"config": key, "pass_index": pass_idx,
                                        "concurrency": n, "requests": len(wrows),
-                                       "wall_sec": round(time.time() - wt, 1)})
-                    print(f" {len(wrows)}req/{time.time() - wt:.0f}초  측정…", end="", flush=True)
-                    rows, t0, t1 = closed_loop(key, args.model, args.sampler, url,
-                                               prompts, n, args.requests_per_level, poller)
-                    rows = [{**r, "pass_index": pass_idx} for r in rows]
+                                       "wall_sec": round(w_wall, 1)})
+                    # 워밍업 처리량으로 이 블록에 걸릴 시간을 미리 알려 준다.
+                    # 한 시간짜리 실행에서 "얼마나 남았나"를 모르는 것이 제일 나쁘다.
+                    rate = len(wrows) / w_wall if w_wall > 0 else 0
+                    eta_min = (args.requests_per_level / rate / 60) if rate > 0 else float("nan")
+                    print(f" {len(wrows)}req/{w_wall:.0f}초 → 이 블록 예상 ~{eta_min:.1f}분")
+                    prog = Progress(args.requests_per_level, f"N={n}")
+                    rows, t0, t1 = closed_loop(
+                        key, args.model, args.sampler, url, prompts, n,
+                        args.requests_per_level, poller, sink=sink, progress=prog,
+                        extra={"pass_index": pass_idx, "prefix_caching": args.prefix_caching,
+                               **env_row_fields(env)})
                     acc[n].extend(rows)
                     spans[n].append((t0, t1))
                     all_rows.extend(rows)
                     s = summarize(rows, t0, t1, poller.window(t0, t1))
-                    print(f" P95 {s['p95']:.2f}초  {s['req_per_sec']:.2f} req/s")
-                    print(f"  {'':<5} cooldown {COOLDOWN_SEC}초")
-                    time.sleep(COOLDOWN_SEC)
+                    print(f"\r    N={n} 완료 — P95 {s['p95']:.2f}초  "
+                          f"{s['req_per_sec']:.2f} req/s  ({(t1 - t0) / 60:.1f}분)          ")
+                    done_blocks[0] += 1
+                    left = total_blocks - done_blocks[0]
+                    if left:
+                        print(f"    남은 블록 {left}/{total_blocks}  "
+                              f"(누적 {(time.time() - run_start) / 60:.0f}분)")
+                        print(f"    cooldown {COOLDOWN_SEC}초")
+                        time.sleep(COOLDOWN_SEC)
             for n in levels:
                 if not acc[n]:
                     continue
@@ -527,6 +630,7 @@ def main() -> int:
             sweep[key] = by_level
 
         if args.open_loop:
+            # 개방 루프 행도 같은 싱크로 흘린다
             if args.lam:
                 lams = [float(x) for x in args.lam.split(",")]
             else:
@@ -556,7 +660,8 @@ def main() -> int:
             for lam in lams:
                 print(f"\n=== 구성 {key} · 개방 루프 λ={lam:.2f} req/s · {args.open_loop_sec}초 ===")
                 rows, t0, t1, dropped = open_loop(key, args.model, args.sampler, url,
-                                                  prompts, lam, args.open_loop_sec, poller)
+                                                  prompts, lam, args.open_loop_sec, poller, sink=sink,
+                                                  extra=env_row_fields(env))
                 all_rows.extend(rows)
                 ok_rows = sorted([r for r in rows if r["is_success"]], key=lambda r: r["t_start"])
                 half = len(ok_rows) // 2
@@ -584,7 +689,9 @@ def main() -> int:
             w.writeheader()
             w.writerows(warmup_log)
 
+    env_save(env, OUT_DIR / "20_env.json")
     write_report(all_rows, sweep, open_res, meta, poller)
+    sink.close()
 
     print("\n" + "=" * 64)
     for key, by_level in sweep.items():
@@ -599,4 +706,13 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        # 한 시간짜리 실행을 중간에 끊었다고 해서 측정한 것까지 버릴 이유는 없다.
+        print("\n\n중단됨 — 그때까지 완료된 요청은 "
+              "work/20_concurrency/20_latency_raw.csv 에 남아 있습니다.")
+        print("      요약 보고서는 만들지 않았습니다(부분 데이터로 게이트 판정을 하면 안 됩니다).")
+        print("      이어서 보시려면 그 CSV 를 직접 집계하거나, 더 작은 --levels /")
+        print("      --requests-per-level 로 다시 돌리십시오.")
+        sys.exit(130)

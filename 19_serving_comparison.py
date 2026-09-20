@@ -31,6 +31,8 @@ from datetime import datetime
 from pathlib import Path
 
 from backends import CONFIGS, build_backend, prompt_sha256, SAMPLER_PROFILES
+from env_snapshot import snapshot as env_snapshot, save as env_save, \
+    row_fields as env_row_fields, describe as env_describe
 
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_FILE = BASE_DIR / "data" / "02_prompts_and_eval.json"
@@ -80,6 +82,10 @@ def check_prompts(configs: list[str], model: str, sampler: str, urls: dict) -> i
     probe = questions[0]
     prompt = probe["prompt"]
     sha = prompt_sha256(prompt)
+    # 두 번째 탐침 — 내용이 거의 없는 프롬프트.
+    # 불일치가 났을 때 "템플릿이 붙이는 토큰이 다른 것"과 "토크나이저가 다른 것"을
+    # 구분하려면 기준점이 하나 더 필요하다. §판정 참조.
+    MIN_PROMPT = "x"
 
     print("=" * 70)
     print("사전 점검 — 세 구성이 같은 프롬프트를 보는가")
@@ -91,7 +97,7 @@ def check_prompts(configs: list[str], model: str, sampler: str, urls: dict) -> i
     print(f"클라이언트 프롬프트 SHA-256 : {sha[:16]}…  ({len(prompt)}자)")
     print()
 
-    rows, token_counts, unreachable = [], {}, []
+    rows, token_counts, min_counts, unreachable = [], {}, {}, []
 
     for key in configs:
         cfg = CONFIGS[key]
@@ -117,12 +123,19 @@ def check_prompts(configs: list[str], model: str, sampler: str, urls: dict) -> i
         if "max_tokens" in be.sampler:
             be.sampler["max_tokens"] = 1
         res = be.generate(prompt, timeout=120)
+        res_min = be.generate(MIN_PROMPT, timeout=120)
         if saved is not None:
             be.sampler["max_tokens"] = saved
 
         ptok = res.prompt_tokens
+        mtok = res_min.prompt_tokens
         token_counts[key] = ptok
+        min_counts[key] = mtok
+        content = (ptok - mtok) if (ptok is not None and mtok is not None) else None
         print(f"   서버가 센 입력 토큰 : {ptok}")
+        print(f"   최소 탐침(\"x\")     : {mtok}   ← 템플릿이 붙이는 몫에 가깝다")
+        if content is not None:
+            print(f"   문항 본문 몫        : {content}")
         if not res.success:
             print(f"   호출 실패: {res.error_message}")
 
@@ -142,9 +155,12 @@ def check_prompts(configs: list[str], model: str, sampler: str, urls: dict) -> i
             "config": key, "engine": be.engine, "reachable": True,
             "client_prompt_sha256": sha,
             "server_prompt_tokens": ptok,
+            "min_probe_tokens": mtok,
+            "content_tokens": content,
             "call_ok": res.success,
             "note": res.error_message or "",
-            "template_excerpt": " ".join(str(tmpl.get("template") or "").split())[:400],
+            # 잘라 두면 정작 원인이 잘린 뒤쪽에 있을 때 못 본다 — 전문을 남긴다
+            "template_full": " ".join(str(tmpl.get("template") or "").split()),
             "tokenize_count": tmpl.get("tokenize_count"),
             "quantization": tmpl.get("quantization"),
         })
@@ -165,29 +181,85 @@ def check_prompts(configs: list[str], model: str, sampler: str, urls: dict) -> i
     counted = {k: v for k, v in token_counts.items() if v is not None}
     if unreachable:
         print(f"도달하지 못한 구성: {', '.join(unreachable)}")
-    if len(counted) < 2:
-        print("판정 보류 — 비교할 구성이 2개 미만입니다. 서버를 띄운 뒤 다시 실행하세요.")
+
+    if not counted:
+        print("판정 보류 — 도달한 구성이 없습니다. 서버를 띄운 뒤 다시 실행하세요.")
         return 1
 
-    uniq = set(counted.values())
     for k, v in counted.items():
-        print(f"  구성 {k}: 입력 토큰 {v}")
+        m = min_counts.get(k)
+        c = (v - m) if (m is not None) else None
+        print(f"  구성 {k}: 입력 토큰 {v}   (템플릿 몫 ~{m}, 본문 몫 {c})")
+
+    # ── 구성이 하나 ──────────────────────────────────────────────────
+    # 하나만 "요청"했다면 기준선 기록이므로 성공이다.
+    # 여럿을 요청했는데 하나만 닿았다면 그건 실패다 — 둘을 구분한다.
+    if len(counted) == 1:
+        k = next(iter(counted))
+        if len(configs) > 1:
+            print()
+            print(f"실패 — {len(configs)}개 구성을 요청했는데 {k} 하나에만 닿았습니다.")
+            print(f"       닿지 않은 구성: {', '.join(unreachable)}")
+            print("       대조는 구성이 둘 이상일 때만 가능합니다. 서버를 띄운 뒤 다시 실행하거나,")
+            print(f"       기준선만 먼저 잡으려면 --configs {k} 로 명시하십시오.")
+            return 1
+        print()
+        print(f"기준선 기록 완료 — 구성 {k} 단독 실행이라 대조할 상대가 없습니다.")
+        print(f"  나중에 다른 구성을 띄운 뒤, 그 구성의 입력 토큰이 {counted[k]} 와")
+        print("  같은지 보면 됩니다. 값은 19_prompt_hashes.csv 에 남았습니다.")
+        print("  (실패가 아닙니다 — 대조는 구성이 둘 이상일 때 이뤄집니다.)")
+        return 0
+
+    uniq = set(counted.values())
     if len(uniq) == 1:
         print()
         print("통과 — 모든 구성이 같은 수의 입력 토큰을 셌습니다.")
         print("       본실행으로 넘어가도 됩니다.")
         return 0
 
+    # ── 불일치의 원인을 좁힌다 ──────────────────────────────────────
+    # 템플릿이 붙이는 몫만 다른가, 본문을 자르는 방식(토크나이저)까지 다른가.
+    contents = {k: counted[k] - min_counts[k] for k in counted
+                if min_counts.get(k) is not None}
+    same_content = len(set(contents.values())) == 1 if len(contents) > 1 else None
+
     print()
     print("실패 — 구성마다 입력 토큰 수가 다릅니다.")
     print("       서버가 프롬프트를 감싸는 방식이 다르다는 뜻이고, 이 상태에서 품질을")
     print("       비교하면 엔진 차이가 아니라 입력 차이를 재게 됩니다.")
     print()
-    print("       확인 순서:")
-    print("         1. Ollama 쪽 template(위 출력)과 vLLM 모델의 chat_template 을 대조")
-    print("         2. vLLM 이 /v1/chat/completions 로 호출되고 있는지 확인")
-    print("            (/v1/completions 는 템플릿을 적용하지 않아 반드시 어긋납니다)")
-    print("         3. 두 체크포인트의 tokenizer 가 같은 계열인지 확인")
+
+    if same_content is True:
+        print("       진단: **본문 몫은 같고 템플릿 몫만 다릅니다.**")
+        print("             토크나이저는 같고 템플릿이 붙이는 고정 문구가 다릅니다.")
+        print("             → 고칠 수 있는 불일치입니다.")
+        print()
+        print("       가장 흔한 원인 — Llama 3.x 계열에서 실제로 자주 납니다:")
+        print("         Ollama 의 GGUF 내장 템플릿에는 `Cutting Knowledge Date` 만 있고")
+        print("         HF 의 chat_template 에는 `Today Date: <오늘 날짜>` 가 더 붙습니다.")
+        print("         이러면 토큰 수가 어긋날 뿐 아니라 **날짜가 바뀌면 입력도 바뀌어**")
+        print("         날마다 다른 실험이 됩니다.")
+        print()
+        print("       조치 (하나를 고르고 기록할 것):")
+        print("         (a) vLLM 을 Ollama 템플릿으로 맞춘다")
+        print("             vllm serve ... --chat-template <ollama_template.jinja>")
+        print("             (위에 찍힌 템플릿을 Jinja 로 옮겨 파일로 저장)")
+        print("         (b) 차이를 안고 가되 **설계서 §2 의 교란 목록에 한 줄 추가**하고")
+        print("             결과 보고서에 '입력이 N토큰 달랐다'를 명시한다")
+    elif same_content is False:
+        print("       진단: **본문 몫부터 다릅니다.**")
+        print("             같은 한국어 문장을 서로 다른 개수로 자르고 있으므로")
+        print("             토크나이저 자체가 다릅니다(체크포인트 계열이 다를 수 있음).")
+        print("             → 템플릿만 맞춰서는 해소되지 않습니다.")
+        print("             vLLM 쪽 체크포인트가 Ollama 가 쓰는 것과 같은 베이스인지")
+        print("             먼저 확인하십시오.")
+    else:
+        print("       진단 불가 — 최소 탐침 토큰 수를 얻지 못했습니다.")
+
+    print()
+    print("       그 밖에 확인할 것:")
+    print("         · vLLM 을 /v1/chat/completions 로 부르고 있는가")
+    print("           (/v1/completions 는 템플릿을 적용하지 않아 반드시 어긋납니다)")
     print()
     print("       설계서 §11 — 이 불일치를 해소하기 전에는 단계 0을 시작하지 않습니다.")
     return 1
@@ -200,7 +272,12 @@ def run(configs: list[str], model: str, sampler: str, urls: dict, dry: bool) -> 
     questions, version = load_questions()
     total = len(configs) * len(questions) * PASS_COUNT
 
+    # 측정 환경을 레코드와 함께 남긴다 — 부록 L. 나중에 이 수치를 다른 시점의
+    # 수치와 같은 표에 놓아도 되는지는 이 지문으로만 판단할 수 있다.
+    env = env_snapshot()
+
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 단계 0 — 서빙 구성 비교")
+    print(f"  환경 {env_describe(env)}")
     print(f"  평가셋 {version} · 문항 {len(questions)} · 구성 {len(configs)} · 패스 {PASS_COUNT}")
     print(f"  모델 {model} · 샘플러 {sampler}")
     print(f"  총 호출 {total}회\n")
@@ -284,6 +361,7 @@ def run(configs: list[str], model: str, sampler: str, urls: dict, dry: bool) -> 
                     "prompt_sha256": prompt_sha256(q["prompt"]),
                     "server_prompt_tokens": res.prompt_tokens,
                     "ttft_server_sec": res.ttft_server_sec,
+                    **env_row_fields(env),
                 })
                 mark = "" if res.success else "  ← 실패"
                 print(f"  [{done:>3}/{total}] q{q['id']:<3} {res.total_time_sec:>6.2f}초 "
@@ -294,14 +372,15 @@ def run(configs: list[str], model: str, sampler: str, urls: dict, dry: bool) -> 
                 print(f"  cooldown {COOLDOWN_SEC}초")
                 time.sleep(COOLDOWN_SEC)
 
-    write_outputs(records, warmups, configs, model, sampler, version)
+    env_save(env, OUT_DIR / "19_env.json")
+    write_outputs(records, warmups, configs, model, sampler, version, env)
     return 0
 
 
 # ══════════════════════════════════════════════════════════════════
 # 출력
 # ══════════════════════════════════════════════════════════════════
-def write_outputs(records, warmups, configs, model, sampler, version) -> None:
+def write_outputs(records, warmups, configs, model, sampler, version, env=None) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     json_path = OUT_DIR / "19_serving_results.json"
     csv_path = OUT_DIR / "19_serving_results.csv"
@@ -340,6 +419,9 @@ def write_outputs(records, warmups, configs, model, sampler, version) -> None:
     a = L.append
     a("# 단계 0 — 서빙 구성 비교 결과")
     a("")
+    if env:
+        a(f"측정 환경 — {env_describe(env)}")
+        a("")
     a(f"평가셋 `{version}` · 모델 `{model}` · 샘플러 프로파일 `{sampler}` · 문항 {len(set(r['question_id'] for r in records))} × 패스 {PASS_COUNT}")
     a("")
     a("**이 표로 「vLLM 이 더 빠르다」고 말하지 않는다.** 구성 간에는 엔진·가중치 포맷·")
