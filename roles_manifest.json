@@ -465,6 +465,16 @@
           "public": true
         },
         {
+          "path": "23_condition_c_analysis.py",
+          "note": "조건 C 결정적 분석 — 사전 등록 규칙 T1~T6, judge 없음 — 부록 M",
+          "public": true
+        },
+        {
+          "path": "work/22_condition_c/23_condition_c_analysis.md",
+          "note": "조건 C 결과 표 전체 (어휘·정확도·칸별 재현율·쏠림)",
+          "public": true
+        },
+        {
           "path": "work/21_call_overhead/21_call_overhead_summary.md",
           "note": "오버헤드 진단 결과",
           "public": true
