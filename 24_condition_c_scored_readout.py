@@ -159,6 +159,57 @@ def main() -> int:
                      f"{pctf(rate(d, 'hallucination_flag'))} |")
     L.append("")
 
+    # ── note 축 — 종합 점수가 재지 않는 곳 ────────────────────────
+    gold_suff = {i: g["taxonomy"]["info_sufficiency"] for i, g in gold.items()}
+    df["special"] = df["question_id"].map(lambda i: str(gold_suff.get(i, "")).startswith("특수"))
+    df["note_len"] = df.get("parsed_note", pd.Series([""] * len(df))).fillna("").astype(str).str.len()
+
+    def boolsum(s):
+        return int(pd.to_numeric(s.map({True: 1, False: 0, "True": 1, "False": 0}),
+                                 errors="coerce").fillna(0).sum())
+
+    L += ["## note 축 — 종합 점수가 재지 않는 곳", "",
+          "가중치는 분류(0.40)·필드(0.35)·요약(0.25)이다. **`note` 는 어디에도 없다.**",
+          "note 는 게이트(기권 적절성)로만 들어가고, 그 게이트는 특수 문항에만 적용된다.",
+          "그래서 note 가 무너져도 종합 점수는 떨어지지 않는다. 따로 봐야 한다.", "",
+          "| 모델 | 조건 | 평균 note 길이 | 특수 문항 기권 적절 | 게이트 통과 | 종합(전체) |",
+          "| --- | --- | ---: | ---: | ---: | ---: |"]
+    for m in models:
+        for c in conds:
+            d = sub(m, c)
+            sp = d[d["special"]]
+            v = sp["abstention_appropriate"].dropna() if "abstention_appropriate" in sp else []
+            ok, n = (boolsum(v), len(v)) if len(v) else (0, 0)
+            L.append(f"| {m} | {c} | {d['note_len'].mean():.1f}자 | "
+                     f"{f'{ok}/{n} ({100 * ok / n:.1f}%)' if n else '—'} | "
+                     f"{pctf(rate(d, 'overall_gate_pass'))} | {fmt(mean_ws(d))} |")
+    L.append("")
+
+    # 게이트 탈락 사유 분해
+    L += ["게이트 탈락 사유를 갈라 보면 원인이 한 군데로 모인다.", "",
+          "| 모델 | 조건 | 형식 탈락 | 환각 탈락 | 기권 탈락 |",
+          "| --- | --- | ---: | ---: | ---: |"]
+    for m in models:
+        for c in conds:
+            d = sub(m, c)
+            fv = len(d) - boolsum(d["format_valid"]) if "format_valid" in d else None
+            hl = boolsum(d["hallucination_flag"]) if "hallucination_flag" in d else None
+            ab = int((d["abstention_appropriate"] == False).sum()) \
+                if "abstention_appropriate" in d else None
+            L.append(f"| {m} | {c} | {fv} | {hl} | {ab} |")
+    L += ["",
+          "**열거는 `note` 를 비운다.** 이것이 이 실험에서 가장 값비싼 발견이다.",
+          "카테고리를 메뉴에서 고르게 하자 모델이 출력을 그 선택에 쓰고 설명을 그만뒀다.",
+          "특수 문항(정보부족·범위밖)에서 **note 가 곧 산출물**이다 — 상담원에게 다음에",
+          "무엇을 더 물어야 하는지 알려 주는 칸이기 때문이다. note 가 비면 분류가 맞아도",
+          "응답은 쓸모가 없다.", "",
+          "그래서 조건 C 는 **종합 점수는 오르고 게이트 통과율은 내린다.** 이 프로젝트의",
+          "규칙은 「게이트 먼저, 랭킹 나중」이므로, 이 둘이 엇갈릴 때 따라야 할 쪽은",
+          "게이트다. 조건 C 를 그대로 배포 프롬프트로 삼을 수 없다는 뜻이다.", "",
+          "조건 B 가 note 를 가장 길게 쓰게 만든다(규칙 블록이 note 에 무엇을 적으라고",
+          "명시하기 때문이다). 다음 조건 D 는 **열거(카테고리) + 규칙(note)** 을 함께",
+          "주고, 부록 M.4 가 지적한 과잉 기권을 막을 기권 기준을 덧붙여야 한다.", ""]
+
     # ── judge 건전성 ─────────────────────────────────────────────
     L += ["## judge 건전성", ""]
     if "judge_error" in df.columns:
