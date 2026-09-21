@@ -394,6 +394,10 @@ Python_Model_Start/
 ├── 21_call_overhead_diagnostic.py  # 상수 오버헤드 원인 분해 80회
 ├── 22_condition_c_experiment.py    # 조건 C — 카테고리 열거 648회
 ├── 23_condition_c_analysis.py      # 조건 C 결정적 분석 (judge 없음)
+├── 24_condition_c_scored_readout.py # 조건 C judge 채점 읽기 + 구조적 공백
+├── 25_condition_d_experiment.py    # 조건 D·R — 열거+기권기준+note규칙 / 순서 반전 (미실행)
+├── 26_condition_d_analysis.py      # 조건 D·R 결정적 분석 · 규칙 D1~D8 (미실행)
+├── CONDITION_D_DESIGN.md           # 조건 D·R 설계서 — 실행 전 확정
 ├── backends.py                     # Ollama / vLLM 어댑터
 ├── env_snapshot.py                 # 환경 지문 기록·대조
 ├── build_eval_set_v2.py            # 평가셋 10 → 54 확장 (7개 검증 통과 시에만 기록)
@@ -411,7 +415,8 @@ Python_Model_Start/
 ├── work/12_rubric_sensitivity/     # 관대/엄격 재채점 대조
 ├── work/20_concurrency/            # 동시성 1,080회 원본·집계
 ├── work/21_call_overhead/          # 오버헤드 분해 80회 원본
-├── work/22_condition_c/            # 조건 C 648회 원본·판정·부록 M 표
+├── work/22_condition_c/            # 조건 C 648회 원본·채점·판정·부록 M 표
+├── work/25_condition_d/            # 조건 D·R — 실행 대기 (빈 폴더)
 └── work/archive/                   # 이전 실행 보관
 ```
 
@@ -438,10 +443,24 @@ uv run python 20_concurrency_benchmark.py --sweep --configs A --prefix-caching o
 uv run python 21_call_overhead_diagnostic.py  # 부록 L — 오버헤드 분해
 uv run python 22_condition_c_experiment.py    # 부록 M — 조건 C 648회
 uv run python 23_condition_c_analysis.py      # 부록 M — 결정적 분석 (모델 호출 없음)
+uv run python 05_quality_scoring.py work/22_condition_c/22_condition_c_results.json   # 부록 M — judge 채점
+uv run python 24_condition_c_scored_readout.py                                        # 부록 M.7~M.8
 uv run python generate_roles_doc.py           # 조직도 문서 생성 + 정합성 검증
 ```
 
-`12_rubric_sensitivity.py`·`23_condition_c_analysis.py`와 `build_eval_set_v2.py`는 모델을 호출하지 않으므로 Ollama 없이 수초 내에 끝나며, 같은 입력에서 항상 같은 결과를 낸다.
+`12_rubric_sensitivity.py`·`23_condition_c_analysis.py`·`26_condition_d_analysis.py`·`24_condition_c_scored_readout.py`와 `build_eval_set_v2.py`는 모델을 호출하지 않으므로 Ollama 없이 수초 내에 끝나며, 같은 입력에서 항상 같은 결과를 낸다.
+
+**아직 실행하지 않은 것** — 설계·구현은 끝났고 명령만 남았다.
+
+```powershell
+uv run python 25_condition_d_experiment.py --dry-run   # 프롬프트 5종 육안 확인
+uv run python 25_condition_d_experiment.py             # 부록 N — 1,080회, 약 41분
+uv run python 26_condition_d_analysis.py               # 규칙 D1~D8 코드 판정
+uv run python 05_quality_scoring.py work/25_condition_d/25_condition_d_results.json
+uv run python 24_condition_c_scored_readout.py work/25_condition_d/25_condition_d_scored.csv
+```
+
+실행 중 다른 작업(영상 재생 포함)을 하지 않는다 — 부록 M 실행이 그 때문에 지연을 잃었다(부록 M.6). 스크립트가 GPU 경쟁을 감지하면 경고하고 5초 기다린다.
 
 같은 이름의 결과 파일은 덮어쓰기되므로, 이전 실행을 남기려면 `work/04_experiment`를 `work/archive/<날짜>`로 옮긴 뒤 실행한다. API 키는 실행 중 입력 방식으로만 받으며 코드·로그·문서에 남지 않는다.
 

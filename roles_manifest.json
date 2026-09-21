@@ -470,6 +470,26 @@
           "public": true
         },
         {
+          "path": "24_condition_c_scored_readout.py",
+          "note": "조건 C judge 채점 읽기 — 종합 점수의 구조적 공백 고지 — 부록 M.7~M.8",
+          "public": true
+        },
+        {
+          "path": "CONDITION_D_DESIGN.md",
+          "note": "조건 D·R 설계서 — 사전 예측 P1~P10, 해석 규칙 D1~D8, 중단 조건 (실행 전 확정)",
+          "public": true
+        },
+        {
+          "path": "25_condition_d_experiment.py",
+          "note": "조건 D·R 실험 — 열거+기권기준+note규칙 / 필드 순서 반전 (미실행)",
+          "public": true
+        },
+        {
+          "path": "26_condition_d_analysis.py",
+          "note": "조건 D·R 결정적 분석 — 규칙 D1~D8 코드 판정 (미실행)",
+          "public": true
+        },
+        {
           "path": "work/22_condition_c/23_condition_c_analysis.md",
           "note": "조건 C 결과 표 전체 (어휘·정확도·칸별 재현율·쏠림)",
           "public": true

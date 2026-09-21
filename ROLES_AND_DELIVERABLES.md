@@ -14,7 +14,7 @@
 | 2 | **Requirement Lead / Business Analyst**<br>요구사항 담당 | 무엇을 '좋은 모델'로 볼지를 실험 착수 전에 문서로 못 박는다. | 1, 2, 3 | 공개 6건 · 비공개 2건 |
 | 3 | **ML Researcher & Env Engineer**<br>모델 리서치 / 환경 담당 | 후보를 근거로 고르고, 제3자가 같은 조건에서 재현할 수 있게 환경을 기록한다. | 5, 6, 7, 8 | 공개 10건 |
 | 4 | **Performance Engineer**<br>실험 / 성능 측정 담당 | 동일 조건을 통제한 상태로 반복 실행하고, 실패까지 포함해 원본을 남긴다. | 9, 10, 11, 12, 13 | 공개 17건 |
-| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 27건 · 비공개 1건 |
+| 5 | **Quality Assurance & Tech Writer**<br>품질 평가 / 검증 테스팅 / 결과 문서화 | 점수를 믿을 수 있게 만들고, 제3자가 같은 결론에 도달할 수 있게 쓴다. | 14, 15, 16, 17, 18 | 공개 31건 · 비공개 1건 |
 
 `비공개`는 방법론 자산(게이트 설계·가중치·루브릭 내부 정의)이라 저장소에 올리지 않고 로컬에만 보관하는 문서다. 결과와 판단 근거는 모두 공개 문서에 담겨 있다.
 
@@ -247,6 +247,10 @@
 | `21_call_overhead_diagnostic.py` | 호출 경로 상수 오버헤드 진단 — 부록 L | 있음 |
 | `22_condition_c_experiment.py` | 조건 C — 프롬프트에 허용 카테고리 열거 | 있음 |
 | `23_condition_c_analysis.py` | 조건 C 결정적 분석 — 사전 등록 규칙 T1~T6, judge 없음 — 부록 M | 있음 |
+| `24_condition_c_scored_readout.py` | 조건 C judge 채점 읽기 — 종합 점수의 구조적 공백 고지 — 부록 M.7~M.8 | 있음 |
+| `CONDITION_D_DESIGN.md` | 조건 D·R 설계서 — 사전 예측 P1~P10, 해석 규칙 D1~D8, 중단 조건 (실행 전 확정) | 있음 |
+| `25_condition_d_experiment.py` | 조건 D·R 실험 — 열거+기권기준+note규칙 / 필드 순서 반전 (미실행) | 있음 |
+| `26_condition_d_analysis.py` | 조건 D·R 결정적 분석 — 규칙 D1~D8 코드 판정 (미실행) | 있음 |
 | `work/22_condition_c/23_condition_c_analysis.md` | 조건 C 결과 표 전체 (어휘·정확도·칸별 재현율·쏠림) | 있음 |
 | `work/21_call_overhead/21_call_overhead_summary.md` | 오버헤드 진단 결과 | 있음 |
 
@@ -265,6 +269,6 @@
 이 문서는 `roles_manifest.json`에서 자동 생성된다. 생성할 때마다 체크리스트 18문항이 빠짐없이 한 번씩 배정됐는지, 각 역할이 주장하는 산출물이 실제로 저장소에 있는지 확인한다.
 
 - 체크리스트 18문항 전부 배정 완료, 중복 없음
-- 공개 산출물 63건 전부 저장소에 존재
+- 공개 산출물 67건 전부 저장소에 존재
 
 *roles_manifest.json (단일 출처) → generate_roles_doc.py → ROLES_AND_DELIVERABLES.md*
