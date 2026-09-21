@@ -83,7 +83,11 @@ def main() -> int:
     hollow = sorted(no_kf | no_ef)       # 축이 하나라도 빈 문항
     solid = [i for i in gold if i not in no_kf and i not in no_ef]
 
-    df = pd.read_csv(path, encoding="utf-8-sig")
+    # keep_default_na=False 가 **필수**다. 빼면 pandas 가 문자열 'None'·'NA'·'null'
+    # 을 결측으로 바꾼다. 조건 C 에서 모델이 note 에 literal 'None' 을 61번 썼고,
+    # 그것들이 조용히 NaN 이 되어 note 평균 길이가 6.4자 → 4.6자로 잘못 나왔다.
+    # 부록 M.8 의 첫 판에 그 잘못된 값이 실렸다. 같은 사고를 막기 위해 못 박는다.
+    df = pd.read_csv(path, encoding="utf-8-sig", keep_default_na=False, na_values=[])
     df["question_id"] = df["question_id"].astype(int)
     df["is_solid"] = df["question_id"].isin(solid)
 
@@ -236,7 +240,8 @@ def main() -> int:
           "| 모델 | 조건 | 05 채점 | 23 결정적 분석 | 차 |",
           "| --- | --- | ---: | ---: | ---: |"]
     det_path = BASE / "work" / "22_condition_c" / "23_condition_c_rows.csv"
-    det = pd.read_csv(det_path, encoding="utf-8-sig") if det_path.exists() else None
+    det = (pd.read_csv(det_path, encoding="utf-8-sig", keep_default_na=False,
+                       na_values=[]) if det_path.exists() else None)
     for m in models:
         for c in conds:
             a = rate(sub(m, c), "category_match")
