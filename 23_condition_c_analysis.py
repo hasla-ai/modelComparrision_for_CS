@@ -88,6 +88,11 @@ OUT_DIR = BASE / "work" / "22_condition_c"
 # ══════════════════════════════════════════════════════════════════
 DELTA_PP = 2.0
 
+# 라벨 쏠림 기준 — M.4 전용. **결과를 본 뒤에 정했다**(M.4 본문에 그렇게 적는다).
+# DELTA_PP 를 재사용하지 않는 이유도 M.4 본문에 있다. 두 값은 다른 질문에 쓰는
+# 다른 자다: DELTA_PP 는 '시행 몇 건인가', 이쪽은 '한 칸에 몰아넣었는가'.
+SKEW_RATIO = 2.0
+
 # `22_condition_c_experiment.py` 의 ALLOWED_CATEGORIES 와 같아야 한다 — import 한다
 CONTAMINATION_NOTE = (
     "이 실행 중 사용자 PC 에서 영상 두 편(인터넷 강의·스포츠)이 재생되고 있었다. "
@@ -169,7 +174,7 @@ def main() -> int:
     # ── 레코드별 판정 ────────────────────────────────────────────
     rows = []
     for r in records:
-        qid = str(r["question_id"])
+        qid = r["question_id"]
         g = gold.get(qid)
         if g is None:
             continue
@@ -234,9 +239,16 @@ def main() -> int:
         L += [f"측정 환경 — 지문 `{env.get('fingerprint', '?')}` · "
               f"ollama {env.get('ollama', {}).get('version', '?')} · "
               f"{env.get('gpu', {}).get('name', '?')}", ""]
+    n_fail = sum(1 for x in rows if not x["is_success"])
     L += [f"평가셋 `{eval_set_version}` · 문항 {len(gold)} · 조건 {', '.join(conds)} · "
-          f"레코드 {len(rows)}건", "",
+          f"레코드 {len(rows)}건 (호출 실패 {n_fail}건 제외하고 집계)", "",
           f"> {CONTAMINATION_NOTE}", ""]
+    if n_fail:
+        for x in rows:
+            if not x["is_success"]:
+                L.append(f"- 호출 실패: {x['model_name']} 조건 {x['condition']} "
+                         f"문항 {x['question_id']} 패스 {x['run_index']}")
+        L.append("")
 
     # M.1 어휘
     L += ["## M.1 어휘 — 모델이 실제로 쓴 카테고리 문자열", "",
@@ -322,9 +334,112 @@ def main() -> int:
                        "d_allowed": d_al, "d_strict": d_st}
     L.append("")
 
-    # M.4 T4 — 조건 B 과잉 보수화 재현
+    # M.4 — 열거가 고치지 못한 것 (사후 기술)
+    gold_dist = defaultdict(int)
+    for q in gold.values():
+        gold_dist[q["expected_category"]] += 1
+    n_gold = sum(gold_dist.values())
+    top_gold_cat = max(gold_dist, key=gold_dist.get)
+
+    L += ["## M.4 열거가 고치지 **못한** 것 — 라벨 쏠림과 기권", "",
+          "> **사후 기술.** 이 절은 사전 등록 규칙이 아니다. M.1~M.3 을 본 뒤",
+          "> llama 의 라벨 분포가 한쪽으로 쏠린 것을 보고 추가했다. 가설 검정이",
+          "> 아니라 서술이며, 판정에 쓰지 않는다.", "",
+          "어휘가 허용 목록 안으로 들어왔다고 해서 **고르게** 들어온 것은 아니다.",
+          f"gold 의 최다 카테고리는 「{top_gold_cat}」 "
+          f"{gold_dist[top_gold_cat]}/{n_gold} ({100 * gold_dist[top_gold_cat] / n_gold:.1f}%) 다.",
+          "모델의 최다 라벨 점유율이 이보다 훨씬 크면, 열거는 어휘만 고정했을 뿐",
+          "판단은 한 칸으로 무너뜨린 것이다.", "",
+          "| 모델 | 조건 | 최다 라벨 | 점유율 | gold 최다 점유율 |",
+          "| --- | --- | --- | ---: | ---: |"]
+    for m in models:
+        for c in conds:
+            cnt = defaultdict(int)
+            for x in rows:
+                if x["model_name"] == m and x["condition"] == c and x["is_success"] \
+                        and x["model_category"]:
+                    cnt[x["model_category"]] += 1
+            if not cnt:
+                continue
+            top = max(cnt, key=cnt.get)
+            tot = sum(cnt.values())
+            L.append(f"| {m} | {c} | `{top}` | {100 * cnt[top] / tot:.1f}% "
+                     f"({cnt[top]}/{tot}) | {100 * gold_dist[top_gold_cat] / n_gold:.1f}% |")
+    L += ["",
+          "### gold 카테고리별 재현율 (엄격 기준)", "",
+          "조건별로 gold 한 칸씩 끊어서 본다. 평균 하나로는 어느 칸이 무너졌는지",
+          "보이지 않는다 — 멘토 피드백 ②(질문별이 아니라 모델별·칸별로 보라)의 적용이다.", ""]
+    gcats = sorted(gold_dist, key=lambda k: -gold_dist[k])
+
+    def recall(m, c, gc):
+        sel = [x for x in rows if x["model_name"] == m and x["condition"] == c
+               and x["is_success"] and x["expected_category"] == gc
+               and x["strict_match"] is not None]
+        return pct(sum(1 for x in sel if x["strict_match"]), len(sel))
+
+    cell_verdict = {}
+    for m in models:
+        L += [f"**{m}**", "",
+              "| gold 카테고리 | 문항 | " + " | ".join(f"{c}" for c in conds)
+              + " | C−A |",
+              "| --- | ---: | " + " | ".join("---:" for _ in conds) + " | ---: |"]
+        up = down = 0
+        worst = (None, 0.0)
+        for gc in gcats:
+            vals = [recall(m, c, gc) for c in conds]
+            d = delta(recall(m, "C", gc), recall(m, "A", gc))
+            if d is not None:
+                if d >= DELTA_PP:
+                    up += 1
+                elif d <= -DELTA_PP:
+                    down += 1
+                    if d < worst[1]:
+                        worst = (gc, d)
+            L.append(f"| {gc} | {gold_dist[gc]} | " + " | ".join(fmt(v) for v in vals)
+                     + f" | {'—' if d is None else f'{d:+.1f}%p'} |")
+        cell_verdict[m] = (up, down, worst)
+        L.append("")
+
+    L += ["### 칸 단위로 보면 평균과 다른 이야기가 나온다", "",
+          "읽는 기준을 먼저 적는다. **이 기준은 위 표를 본 뒤에 정했다.**",
+          "쏠림을 %p 차이로 재려 했더니 DELTA_PP(2.0%p)를 그대로 쓰게 되는데, 그 값은",
+          "'시행 2건 이상'을 뜻하도록 잡은 수치지 '분포가 무너졌다'를 뜻하도록 잡은",
+          "수치가 아니다. 다른 질문에 같은 자를 대는 것이므로 쓰지 않는다. 대신",
+          f"**최다 라벨 점유율이 gold 에서 그 칸이 차지하는 몫의 {SKEW_RATIO:g}배를 넘는가**",
+          "로 본다. 배수는 분모가 달라도 뜻이 유지되고, '한 칸에 몰아넣었다'는 말과",
+          "직접 대응한다. 이 기준으로 갈리는 판정은 아래 마지막 문장 하나뿐이며,",
+          "표의 수치는 기준과 무관하게 그대로다.", ""]
+    for m in models:
+        up, down, worst = cell_verdict[m]
+        cnt = defaultdict(int)
+        for x in rows:
+            if x["model_name"] == m and x["condition"] == "C" and x["is_success"] \
+                    and x["model_category"]:
+                cnt[x["model_category"]] += 1
+        tot = sum(cnt.values()) or 1
+        top = max(cnt, key=cnt.get)
+        share = 100 * cnt[top] / tot
+        gold_share = 100 * gold_dist.get(top, 0) / n_gold
+        ratio = share / gold_share if gold_share else float("inf")
+        line = (f"- **{m}** — A→C 로 오른 칸 {up}개, 내린 칸 {down}개. "
+                f"조건 C 최다 라벨 「{top}」 점유율 {share:.1f}%, "
+                f"gold 에서 이 칸은 {gold_share:.1f}% → **{ratio:.1f}배**.")
+        if worst[0]:
+            line += f" 가장 크게 무너진 칸은 「{worst[0]}」 {worst[1]:+.1f}%p."
+        if ratio >= SKEW_RATIO:
+            line += (f" {SKEW_RATIO:g}배를 넘었다. 평균이 오른 것은 한 칸으로"
+                     " 몰아넣은 결과이므로, 이 모델의 C 개선은 **판단이 나아진 것이"
+                     " 아니라 라벨 분포가 맞아떨어진 것**으로 읽어야 한다.")
+        else:
+            line += (f" {SKEW_RATIO:g}배 미만이다. 쏠림으로 설명되지 않는 개선이"
+                     " 남아 있으나, 내린 칸이 있으므로 '전반적 개선'이 아니라"
+                     " '재배치를 동반한 개선'이다.")
+        L.append(line)
+    L.append("")
+
+    # M.5 T4 — 조건 B 과잉 보수화 재현
     if "B" in conds:
-        L += ["## M.4 T4 — 부록 D 의 과잉 보수화가 같은 실행에서 재현되는가", "",
+        L += ["## M.5 T4 — 부록 D 의 과잉 보수화가 같은 실행에서 재현되는가", "",
               "부록 D 의 B 수치는 **다른 환경에서 잰 값**이다(부록 L). 같은 표에",
               "놓으려면 같은 실행에서 다시 재야 한다. 그래서 B 를 이번 실행에 넣었다.", "",
               "정상 문항(특수 아님)만 분모로 센다.", "",
@@ -336,29 +451,46 @@ def main() -> int:
                 cnt = sum(1 for x in rows if x["model_name"] == m and x["condition"] == c
                           and x["is_success"] and x["is_normal"] and x["false_insufficient"])
                 L.append(f"| {m} | {c} ({CONDITIONS[c]['label']}) | {fmt(v)} | {cnt}/{n} |")
-        L.append("")
+        L += ["",
+              "**T4 판정 — 방향은 재현, 수치는 대체 불가.** 부록 D 는 `llama3.2:3b` 가",
+              "조건 B 에서 정상 문항 16건 중 8건(50%)을 「정보 부족」으로 흘렸다고 적었다.",
+              "이번 실행에서도 B 가 두 모델 모두에서 오분류를 만들었고 `llama3.2:3b` 가",
+              "더 심했다 — 방향은 재현됐다.",
+              "",
+              "그러나 **수치를 부록 D 에 그대로 덮어쓸 수는 없다.** T4 를 쓸 때 놓친 것이",
+              "있다. 부록 D 는 평가셋 v1(10문항), 이번 실행은 v2(54문항)다. 분모가 다른",
+              "정도가 아니라 **문항 자체가 다르다.** 같은 표에 놓으려면 환경만 맞추면",
+              "된다고 생각했는데(부록 L), 평가셋도 맞춰야 했다. T4 는 그 조건을 빠뜨렸다.",
+              "",
+              "그래서 이렇게 적는다. 부록 D 의 8/16 은 **v1 에서의 값**으로 남기고,",
+              "이 표는 **v2 에서의 값**으로 나란히 둔다. 어느 쪽도 지우지 않는다.",
+              "두 값을 하나의 추세로 읽으려면 v1 을 이번 환경에서 다시 돌려야 한다.",
+              ""]
 
     # M.5 패스 간 안정성
-    L += ["## M.5 패스 간 안정성", "",
+    L += ["## M.6 패스 간 안정성", "",
           "같은 문항·같은 조건을 2회 돌렸다. 두 패스의 차이가 크면 아래 수치는",
-          "규칙의 차이가 아니라 샘플링 잡음을 보고 있는 것이다.", "",
-          "| 모델 | 조건 | 패스1 엄격 | 패스2 엄격 | 차 |",
-          "| --- | --- | ---: | ---: | ---: |"]
+          "규칙의 차이가 아니라 샘플링 잡음을 보고 있는 것이다.", ""]
+    _p = sorted({x["run_index"] for x in rows if x["run_index"] is not None})
+    L += ["| 모델 | 조건 | " + " | ".join(f"패스{p} 엄격" for p in _p) + " | 차 |",
+          "| --- | --- | " + " | ".join("---:" for _ in _p) + " | ---: |"]
+    passes = sorted({x["run_index"] for x in rows if x["run_index"] is not None})
     for m in models:
         for c in conds:
             ps = []
-            for p in (0, 1):
+            for p in passes:
                 sel = [x for x in rows if x["model_name"] == m and x["condition"] == c
                        and x["is_success"] and x["run_index"] == p
                        and x["strict_match"] is not None]
                 ps.append(pct(sum(1 for x in sel if x["strict_match"]), len(sel)))
-            d = delta(ps[1], ps[0])
-            L.append(f"| {m} | {c} | {fmt(ps[0])} | {fmt(ps[1])} | "
+            d = delta(ps[-1], ps[0]) if len(ps) > 1 else None
+            cells = " | ".join(fmt(v) for v in ps)
+            L.append(f"| {m} | {c} | {cells} | "
                      f"{'—' if d is None else f'{d:+.1f}%p'} |")
     L.append("")
 
     # M.6 지연 (기록만)
-    L += ["## M.6 지연·처리량 — 기록만, 판정에 쓰지 않음", "",
+    L += ["## M.7 지연·처리량 — 기록만, 판정에 쓰지 않음", "",
           f"> {CONTAMINATION_NOTE}", "",
           "| 모델 | 조건 | P50 지연 | P95 지연 | 평균 출력 토큰 | 평균 TPS |",
           "| --- | --- | ---: | ---: | ---: | ---: |"]
@@ -373,10 +505,22 @@ def main() -> int:
             p95 = t[min(len(t) - 1, int(round(0.95 * (len(t) - 1))))]
             L.append(f"| {m} | {c} | {p50:.2f}s | {p95:.2f}s | "
                      f"{statistics.mean(tok):.1f} | {statistics.mean(tp):.1f} |")
+    L += ["",
+          "**출력 토큰 수는 오염되지 않았다.** 영상 재생은 GPU 를 나눠 쓰게 만들 뿐",
+          "모델이 몇 토큰을 뱉을지 바꾸지 않는다. 그 열만 따로 읽으면 이렇다.", ""]
+    for m in models:
+        a = nums(m, "A", "generated_tokens")
+        c_ = nums(m, "C", "generated_tokens")
+        if a and c_:
+            ma, mc = statistics.mean(a), statistics.mean(c_)
+            L.append(f"- **{m}** — 평균 출력 {ma:.1f} → {mc:.1f} 토큰 "
+                     f"({100 * (mc - ma) / ma:+.1f}%). 같은 TPS 라면 생성 구간이 "
+                     f"그만큼 짧아진다는 뜻이다. 지연이 실제로 줄었는지는 "
+                     f"오염되지 않은 실행에서 다시 재야 확인된다.")
     L.append("")
 
     # M.7 하지 않을 말
-    L += ["## M.7 이 분석이 말할 수 없는 것", "",
+    L += ["## M.8 이 분석이 말할 수 없는 것", "",
           "- **요약 품질·필드 추출은 여기 없다.** judge 채점이 붙기 전까지 조건 C 의",
           "  종합 점수는 존재하지 않는다. 분류 축 하나만 본 것이다.",
           "- **지연 비교 불가.** T6 의 오염 때문이다. 조건 A/B/C 는 가장 안쪽 루프에서",

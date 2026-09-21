@@ -1,0 +1,649 @@
+﻿model_name,condition,question_id,run_index,expected_category,info_sufficiency,is_normal,model_category,is_success,format_valid,in_allowed,exact_match,lenient_match,strict_match,false_insufficient,total_time_sec,generated_tokens,tps
+llama3.2:3b,C,1,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.488,58,145.41
+llama3.2:3b,A,1,1,로그인/계정,정상,True,로그인 문제,True,True,False,False,True,True,False,3.011,121,134.13
+llama3.2:3b,B,1,1,로그인/계정,정상,True,정보 부족,True,True,True,False,False,False,True,2.473,52,138.15
+llama3.2:3b,A,2,1,결제/환불,정상,True,결제 실패,True,True,False,False,True,True,False,2.555,64,132.15
+llama3.2:3b,B,2,1,결제/환불,정상,True,환불 및 보상 관련 문의,True,True,False,False,True,True,False,2.732,86,129.95
+llama3.2:3b,C,2,1,결제/환불,정상,True,기능 오류,True,True,True,False,False,False,False,2.497,59,140.61
+llama3.2:3b,B,3,1,기능 오류,정상,True,프로그램 오류,True,True,False,False,True,True,False,2.877,99,133.87
+llama3.2:3b,C,3,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.528,64,142.03
+llama3.2:3b,A,3,1,기능 오류,정상,True,프로그램 오류,True,True,False,False,True,True,False,2.796,99,133.47
+llama3.2:3b,C,4,1,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.468,49,142.89
+llama3.2:3b,A,4,1,배송/주문,정상,True,배송 정보 inquiries,True,True,False,False,True,True,False,2.561,69,134.11
+llama3.2:3b,B,4,1,배송/주문,정상,True,배송 정보 요청,True,True,False,False,True,True,False,2.717,85,132.54
+llama3.2:3b,A,5,1,로그인/계정,정상,True,계정 문제,True,True,False,False,True,True,False,3.468,194,140.07
+llama3.2:3b,B,5,1,로그인/계정,정상,True,계정 잠김,True,True,False,False,True,True,False,2.537,59,134.77
+llama3.2:3b,C,5,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.513,62,140.25
+llama3.2:3b,B,6,1,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.524,58,140.18
+llama3.2:3b,C,6,1,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.518,57,129.69
+llama3.2:3b,A,6,1,기능 오류,경계,True,고객 문의,True,True,False,False,False,False,False,2.529,61,135.62
+llama3.2:3b,C,7,1,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.543,63,132.48
+llama3.2:3b,A,7,1,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,3.339,174,139.9
+llama3.2:3b,B,7,1,로그인/계정,경계,True,정보 부족,True,True,True,False,False,False,True,2.533,56,130.15
+llama3.2:3b,A,8,1,기타(판단 불가),경계,True,고객 문의,True,True,False,False,False,False,False,2.735,92,139.96
+llama3.2:3b,B,8,1,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,2.697,86,140.72
+llama3.2:3b,C,8,1,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,2.402,41,140.15
+llama3.2:3b,B,9,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.616,61,117.73
+llama3.2:3b,C,9,1,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.283,27,143.78
+llama3.2:3b,A,9,1,정보 부족,특수: 정보부족,False,고객 문의,True,True,False,False,True,False,False,3.084,139,135.87
+llama3.2:3b,C,10,1,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,2.563,67,141.93
+llama3.2:3b,A,10,1,컴플레인/보상요구,특수: 범위밖,False,손해 보상,True,True,False,False,True,True,False,2.648,74,133.81
+llama3.2:3b,B,10,1,컴플레인/보상요구,특수: 범위밖,False,고객이 서비스 정책으로 인해 발생한 손해를 전부 보상해 주고 싶다는 요구,True,True,False,False,True,True,False,3.091,139,138.78
+llama3.2:3b,A,11,1,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,2.546,63,142.51
+llama3.2:3b,B,11,1,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,2.645,76,139.31
+llama3.2:3b,C,11,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.621,68,131.02
+llama3.2:3b,B,12,1,로그인/계정,경계,True,정보 부족,True,True,True,False,False,False,True,2.773,91,139.45
+llama3.2:3b,C,12,1,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.41,38,127.53
+llama3.2:3b,A,12,1,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,2.812,97,133.08
+llama3.2:3b,C,13,1,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.595,74,142.86
+llama3.2:3b,A,13,1,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,2.624,72,131.38
+llama3.2:3b,B,13,1,로그인/계정,경계,True,자동 로그아웃이 발생하는 이유에 대한 문의,True,True,False,False,False,False,False,2.642,75,140.26
+llama3.2:3b,A,14,1,정보 부족,특수: 정보부족,False,로그인,True,True,False,False,False,False,False,2.497,53,133.86
+llama3.2:3b,B,14,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.4,38,118.05
+llama3.2:3b,C,14,1,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.433,45,125.49
+llama3.2:3b,B,15,1,정보 부족,특수: 정보부족,False,,True,False,False,False,False,False,False,2.33,29,121.71
+llama3.2:3b,C,15,1,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.529,53,120.11
+llama3.2:3b,A,15,1,정보 부족,특수: 정보부족,False,비밀번호,True,True,False,False,False,False,False,2.828,107,140.29
+llama3.2:3b,C,16,1,로그인/계정,특수: 범위밖,False,로그인/계정,True,True,True,True,True,True,False,2.486,52,142.28
+llama3.2:3b,A,16,1,로그인/계정,특수: 범위밖,False,계정 정보,True,True,False,False,True,True,False,2.4,43,125.53
+llama3.2:3b,B,16,1,로그인/계정,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.37,34,123.85
+llama3.2:3b,A,17,1,결제/환불,정상,True,중복 결제 문의,True,True,False,False,True,True,False,2.688,77,130.89
+llama3.2:3b,B,17,1,결제/환불,정상,True,중복 결제,True,True,False,False,True,True,False,2.517,60,140.8
+llama3.2:3b,C,17,1,결제/환불,정상,True,기능 오류,True,True,True,False,False,False,False,2.59,63,121.76
+llama3.2:3b,B,18,1,결제/환불,정상,True,환불처리일이 궁금합니다.,True,True,False,False,True,True,False,3.163,134,128.5
+llama3.2:3b,C,18,1,결제/환불,정상,True,로그인/계정,True,True,True,False,False,False,False,2.516,61,141.09
+llama3.2:3b,A,18,1,결제/환불,정상,True,구독 해지 후 환불 처리,True,True,False,False,True,True,False,2.765,98,141.63
+llama3.2:3b,C,19,1,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.572,67,133.14
+llama3.2:3b,A,19,1,결제/환불,경계,True,결제 문제,True,True,False,False,True,True,False,2.493,60,141.38
+llama3.2:3b,B,19,1,결제/환불,경계,True,고객이 결제에 대한 의심을 가지고 있습니다.,True,True,False,False,True,True,False,2.549,66,140.41
+llama3.2:3b,A,20,1,결제/환불,경계,True,고객 문의,True,True,False,False,False,False,False,2.796,96,133.38
+llama3.2:3b,B,20,1,결제/환불,경계,True,정보 부족,True,True,True,False,False,False,True,2.426,48,141.91
+llama3.2:3b,C,20,1,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.399,42,128.13
+llama3.2:3b,B,21,1,결제/환불,경계,True,문의 유형,True,True,False,False,False,False,False,2.391,40,125.32
+llama3.2:3b,C,21,1,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.508,55,130.52
+llama3.2:3b,A,21,1,결제/환불,경계,True,앱 사용 문제,True,True,False,False,False,False,False,2.411,50,140.7
+llama3.2:3b,C,22,1,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.332,30,119.61
+llama3.2:3b,A,22,1,정보 부족,특수: 정보부족,False,결제 inquiries,True,True,False,False,False,False,False,2.49,56,132.57
+llama3.2:3b,B,22,1,정보 부족,특수: 정보부족,False,문의 유형,True,True,False,False,False,False,False,2.423,39,117.91
+llama3.2:3b,A,23,1,결제/환불,특수: 범위밖,False,고객이 환불 규정을 잘못 이해한 문의,True,True,False,False,True,True,False,3.003,123,134.08
+llama3.2:3b,B,23,1,결제/환불,특수: 범위밖,False,문의 유형,True,True,False,False,False,False,False,2.638,77,140.84
+llama3.2:3b,C,23,1,결제/환불,특수: 범위밖,False,기능 오류,True,True,True,False,False,False,False,2.699,84,133.45
+llama3.2:3b,B,24,1,결제/환불,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.415,43,140.04
+llama3.2:3b,C,24,1,결제/환불,특수: 범위밖,False,기능 오류,True,True,True,False,False,False,False,2.516,61,135.94
+llama3.2:3b,A,24,1,결제/환불,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.578,65,133.74
+llama3.2:3b,C,25,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.464,49,130.74
+llama3.2:3b,A,25,1,기능 오류,정상,True,파일 업로드,True,True,False,False,False,False,False,3.433,192,139.11
+llama3.2:3b,B,25,1,기능 오류,정상,True,용량 초과,True,True,False,False,False,False,False,2.633,78,138.91
+llama3.2:3b,A,26,1,기능 오류,정상,True,앱이 꺼지기 때문에,True,True,False,False,False,False,False,2.732,91,140.7
+llama3.2:3b,B,26,1,기능 오류,정상,True,앱이 꺼지기 issue,True,True,False,False,False,False,False,2.781,96,138.92
+llama3.2:3b,C,26,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.502,59,140.43
+llama3.2:3b,B,27,1,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.434,42,117.77
+llama3.2:3b,C,27,1,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.574,64,129.52
+llama3.2:3b,A,27,1,기능 오류,경계,True,,False,False,False,False,False,False,False,0.0,0,0.0
+llama3.2:3b,C,28,1,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.5,50,131.94
+llama3.2:3b,A,28,1,기능 오류,경계,True,저장이 안 되는 문제,True,True,False,False,False,False,False,3.441,183,136.72
+llama3.2:3b,B,28,1,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.548,62,139.75
+llama3.2:3b,A,29,1,정보 부족,특수: 정보부족,False,오류,True,True,False,False,False,False,False,2.472,50,131.67
+llama3.2:3b,B,29,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.429,48,138.07
+llama3.2:3b,C,29,1,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,2.407,37,117.57
+llama3.2:3b,B,30,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.438,39,118.2
+llama3.2:3b,C,30,1,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,2.402,37,126.91
+llama3.2:3b,A,30,1,정보 부족,특수: 정보부족,False,에러,True,True,False,False,False,False,False,2.458,50,128.28
+llama3.2:3b,C,31,1,기능 오류,특수: 범위밖,False,기능 오류,True,True,True,True,True,True,False,2.423,47,140.67
+llama3.2:3b,A,31,1,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,2.457,49,132.65
+llama3.2:3b,B,31,1,기능 오류,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.471,45,119.64
+llama3.2:3b,A,32,1,배송/주문,정상,True,상품 파손,True,True,False,False,False,False,False,2.657,75,132.01
+llama3.2:3b,B,32,1,배송/주문,정상,True,상품 파손,True,True,False,False,False,False,False,2.738,85,133.92
+llama3.2:3b,C,32,1,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.503,59,143.16
+llama3.2:3b,B,33,1,배송/주문,정상,True,배송 변경 요청,True,True,False,False,True,True,False,2.57,63,132.98
+llama3.2:3b,C,33,1,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.417,41,130.13
+llama3.2:3b,A,33,1,배송/주문,정상,True,배송 변경 문의,True,True,False,False,True,True,False,2.619,74,133.74
+llama3.2:3b,C,34,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.552,63,140.76
+llama3.2:3b,A,34,1,배송/주문,경계,True,고객 문의,True,True,False,False,False,False,False,2.981,127,135.89
+llama3.2:3b,B,34,1,배송/주문,경계,True,주문 상태 inquiries,True,True,False,False,True,True,False,2.671,80,139.52
+llama3.2:3b,A,35,1,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,2.675,82,141.16
+llama3.2:3b,B,35,1,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,2.609,73,141.04
+llama3.2:3b,C,35,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.645,76,130.84
+llama3.2:3b,B,36,1,배송/주문,경계,True,문의 유형,True,True,False,False,False,False,False,2.329,35,142.93
+llama3.2:3b,C,36,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.713,81,132.71
+llama3.2:3b,A,36,1,배송/주문,경계,True,고객 문의,True,True,False,False,False,False,False,2.552,70,142.02
+llama3.2:3b,C,37,1,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,2.483,53,131.43
+llama3.2:3b,A,37,1,정보 부족,특수: 정보부족,False,배송 관련 문의,True,True,False,False,False,False,False,2.437,49,141.64
+llama3.2:3b,B,37,1,정보 부족,특수: 정보부족,False,배송요,True,True,False,False,False,False,False,2.557,55,119.25
+llama3.2:3b,A,38,1,정보 부족,특수: 정보부족,False,고객 문의,True,True,False,False,True,False,False,2.362,41,143.19
+llama3.2:3b,B,38,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.409,38,129.08
+llama3.2:3b,C,38,1,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.464,47,135.16
+llama3.2:3b,B,39,1,배송/주문,특수: 범위밖,False,고객이 배송 기사를 해고하도록 요구하는 문의,True,True,False,False,True,True,False,2.748,78,121.84
+llama3.2:3b,C,39,1,배송/주문,특수: 범위밖,False,배송/주문,True,True,True,True,True,True,False,2.419,50,142.95
+llama3.2:3b,A,39,1,배송/주문,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.46,48,135.36
+llama3.2:3b,C,40,1,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.487,51,128.69
+llama3.2:3b,A,40,1,컴플레인/보상요구,정상,True,전화 끊기,True,True,False,False,False,False,False,2.474,57,140.65
+llama3.2:3b,B,40,1,컴플레인/보상요구,정상,True,전화 끊기,True,True,False,False,False,False,False,2.45,43,119.6
+llama3.2:3b,A,41,1,컴플레인/보상요구,정상,True,고객 문의,True,True,False,False,False,False,False,2.846,102,133.09
+llama3.2:3b,B,41,1,컴플레인/보상요구,정상,True,고객이 문의한 처리 상황에 대한 정보를 요청하는 문의,True,True,False,False,False,False,False,2.61,74,140.18
+llama3.2:3b,C,41,1,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.417,45,129.46
+llama3.2:3b,B,42,1,컴플레인/보상요구,정상,True,고객이 공지 없이 기능이 사라졌고 사전 안내가 없었던 점에 항의하는 문의입니다.,True,True,False,False,False,False,False,3.006,121,135.87
+llama3.2:3b,C,42,1,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.55,65,141.17
+llama3.2:3b,A,42,1,컴플레인/보상요구,정상,True,기능 사용 문제,True,True,False,False,False,False,False,2.563,63,131.2
+llama3.2:3b,C,43,1,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.416,48,141.56
+llama3.2:3b,A,43,1,컴플레인/보상요구,경계,True,서비스 불만,True,True,False,False,True,True,False,2.62,72,132.72
+llama3.2:3b,B,43,1,컴플레인/보상요구,경계,True,고객이 서비스에 대한 실망감을 표현한 문의,True,True,False,False,False,False,False,2.71,88,139.64
+llama3.2:3b,A,44,1,컴플레인/보상요구,경계,True,고객 문의,True,True,False,False,False,False,False,3.199,155,139.59
+llama3.2:3b,B,44,1,컴플레인/보상요구,경계,True,문의 유형,True,True,False,False,False,False,False,2.768,91,139.17
+llama3.2:3b,C,44,1,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.611,73,141.08
+llama3.2:3b,B,45,1,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,2.401,42,140.88
+llama3.2:3b,C,45,1,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.467,52,135.6
+llama3.2:3b,A,45,1,컴플레인/보상요구,경계,True,문의 유형,True,True,False,False,False,False,False,2.827,101,133.6
+llama3.2:3b,C,46,1,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.369,41,145.13
+llama3.2:3b,A,46,1,정보 부족,특수: 정보부족,False,불만,True,True,False,False,False,False,False,3.036,131,133.9
+llama3.2:3b,B,46,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.346,33,141.69
+llama3.2:3b,A,47,1,컴플레인/보상요구,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.595,66,129.97
+llama3.2:3b,B,47,1,컴플레인/보상요구,특수: 범위밖,False,문의 유형,True,True,False,False,False,False,False,2.482,56,140.11
+llama3.2:3b,C,47,1,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,2.46,47,131.83
+llama3.2:3b,B,48,1,기타,정상,True,회사 제휴 문의,True,True,False,False,False,False,False,2.675,80,133.61
+llama3.2:3b,C,48,1,기타,정상,True,정보 부족,True,True,True,False,False,False,True,2.43,51,141.47
+llama3.2:3b,A,48,1,기타,정상,True,회사 제휴 문의,True,True,False,False,False,False,False,2.461,51,128.52
+llama3.2:3b,C,49,1,기타,정상,True,기능 오류,True,True,True,False,False,False,False,2.444,52,140.07
+llama3.2:3b,A,49,1,기타,정상,True,탈퇴 관련 문의,True,True,False,False,False,False,False,2.615,72,136.12
+llama3.2:3b,B,49,1,기타,정상,True,탈퇴 관련 문의,True,True,False,False,False,False,False,2.651,75,135.35
+llama3.2:3b,A,50,1,기타,정상,True,고객 서비스 문의,True,True,False,False,False,False,False,2.533,65,140.5
+llama3.2:3b,B,50,1,기타,정상,True,이용약관 개정 تاريخ 확인,True,True,False,False,False,False,False,2.656,75,138.84
+llama3.2:3b,C,50,1,기타,정상,True,정보 부족,True,True,True,False,False,False,True,2.428,42,119.1
+llama3.2:3b,B,51,1,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,2.396,34,125.37
+llama3.2:3b,C,51,1,기타(판단 불가),경계,True,기타,True,True,True,True,True,True,False,2.341,30,121.43
+llama3.2:3b,A,51,1,기타(판단 불가),경계,True,unclear inquiry,True,True,False,False,False,False,False,2.493,57,135.98
+llama3.2:3b,C,52,1,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,2.436,45,128.53
+llama3.2:3b,A,52,1,기타(판단 불가),경계,True,문의 유형,True,True,False,False,False,False,False,2.896,111,136.03
+llama3.2:3b,B,52,1,기타(판단 불가),경계,True,문의 유형,True,True,False,False,False,False,False,2.348,31,124.81
+llama3.2:3b,A,53,1,정보 부족,특수: 정보부족,False,문의 유형,True,True,False,False,False,False,False,2.365,37,132.68
+llama3.2:3b,B,53,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.424,44,127.57
+llama3.2:3b,C,53,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.395,41,132.11
+llama3.2:3b,B,54,1,기타,특수: 범위밖,False,개인정보 삭제,True,True,False,False,False,False,False,2.638,68,134.6
+llama3.2:3b,C,54,1,기타,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,2.442,50,142.32
+llama3.2:3b,A,54,1,기타,특수: 범위밖,False,개인정보 삭제,True,True,False,False,False,False,False,2.581,65,130.57
+qwen2.5:7b,C,1,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.684,114,72.84
+qwen2.5:7b,A,1,1,로그인/계정,정상,True,계정 관련 문제,True,True,False,False,True,True,False,3.858,128,71.26
+qwen2.5:7b,B,1,1,로그인/계정,정상,True,계정 관련,True,True,False,False,True,True,False,3.943,127,70.48
+qwen2.5:7b,A,2,1,결제/환불,정상,True,결제 및 환불,True,True,False,False,True,True,False,3.405,95,71.53
+qwen2.5:7b,B,2,1,결제/환불,정상,True,결제 및 환불,True,True,False,False,True,True,False,4.039,134,70.7
+qwen2.5:7b,C,2,1,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,3.227,80,71.43
+qwen2.5:7b,B,3,1,기능 오류,정상,True,기술 지원,True,True,False,False,False,False,False,3.819,115,69.36
+qwen2.5:7b,C,3,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.665,112,70.9
+qwen2.5:7b,A,3,1,기능 오류,정상,True,소프트웨어 오류 문의,True,True,False,False,True,True,False,3.673,113,71.3
+qwen2.5:7b,C,4,1,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,3.31,86,70.95
+qwen2.5:7b,A,4,1,배송/주문,정상,True,배송 관련 문의,True,True,False,False,True,True,False,3.766,118,70.35
+qwen2.5:7b,B,4,1,배송/주문,정상,True,배송 문의,True,True,False,False,True,True,False,3.36,87,71.4
+qwen2.5:7b,A,5,1,로그인/계정,정상,True,계정 관련 문의,True,True,False,False,True,True,False,4.005,137,71.09
+qwen2.5:7b,B,5,1,로그인/계정,정상,True,계정 관련,True,True,False,False,True,True,False,3.715,110,70.58
+qwen2.5:7b,C,5,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.211,81,71.86
+qwen2.5:7b,B,6,1,기능 오류,경계,True,기술적 문제,True,True,False,False,False,False,False,3.558,100,70.91
+qwen2.5:7b,C,6,1,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,3.78,118,70.17
+qwen2.5:7b,A,6,1,기능 오류,경계,True,소프트웨어 문제,True,True,False,False,False,False,False,3.723,117,71.55
+qwen2.5:7b,C,7,1,로그인/계정,경계,True,로그인/계정,True,True,True,True,True,True,False,3.538,102,70.92
+qwen2.5:7b,A,7,1,로그인/계정,경계,True,계정 및 로그인 관련 문의,True,True,False,False,True,True,False,4.548,175,70.91
+qwen2.5:7b,B,7,1,로그인/계정,경계,True,로그인 및 화면 문제,True,True,False,False,True,True,False,4.402,160,70.47
+qwen2.5:7b,A,8,1,기타(판단 불가),경계,True,시스템 문제 신고,True,True,False,False,False,False,False,3.462,97,71.72
+qwen2.5:7b,B,8,1,기타(판단 불가),경계,True,기타,True,True,True,True,True,True,False,3.211,76,70.92
+qwen2.5:7b,C,8,1,기타(판단 불가),경계,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.554,104,71.15
+qwen2.5:7b,B,9,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.517,97,70.97
+qwen2.5:7b,C,9,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.236,82,71.43
+qwen2.5:7b,A,9,1,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.991,65,72.0
+qwen2.5:7b,C,10,1,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,3.479,98,71.46
+qwen2.5:7b,A,10,1,컴플레인/보상요구,특수: 범위밖,False,보상/ компенсация,True,True,False,False,True,True,False,3.594,109,71.54
+qwen2.5:7b,B,10,1,컴플레인/보상요구,특수: 범위밖,False,보상/배상 요청,True,True,False,False,True,True,False,4.146,143,70.62
+qwen2.5:7b,A,11,1,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,3.391,92,71.81
+qwen2.5:7b,B,11,1,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,3.295,81,69.9
+qwen2.5:7b,C,11,1,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.225,82,71.46
+qwen2.5:7b,B,12,1,로그인/계정,경계,True,로그인 관련 문제,True,True,False,False,True,True,False,3.595,102,70.67
+qwen2.5:7b,C,12,1,로그인/계정,경계,True,로그인/계정,True,True,True,True,True,True,False,3.847,120,69.64
+qwen2.5:7b,A,12,1,로그인/계정,경계,True,로그인 관련 문의,True,True,False,False,True,True,False,3.969,134,71.34
+qwen2.5:7b,C,13,1,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,3.663,111,71.04
+qwen2.5:7b,A,13,1,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,3.644,110,70.29
+qwen2.5:7b,B,13,1,로그인/계정,경계,True,기술적 문제,True,True,False,False,False,False,False,4.017,134,70.65
+qwen2.5:7b,A,14,1,정보 부족,특수: 정보부족,False,로그인 관련 문의,True,True,False,False,False,False,False,3.336,88,71.78
+qwen2.5:7b,B,14,1,정보 부족,특수: 정보부족,False,로그인 관련,True,True,False,False,False,False,False,3.544,101,71.23
+qwen2.5:7b,C,14,1,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.667,43,72.46
+qwen2.5:7b,B,15,1,정보 부족,특수: 정보부족,False,비밀번호 관련,True,True,False,False,False,False,False,3.016,59,71.48
+qwen2.5:7b,C,15,1,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.754,46,72.8
+qwen2.5:7b,A,15,1,정보 부족,특수: 정보부족,False,비밀번호 관련 문의,True,True,False,False,False,False,False,3.22,82,71.31
+qwen2.5:7b,C,16,1,로그인/계정,특수: 범위밖,False,로그인/계정,True,True,True,True,True,True,False,3.478,98,71.37
+qwen2.5:7b,A,16,1,로그인/계정,특수: 범위밖,False,비밀번호 관련 문의,True,True,False,False,True,True,False,3.575,108,71.62
+qwen2.5:7b,B,16,1,로그인/계정,특수: 범위밖,False,비밀번호 관련 문의,True,True,False,False,True,True,False,3.918,126,70.82
+qwen2.5:7b,A,17,1,결제/환불,정상,True,결제 관련 문의,True,True,False,False,True,True,False,3.582,106,71.24
+qwen2.5:7b,B,17,1,결제/환불,정상,True,중복 결제 확인,True,True,False,False,True,True,False,3.994,129,69.35
+qwen2.5:7b,C,17,1,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,4.12,142,70.56
+qwen2.5:7b,B,18,1,결제/환불,정상,True,환불,True,True,False,False,True,True,False,3.391,89,71.17
+qwen2.5:7b,C,18,1,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,3.166,76,71.84
+qwen2.5:7b,A,18,1,결제/환불,정상,True,구독 및 환불,True,True,False,False,True,True,False,3.513,104,71.77
+qwen2.5:7b,C,19,1,결제/환불,경계,True,결제/환불,True,True,True,True,True,True,False,3.27,83,71.51
+qwen2.5:7b,A,19,1,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.249,84,72.0
+qwen2.5:7b,B,19,1,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.597,104,71.02
+qwen2.5:7b,A,20,1,결제/환불,경계,True,환불 관련 문의,True,True,False,False,True,True,False,4.317,157,71.07
+qwen2.5:7b,B,20,1,결제/환불,경계,True,환불 관련 문의,True,True,False,False,True,True,False,3.604,104,70.98
+qwen2.5:7b,C,20,1,결제/환불,경계,True,결제/환불,True,True,True,True,True,True,False,3.287,86,71.85
+qwen2.5:7b,B,21,1,결제/환불,경계,True,기기 문제,True,True,False,False,False,False,False,3.536,99,71.0
+qwen2.5:7b,C,21,1,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,3.946,131,71.14
+qwen2.5:7b,A,21,1,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.66,113,71.37
+qwen2.5:7b,C,22,1,정보 부족,특수: 정보부족,False,결제/환불,True,True,True,False,False,False,False,2.831,53,72.61
+qwen2.5:7b,A,22,1,정보 부족,특수: 정보부족,False,결제 관련 문의,True,True,False,False,False,False,False,2.694,46,72.99
+qwen2.5:7b,B,22,1,정보 부족,특수: 정보부족,False,결제 관련,True,True,False,False,False,False,False,3.049,66,71.09
+qwen2.5:7b,A,23,1,결제/환불,특수: 범위밖,False,환불/반품,True,True,False,False,True,True,False,3.903,129,71.48
+qwen2.5:7b,B,23,1,결제/환불,특수: 범위밖,False,환불,True,True,False,False,True,True,False,3.907,124,70.65
+qwen2.5:7b,C,23,1,결제/환불,특수: 범위밖,False,결제/환불,True,True,True,True,True,True,False,3.663,112,71.46
+qwen2.5:7b,B,24,1,결제/환불,특수: 범위밖,False,긴급 현금 입금 요청,True,True,False,False,False,False,False,4.377,156,70.64
+qwen2.5:7b,C,24,1,결제/환불,특수: 범위밖,False,보상요구,True,True,False,False,False,False,False,3.537,102,70.17
+qwen2.5:7b,A,24,1,결제/환불,특수: 범위밖,False,긴급 현금 인출 요청,True,True,False,False,False,False,False,3.503,98,70.08
+qwen2.5:7b,C,25,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.689,112,71.16
+qwen2.5:7b,A,25,1,기능 오류,정상,True,파일 업로드 관련 문의,True,True,False,False,False,False,False,4.119,142,69.94
+qwen2.5:7b,B,25,1,기능 오류,정상,True,기술적 문제,True,True,False,False,False,False,False,3.506,97,70.97
+qwen2.5:7b,A,26,1,기능 오류,정상,True,앱 문제,True,True,False,False,False,False,False,4.018,137,71.25
+qwen2.5:7b,B,26,1,기능 오류,정상,True,기술적 문제,True,True,False,False,False,False,False,3.507,97,71.08
+qwen2.5:7b,C,26,1,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.704,115,70.98
+qwen2.5:7b,B,27,1,기능 오류,경계,True,성능 문제,True,True,False,False,False,False,False,3.588,102,70.91
+qwen2.5:7b,C,27,1,기능 오류,경계,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.719,116,71.24
+qwen2.5:7b,A,27,1,기능 오류,경계,True,성능 관련 문의,True,True,False,False,False,False,False,3.574,106,71.38
+qwen2.5:7b,C,28,1,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,3.549,102,71.1
+qwen2.5:7b,A,28,1,기능 오류,경계,True,기술 지원,True,True,False,False,False,False,False,3.49,100,71.46
+qwen2.5:7b,B,28,1,기능 오류,경계,True,기술적 문제,True,True,False,False,False,False,False,3.399,90,70.34
+qwen2.5:7b,A,29,1,정보 부족,특수: 정보부족,False,오류/문제 발생,True,True,False,False,False,False,False,3.078,67,68.89
+qwen2.5:7b,B,29,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.949,57,69.97
+qwen2.5:7b,C,29,1,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,3.088,67,69.54
+qwen2.5:7b,B,30,1,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,3.696,110,70.62
+qwen2.5:7b,C,30,1,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,3.075,70,71.3
+qwen2.5:7b,A,30,1,정보 부족,특수: 정보부족,False,기술 지원,True,True,False,False,False,False,False,2.947,62,72.11
+qwen2.5:7b,C,31,1,기능 오류,특수: 범위밖,False,기타,True,True,True,False,False,False,False,3.394,93,72.36
+qwen2.5:7b,A,31,1,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,3.268,83,69.49
+qwen2.5:7b,B,31,1,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,3.074,68,71.49
+qwen2.5:7b,A,32,1,배송/주문,정상,True,교환/반품,True,True,False,False,False,False,False,3.735,116,71.04
+qwen2.5:7b,B,32,1,배송/주문,정상,True,교환 요청,True,True,False,False,False,False,False,3.692,111,70.43
+qwen2.5:7b,C,32,1,배송/주문,정상,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.816,119,69.45
+qwen2.5:7b,B,33,1,배송/주문,정상,True,배송 변경,True,True,False,False,True,True,False,2.996,60,70.77
+qwen2.5:7b,C,33,1,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,3.252,83,71.21
+qwen2.5:7b,A,33,1,배송/주문,정상,True,배송 변경,True,True,False,False,True,True,False,3.513,103,70.93
+qwen2.5:7b,C,34,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.562,103,70.68
+qwen2.5:7b,A,34,1,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,3.739,118,71.25
+qwen2.5:7b,B,34,1,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,3.862,122,70.69
+qwen2.5:7b,A,35,1,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,3.73,117,71.27
+qwen2.5:7b,B,35,1,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,3.848,121,70.59
+qwen2.5:7b,C,35,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.686,113,71.08
+qwen2.5:7b,B,36,1,배송/주문,경계,True,배송 확인,True,True,False,False,True,True,False,3.267,79,70.8
+qwen2.5:7b,C,36,1,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.207,79,71.59
+qwen2.5:7b,A,36,1,배송/주문,경계,True,배송 확인,True,True,False,False,True,True,False,2.973,63,72.08
+qwen2.5:7b,C,37,1,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,2.796,53,74.65
+qwen2.5:7b,A,37,1,정보 부족,특수: 정보부족,False,배송 관련 문의,True,True,False,False,False,False,False,3.282,87,71.0
+qwen2.5:7b,B,37,1,정보 부족,특수: 정보부족,False,배송 관련,True,True,False,False,False,False,False,3.426,90,70.06
+qwen2.5:7b,A,38,1,정보 부족,특수: 정보부족,False,방문 일정 문의,True,True,False,False,False,False,False,3.192,78,70.76
+qwen2.5:7b,B,38,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.054,67,71.01
+qwen2.5:7b,C,38,1,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,3.095,68,68.94
+qwen2.5:7b,B,39,1,배송/주문,특수: 범위밖,False,기타,True,True,True,False,False,False,False,3.296,81,70.77
+qwen2.5:7b,C,39,1,배송/주문,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,3.24,83,71.38
+qwen2.5:7b,A,39,1,배송/주문,특수: 범위밖,False,배송 문제,True,True,False,False,True,True,False,3.432,95,69.6
+qwen2.5:7b,C,40,1,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.573,103,71.02
+qwen2.5:7b,A,40,1,컴플레인/보상요구,정상,True,서비스 문제,True,True,False,False,False,False,False,4.163,147,71.05
+qwen2.5:7b,B,40,1,컴플레인/보상요구,정상,True,접속 중단,True,True,False,False,False,False,False,3.403,90,70.62
+qwen2.5:7b,A,41,1,컴플레인/보상요구,정상,True,답변 요청,True,True,False,False,False,False,False,4.292,154,70.72
+qwen2.5:7b,B,41,1,컴플레인/보상요구,정상,True,문의 처리 상태 확인,True,True,False,False,False,False,False,3.422,91,70.66
+qwen2.5:7b,C,41,1,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.959,132,70.48
+qwen2.5:7b,B,42,1,컴플레인/보상요구,정상,True,서비스 변경에 대한 항의,True,True,False,False,False,False,False,3.748,112,70.69
+qwen2.5:7b,C,42,1,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.633,107,69.33
+qwen2.5:7b,A,42,1,컴플레인/보상요구,정상,True,서비스 변경에 대한 항의,True,True,False,False,False,False,False,4.208,147,68.75
+qwen2.5:7b,C,43,1,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.561,101,70.06
+qwen2.5:7b,A,43,1,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,3.162,75,69.26
+qwen2.5:7b,B,43,1,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,3.116,70,70.89
+qwen2.5:7b,A,44,1,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,3.419,95,71.52
+qwen2.5:7b,B,44,1,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,3.397,90,70.56
+qwen2.5:7b,C,44,1,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.772,117,70.76
+qwen2.5:7b,B,45,1,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,3.408,87,70.51
+qwen2.5:7b,C,45,1,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.415,93,71.07
+qwen2.5:7b,A,45,1,컴플레인/보상요구,경계,True,불만 및 우려,True,True,False,False,True,True,False,3.74,119,70.9
+qwen2.5:7b,C,46,1,정보 부족,특수: 정보부족,False,컴플레인/보상요구,True,True,True,False,False,False,False,2.894,57,71.34
+qwen2.5:7b,A,46,1,정보 부족,특수: 정보부족,False,불만,True,True,False,False,False,False,False,2.758,49,71.81
+qwen2.5:7b,B,46,1,정보 부족,특수: 정보부족,False,불만,True,True,False,False,False,False,False,2.959,58,70.78
+qwen2.5:7b,A,47,1,컴플레인/보상요구,특수: 범위밖,False,항의/불만 제기,True,True,False,False,True,True,False,3.982,133,69.81
+qwen2.5:7b,B,47,1,컴플레인/보상요구,특수: 범위밖,False,항의,True,True,False,False,False,False,False,3.83,118,70.33
+qwen2.5:7b,C,47,1,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,3.699,111,69.68
+qwen2.5:7b,B,48,1,기타,정상,True,제휴 문의,True,True,False,False,False,False,False,3.393,88,69.87
+qwen2.5:7b,C,48,1,기타,정상,True,기타,True,True,True,True,True,True,False,3.408,92,70.5
+qwen2.5:7b,A,48,1,기타,정상,True,제휴 문의,True,True,False,False,False,False,False,3.905,129,70.57
+qwen2.5:7b,C,49,1,기타,정상,True,로그인/계정,True,True,True,False,False,False,False,3.309,85,69.75
+qwen2.5:7b,A,49,1,기타,정상,True,서비스 이용 관련 문의,True,True,False,False,False,False,False,3.687,114,70.78
+qwen2.5:7b,B,49,1,기타,정상,True,서비스 이용,True,True,False,False,False,False,False,3.458,92,70.33
+qwen2.5:7b,A,50,1,기타,정상,True,이용약관 관련 문의,True,True,False,False,False,False,False,3.501,100,70.84
+qwen2.5:7b,B,50,1,기타,정상,True,이용약관 관련 문의,True,True,False,False,False,False,False,3.671,109,69.97
+qwen2.5:7b,C,50,1,기타,정상,True,정보 부족,True,True,True,False,False,False,True,3.612,108,70.41
+qwen2.5:7b,B,51,1,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,3.168,70,70.17
+qwen2.5:7b,C,51,1,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,2.944,62,71.63
+qwen2.5:7b,A,51,1,기타(판단 불가),경계,True,문의 및 안내,True,True,False,False,False,False,False,3.285,86,71.07
+qwen2.5:7b,C,52,1,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,3.604,108,70.69
+qwen2.5:7b,A,52,1,기타(판단 불가),경계,True,기술 지원,True,True,False,False,False,False,False,3.764,119,70.84
+qwen2.5:7b,B,52,1,기타(판단 불가),경계,True,기술 지원,True,True,False,False,False,False,False,3.471,96,70.55
+qwen2.5:7b,A,53,1,정보 부족,특수: 정보부족,False,배송 문의,True,True,False,False,False,False,False,4.605,176,70.44
+qwen2.5:7b,B,53,1,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.951,59,70.7
+qwen2.5:7b,C,53,1,정보 부족,특수: 정보부족,False,,True,False,False,False,False,False,False,2.673,41,71.66
+qwen2.5:7b,B,54,1,기타,특수: 범위밖,False,개인정보 관리,True,True,False,False,False,False,False,3.099,68,70.7
+qwen2.5:7b,C,54,1,기타,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,3.203,80,71.53
+qwen2.5:7b,A,54,1,기타,특수: 범위밖,False,개인정보 관리,True,True,False,False,False,False,False,3.689,114,71.23
+qwen2.5:7b,A,1,2,로그인/계정,정상,True,계정 관련 문의,True,True,False,False,True,True,False,3.555,109,74.58
+qwen2.5:7b,B,1,2,로그인/계정,정상,True,로그인 및 비밀번호 관련,True,True,False,False,True,True,False,4.144,144,70.51
+qwen2.5:7b,C,1,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.652,107,69.73
+qwen2.5:7b,B,2,2,결제/환불,정상,True,결제 및 환불,True,True,False,False,True,True,False,4.043,133,70.39
+qwen2.5:7b,C,2,2,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,3.205,80,70.18
+qwen2.5:7b,A,2,2,결제/환불,정상,True,결제 및 환불,True,True,False,False,True,True,False,3.54,105,70.94
+qwen2.5:7b,C,3,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.854,121,69.45
+qwen2.5:7b,A,3,2,기능 오류,정상,True,소프트웨어 오류 문의,True,True,False,False,True,True,False,3.691,115,71.26
+qwen2.5:7b,B,3,2,기능 오류,정상,True,기술 지원,True,True,False,False,False,False,False,3.564,100,70.73
+qwen2.5:7b,A,4,2,배송/주문,정상,True,배송 관련 문의,True,True,False,False,True,True,False,3.785,118,70.69
+qwen2.5:7b,B,4,2,배송/주문,정상,True,배송 문의,True,True,False,False,True,True,False,3.352,87,69.77
+qwen2.5:7b,C,4,2,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,3.338,88,70.76
+qwen2.5:7b,B,5,2,로그인/계정,정상,True,계정 관련 문제,True,True,False,False,True,True,False,3.376,86,69.36
+qwen2.5:7b,C,5,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.229,81,71.69
+qwen2.5:7b,A,5,2,로그인/계정,정상,True,계정 관련 문의,True,True,False,False,True,True,False,3.631,108,69.73
+qwen2.5:7b,C,6,2,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,3.726,115,70.84
+qwen2.5:7b,A,6,2,기능 오류,경계,True,소프트웨어 문제,True,True,False,False,False,False,False,3.704,117,71.31
+qwen2.5:7b,B,6,2,기능 오류,경계,True,기술적 문제,True,True,False,False,False,False,False,3.554,103,71.02
+qwen2.5:7b,A,7,2,로그인/계정,경계,True,시스템 오류 및 로그인 문제,True,True,False,False,True,True,False,3.773,118,71.38
+qwen2.5:7b,B,7,2,로그인/계정,경계,True,로그인 및 화면 문제,True,True,False,False,True,True,False,4.458,164,70.77
+qwen2.5:7b,C,7,2,로그인/계정,경계,True,로그인/계정,True,True,True,True,True,True,False,3.377,92,71.35
+qwen2.5:7b,B,8,2,기타(판단 불가),경계,True,기타,True,True,True,True,True,True,False,3.655,107,71.02
+qwen2.5:7b,C,8,2,기타(판단 불가),경계,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.124,75,71.81
+qwen2.5:7b,A,8,2,기타(판단 불가),경계,True,시스템 문제 신고,True,True,False,False,False,False,False,3.57,105,70.24
+qwen2.5:7b,C,9,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.123,71,70.91
+qwen2.5:7b,A,9,2,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,3.114,75,71.84
+qwen2.5:7b,B,9,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.496,96,71.11
+qwen2.5:7b,A,10,2,컴플레인/보상요구,특수: 범위밖,False,보상/청구,True,True,False,False,True,True,False,3.622,108,71.37
+qwen2.5:7b,B,10,2,컴플레인/보상요구,특수: 범위밖,False,보상/배상 요청,True,True,False,False,True,True,False,3.547,100,70.72
+qwen2.5:7b,C,10,2,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,3.507,99,71.16
+qwen2.5:7b,B,11,2,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,3.301,81,70.1
+qwen2.5:7b,C,11,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,3.237,82,71.32
+qwen2.5:7b,A,11,2,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,3.005,63,69.1
+qwen2.5:7b,C,12,2,로그인/계정,경계,True,로그인/계정,True,True,True,True,True,True,False,3.982,129,69.3
+qwen2.5:7b,A,12,2,로그인/계정,경계,True,로그인 관련 문의,True,True,False,False,True,True,False,4.397,166,70.87
+qwen2.5:7b,B,12,2,로그인/계정,경계,True,로그인 관련 문의,True,True,False,False,True,True,False,3.913,128,70.72
+qwen2.5:7b,A,13,2,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,3.631,110,71.45
+qwen2.5:7b,B,13,2,로그인/계정,경계,True,기술적 문제,True,True,False,False,False,False,False,4.497,166,70.52
+qwen2.5:7b,C,13,2,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,3.896,126,69.59
+qwen2.5:7b,B,14,2,정보 부족,특수: 정보부족,False,로그인 관련,True,True,False,False,False,False,False,2.945,58,71.37
+qwen2.5:7b,C,14,2,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.669,43,73.2
+qwen2.5:7b,A,14,2,정보 부족,특수: 정보부족,False,로그인 관련 문의,True,True,False,False,False,False,False,3.192,81,71.85
+qwen2.5:7b,C,15,2,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.705,46,72.63
+qwen2.5:7b,A,15,2,정보 부족,특수: 정보부족,False,비밀번호 관련 문의,True,True,False,False,False,False,False,3.361,92,72.0
+qwen2.5:7b,B,15,2,정보 부족,특수: 정보부족,False,비밀번호 관련,True,True,False,False,False,False,False,3.156,71,70.72
+qwen2.5:7b,A,16,2,로그인/계정,특수: 범위밖,False,비밀번호 관련 문의,True,True,False,False,True,True,False,3.745,117,71.26
+qwen2.5:7b,B,16,2,로그인/계정,특수: 범위밖,False,비밀번호 재발급 요청,True,True,False,False,True,True,False,3.206,75,71.29
+qwen2.5:7b,C,16,2,로그인/계정,특수: 범위밖,False,로그인/계정,True,True,True,True,True,True,False,3.368,91,71.53
+qwen2.5:7b,B,17,2,결제/환불,정상,True,중복 결제 확인 요청,True,True,False,False,True,True,False,3.983,130,70.8
+qwen2.5:7b,C,17,2,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,4.382,161,70.77
+qwen2.5:7b,A,17,2,결제/환불,정상,True,결제 관련 문의,True,True,False,False,True,True,False,4.424,166,71.03
+qwen2.5:7b,C,18,2,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,3.421,91,70.19
+qwen2.5:7b,A,18,2,결제/환불,정상,True,구독 및 환불,True,True,False,False,True,True,False,3.203,80,71.81
+qwen2.5:7b,B,18,2,결제/환불,정상,True,환불,True,True,False,False,True,True,False,4.06,136,70.72
+qwen2.5:7b,A,19,2,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.253,84,71.71
+qwen2.5:7b,B,19,2,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.642,107,70.6
+qwen2.5:7b,C,19,2,결제/환불,경계,True,결제/환불,True,True,True,True,True,True,False,3.261,83,71.88
+qwen2.5:7b,B,20,2,결제/환불,경계,True,환불 관련 문의,True,True,False,False,True,True,False,3.595,102,70.89
+qwen2.5:7b,C,20,2,결제/환불,경계,True,결제/환불,True,True,True,True,True,True,False,3.29,86,71.54
+qwen2.5:7b,A,20,2,결제/환불,경계,True,환불 관련 문의,True,True,False,False,True,True,False,4.527,173,70.8
+qwen2.5:7b,C,21,2,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,3.881,126,70.95
+qwen2.5:7b,A,21,2,결제/환불,경계,True,결제 관련 문의,True,True,False,False,True,True,False,3.475,100,71.33
+qwen2.5:7b,B,21,2,결제/환불,경계,True,기기 문제,True,True,False,False,False,False,False,3.479,94,70.18
+qwen2.5:7b,A,22,2,정보 부족,특수: 정보부족,False,결제 관련 문의,True,True,False,False,False,False,False,2.746,47,72.33
+qwen2.5:7b,B,22,2,정보 부족,특수: 정보부족,False,결제 관련,True,True,False,False,False,False,False,3.037,65,71.46
+qwen2.5:7b,C,22,2,정보 부족,특수: 정보부족,False,결제/환불,True,True,True,False,False,False,False,2.798,51,72.45
+qwen2.5:7b,B,23,2,결제/환불,특수: 범위밖,False,환불,True,True,False,False,True,True,False,4.386,158,70.73
+qwen2.5:7b,C,23,2,결제/환불,특수: 범위밖,False,결제/환불,True,True,True,True,True,True,False,4.072,141,70.95
+qwen2.5:7b,A,23,2,결제/환불,특수: 범위밖,False,환불 및 반품,True,True,False,False,True,True,False,4.096,143,70.91
+qwen2.5:7b,C,24,2,결제/환불,특수: 범위밖,False,보상요구,True,True,False,False,False,False,False,3.418,92,71.01
+qwen2.5:7b,A,24,2,결제/환불,특수: 범위밖,False,긴급 현금 인출 요청,True,True,False,False,False,False,False,3.694,114,71.41
+qwen2.5:7b,B,24,2,결제/환불,특수: 범위밖,False,긴급 현금 입금 요청,True,True,False,False,False,False,False,3.721,113,70.48
+qwen2.5:7b,A,25,2,기능 오류,정상,True,파일 업로드 관련 문의,True,True,False,False,False,False,False,4.025,137,71.16
+qwen2.5:7b,B,25,2,기능 오류,정상,True,기술적 문제,True,True,False,False,False,False,False,3.528,100,70.96
+qwen2.5:7b,C,25,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.52,101,71.5
+qwen2.5:7b,B,26,2,기능 오류,정상,True,기술적 문제,True,True,False,False,False,False,False,3.527,97,70.73
+qwen2.5:7b,C,26,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,3.704,115,71.03
+qwen2.5:7b,A,26,2,기능 오류,정상,True,앱 문제,True,True,False,False,False,False,False,4.353,162,70.78
+qwen2.5:7b,C,27,2,기능 오류,경계,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.603,105,71.08
+qwen2.5:7b,A,27,2,기능 오류,경계,True,성능 관련 문의,True,True,False,False,False,False,False,3.843,122,69.96
+qwen2.5:7b,B,27,2,기능 오류,경계,True,성능 문제,True,True,False,False,False,False,False,3.479,96,70.75
+qwen2.5:7b,A,28,2,기능 오류,경계,True,기술 지원,True,True,False,False,False,False,False,3.56,103,71.5
+qwen2.5:7b,B,28,2,기능 오류,경계,True,기술적 문제,True,True,False,False,False,False,False,3.572,100,70.22
+qwen2.5:7b,C,28,2,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,3.563,103,70.0
+qwen2.5:7b,B,29,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.944,57,71.23
+qwen2.5:7b,C,29,2,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,2.989,65,71.98
+qwen2.5:7b,A,29,2,정보 부족,특수: 정보부족,False,오류/문제 발생,True,True,False,False,False,False,False,2.988,66,71.94
+qwen2.5:7b,C,30,2,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,3.081,70,71.54
+qwen2.5:7b,A,30,2,정보 부족,특수: 정보부족,False,기술 지원,True,True,False,False,False,False,False,3.107,71,69.29
+qwen2.5:7b,B,30,2,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,3.816,120,70.78
+qwen2.5:7b,A,31,2,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,3.462,98,71.54
+qwen2.5:7b,B,31,2,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,3.232,80,70.96
+qwen2.5:7b,C,31,2,기능 오류,특수: 범위밖,False,기타,True,True,True,False,False,False,False,3.204,80,72.03
+qwen2.5:7b,B,32,2,배송/주문,정상,True,교환 요청,True,True,False,False,False,False,False,3.696,107,69.08
+qwen2.5:7b,C,32,2,배송/주문,정상,True,컴플레인/보상요구,True,True,True,False,False,False,False,3.456,96,70.98
+qwen2.5:7b,A,32,2,배송/주문,정상,True,교환/반품,True,True,False,False,False,False,False,3.726,116,70.9
+qwen2.5:7b,C,33,2,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,3.509,100,71.23
+qwen2.5:7b,A,33,2,배송/주문,정상,True,배송 변경,True,True,False,False,True,True,False,3.802,121,69.81
+qwen2.5:7b,B,33,2,배송/주문,정상,True,배송 변경,True,True,False,False,True,True,False,3.295,82,70.81
+qwen2.5:7b,A,34,2,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,4.149,145,71.14
+qwen2.5:7b,B,34,2,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,3.523,97,70.94
+qwen2.5:7b,C,34,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.522,102,71.0
+qwen2.5:7b,B,35,2,배송/주문,경계,True,배송 관련 문의,True,True,False,False,True,True,False,3.578,100,70.95
+qwen2.5:7b,C,35,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.622,108,71.16
+qwen2.5:7b,A,35,2,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,3.965,134,71.19
+qwen2.5:7b,C,36,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,3.238,79,70.15
+qwen2.5:7b,A,36,2,배송/주문,경계,True,배송 확인,True,True,False,False,True,True,False,2.911,61,71.92
+qwen2.5:7b,B,36,2,배송/주문,경계,True,배송 확인,True,True,False,False,True,True,False,3.5,97,70.07
+qwen2.5:7b,A,37,2,정보 부족,특수: 정보부족,False,배송 관련 문의,True,True,False,False,False,False,False,3.005,66,71.84
+qwen2.5:7b,B,37,2,정보 부족,특수: 정보부족,False,배송 관련 문의,True,True,False,False,False,False,False,2.899,55,71.29
+qwen2.5:7b,C,37,2,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,2.871,54,69.55
+qwen2.5:7b,B,38,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,3.288,78,70.74
+qwen2.5:7b,C,38,2,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,3.039,68,71.68
+qwen2.5:7b,A,38,2,정보 부족,특수: 정보부족,False,방문 일정 문의,True,True,False,False,False,False,False,3.242,83,71.91
+qwen2.5:7b,C,39,2,배송/주문,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,3.241,81,71.64
+qwen2.5:7b,A,39,2,배송/주문,특수: 범위밖,False,배송 문제,True,True,False,False,True,True,False,3.389,95,71.51
+qwen2.5:7b,B,39,2,배송/주문,특수: 범위밖,False,기타,True,True,True,False,False,False,False,3.246,81,71.19
+qwen2.5:7b,A,40,2,컴플레인/보상요구,정상,True,서비스 문제,True,True,False,False,False,False,False,4.065,141,71.08
+qwen2.5:7b,B,40,2,컴플레인/보상요구,정상,True,접속 중단,True,True,False,False,False,False,False,3.536,96,69.93
+qwen2.5:7b,C,40,2,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.502,101,71.06
+qwen2.5:7b,B,41,2,컴플레인/보상요구,정상,True,처리 상태 확인,True,True,False,False,False,False,False,3.537,99,71.0
+qwen2.5:7b,C,41,2,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.968,134,70.84
+qwen2.5:7b,A,41,2,컴플레인/보상요구,정상,True,답변 요청,True,True,False,False,False,False,False,4.068,141,71.09
+qwen2.5:7b,C,42,2,컴플레인/보상요구,정상,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.564,101,69.37
+qwen2.5:7b,A,42,2,컴플레인/보상요구,정상,True,서비스 변경에 대한 불만,True,True,False,False,True,True,False,3.61,109,71.35
+qwen2.5:7b,B,42,2,컴플레인/보상요구,정상,True,서비스 변경에 대한 항의,True,True,False,False,False,False,False,4.041,132,69.43
+qwen2.5:7b,A,43,2,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,2.951,63,72.32
+qwen2.5:7b,B,43,2,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,3.501,98,70.87
+qwen2.5:7b,C,43,2,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.204,80,71.91
+qwen2.5:7b,B,44,2,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,3.194,72,71.2
+qwen2.5:7b,C,44,2,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.476,100,71.39
+qwen2.5:7b,A,44,2,컴플레인/보상요구,경계,True,서비스 만족도,True,True,False,False,False,False,False,3.569,107,71.41
+qwen2.5:7b,C,45,2,컴플레인/보상요구,경계,True,컴플레인/보상요구,True,True,True,True,True,True,False,3.476,97,71.39
+qwen2.5:7b,A,45,2,컴플레인/보상요구,경계,True,불만 및 우려,True,True,False,False,True,True,False,3.543,106,71.45
+qwen2.5:7b,B,45,2,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,3.165,75,71.13
+qwen2.5:7b,A,46,2,정보 부족,특수: 정보부족,False,불만 제기,True,True,False,False,False,False,False,2.795,53,72.24
+qwen2.5:7b,B,46,2,정보 부족,특수: 정보부족,False,불만,True,True,False,False,False,False,False,2.952,58,71.64
+qwen2.5:7b,C,46,2,정보 부족,특수: 정보부족,False,컴플레인/보상요구,True,True,True,False,False,False,False,2.852,55,72.64
+qwen2.5:7b,B,47,2,컴플레인/보상요구,특수: 범위밖,False,항의,True,True,False,False,False,False,False,3.865,121,70.52
+qwen2.5:7b,C,47,2,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,3.702,114,71.04
+qwen2.5:7b,A,47,2,컴플레인/보상요구,특수: 범위밖,False,항의/불만 제기,True,True,False,False,True,True,False,4.251,154,71.25
+qwen2.5:7b,C,48,2,기타,정상,True,기타,True,True,True,True,True,True,False,3.311,86,71.47
+qwen2.5:7b,A,48,2,기타,정상,True,제휴 문의,True,True,False,False,False,False,False,3.559,105,71.66
+qwen2.5:7b,B,48,2,기타,정상,True,제휴 문의,True,True,False,False,False,False,False,3.482,96,70.7
+qwen2.5:7b,A,49,2,기타,정상,True,서비스 이용 관련 문의,True,True,False,False,False,False,False,3.712,116,71.55
+qwen2.5:7b,B,49,2,기타,정상,True,서비스 이용,True,True,False,False,False,False,False,3.261,81,70.83
+qwen2.5:7b,C,49,2,기타,정상,True,로그인/계정,True,True,True,False,False,False,False,3.259,85,71.99
+qwen2.5:7b,B,50,2,기타,정상,True,이용약관 관련 문의,True,True,False,False,False,False,False,3.849,120,70.82
+qwen2.5:7b,C,50,2,기타,정상,True,정보 부족,True,True,True,False,False,False,True,3.628,108,71.11
+qwen2.5:7b,A,50,2,기타,정상,True,이용약관/정책 문의,True,True,False,False,False,False,False,3.625,111,71.34
+qwen2.5:7b,C,51,2,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,3.563,104,71.51
+qwen2.5:7b,A,51,2,기타(판단 불가),경계,True,문의 및 안내,True,True,False,False,False,False,False,3.099,74,71.71
+qwen2.5:7b,B,51,2,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,3.13,72,71.4
+qwen2.5:7b,A,52,2,기타(판단 불가),경계,True,사용자 지원,True,True,False,False,False,False,False,3.398,92,69.69
+qwen2.5:7b,B,52,2,기타(판단 불가),경계,True,사용 방법 문의,True,True,False,False,False,False,False,3.594,104,70.73
+qwen2.5:7b,C,52,2,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,3.343,89,71.11
+qwen2.5:7b,B,53,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.924,56,71.12
+qwen2.5:7b,C,53,2,정보 부족,특수: 정보부족,False,,True,False,False,False,False,False,False,2.673,42,72.55
+qwen2.5:7b,A,53,2,정보 부족,특수: 정보부족,False,,True,False,False,False,False,False,False,2.837,54,72.0
+qwen2.5:7b,C,54,2,기타,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,3.171,76,71.42
+qwen2.5:7b,A,54,2,기타,특수: 범위밖,False,개인정보 관리,True,True,False,False,False,False,False,3.543,103,71.37
+qwen2.5:7b,B,54,2,기타,특수: 범위밖,False,개인정보 관리,True,True,False,False,False,False,False,3.095,68,71.17
+llama3.2:3b,A,1,2,로그인/계정,정상,True,로그인 문제,True,True,False,False,True,True,False,2.806,104,145.56
+llama3.2:3b,B,1,2,로그인/계정,정상,True,정보 부족,True,True,True,False,False,False,True,2.643,77,140.78
+llama3.2:3b,C,1,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.653,78,139.8
+llama3.2:3b,B,2,2,결제/환불,정상,True,환불 및 보상,True,True,False,False,True,True,False,2.664,72,130.43
+llama3.2:3b,C,2,2,결제/환불,정상,True,기능 오류,True,True,True,False,False,False,False,2.491,59,141.76
+llama3.2:3b,A,2,2,결제/환불,정상,True,결제 실패,True,True,False,False,True,True,False,2.741,85,130.41
+llama3.2:3b,C,3,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.517,62,140.71
+llama3.2:3b,A,3,2,기능 오류,정상,True,프로그램 오류,True,True,False,False,True,True,False,2.783,101,141.79
+llama3.2:3b,B,3,2,기능 오류,정상,True,프로그램 오류,True,True,False,False,True,True,False,2.701,79,130.47
+llama3.2:3b,A,4,2,배송/주문,정상,True,배송 정보 inquiries,True,True,False,False,True,True,False,2.578,71,141.39
+llama3.2:3b,B,4,2,배송/주문,정상,True,배송 정보를 원하는 고객,True,True,False,False,True,True,False,2.631,71,133.37
+llama3.2:3b,C,4,2,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.442,49,140.72
+llama3.2:3b,B,5,2,로그인/계정,정상,True,계정 잠김,True,True,False,False,True,True,False,2.601,57,119.85
+llama3.2:3b,C,5,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.564,60,123.17
+llama3.2:3b,A,5,2,로그인/계정,정상,True,계정 문제,True,True,False,False,True,True,False,3.091,139,136.9
+llama3.2:3b,C,6,2,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.502,52,132.4
+llama3.2:3b,A,6,2,기능 오류,경계,True,화면 멈춤 문제,True,True,False,False,False,False,False,2.543,65,141.48
+llama3.2:3b,B,6,2,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.49,58,140.57
+llama3.2:3b,A,7,2,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,3.502,186,132.31
+llama3.2:3b,B,7,2,로그인/계정,경계,True,정보 부족,True,True,True,False,False,False,True,3.58,207,138.83
+llama3.2:3b,C,7,2,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.525,63,142.34
+llama3.2:3b,B,8,2,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,2.683,80,139.24
+llama3.2:3b,C,8,2,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,2.406,41,129.84
+llama3.2:3b,A,8,2,기타(판단 불가),경계,True,고객 문의,True,True,False,False,False,False,False,2.666,76,132.61
+llama3.2:3b,C,9,2,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.302,29,143.85
+llama3.2:3b,A,9,2,정보 부족,특수: 정보부족,False,고객 문의,True,True,False,False,True,False,False,3.154,146,136.0
+llama3.2:3b,B,9,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.631,76,138.68
+llama3.2:3b,A,10,2,컴플레인/보상요구,특수: 범위밖,False,손해 보상,True,True,False,False,True,True,False,2.799,93,133.86
+llama3.2:3b,B,10,2,컴플레인/보상요구,특수: 범위밖,False,고객이 서비스 정책으로 인해 발생한 손해를 전부 보상해 주고 싶다는 요구,True,True,False,False,True,True,False,2.893,111,139.74
+llama3.2:3b,C,10,2,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,2.586,67,139.11
+llama3.2:3b,B,11,2,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,2.622,69,132.61
+llama3.2:3b,C,11,2,로그인/계정,정상,True,로그인/계정,True,True,True,True,True,True,False,2.514,59,141.03
+llama3.2:3b,A,11,2,로그인/계정,정상,True,비밀번호 재설정,True,True,False,False,True,True,False,2.932,121,140.68
+llama3.2:3b,C,12,2,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.387,38,141.87
+llama3.2:3b,A,12,2,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,2.672,82,136.75
+llama3.2:3b,B,12,2,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,2.53,62,140.59
+llama3.2:3b,A,13,2,로그인/계정,경계,True,로그인 문제,True,True,False,False,True,True,False,2.709,75,124.2
+llama3.2:3b,B,13,2,로그인/계정,경계,True,문의 유형,True,True,False,False,False,False,False,2.717,89,139.6
+llama3.2:3b,C,13,2,로그인/계정,경계,True,기능 오류,True,True,True,False,False,False,False,2.513,55,130.58
+llama3.2:3b,B,14,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.374,38,138.45
+llama3.2:3b,C,14,2,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.333,30,124.07
+llama3.2:3b,A,14,2,정보 부족,특수: 정보부족,False,로그인,True,True,False,False,False,False,False,2.585,66,129.22
+llama3.2:3b,C,15,2,정보 부족,특수: 정보부족,False,비밀번호,True,True,False,False,False,False,False,2.404,44,140.81
+llama3.2:3b,A,15,2,정보 부족,특수: 정보부족,False,비밀번호,True,True,False,False,False,False,False,2.896,107,132.05
+llama3.2:3b,B,15,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.732,83,136.06
+llama3.2:3b,A,16,2,로그인/계정,특수: 범위밖,False,계정 정보 inquiries,True,True,False,False,True,True,False,2.436,51,143.14
+llama3.2:3b,B,16,2,로그인/계정,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.377,34,127.87
+llama3.2:3b,C,16,2,로그인/계정,특수: 범위밖,False,로그인/계정,True,True,True,True,True,True,False,2.488,52,129.04
+llama3.2:3b,B,17,2,결제/환불,정상,True,중복 결제 관련 문의,True,True,False,False,True,True,False,2.963,105,124.75
+llama3.2:3b,C,17,2,결제/환불,정상,True,기능 오류,True,True,True,False,False,False,False,2.565,63,140.77
+llama3.2:3b,A,17,2,결제/환불,정상,True,중복 결제 문의,True,True,False,False,True,True,False,2.666,77,133.07
+llama3.2:3b,C,18,2,결제/환불,정상,True,결제/환불,True,True,True,True,True,True,False,2.497,52,140.52
+llama3.2:3b,A,18,2,결제/환불,정상,True,구독 해지 inquiry,True,True,False,False,False,False,False,2.946,114,133.12
+llama3.2:3b,B,18,2,결제/환불,정상,True,환불 정보,True,True,False,False,True,True,False,2.674,77,138.25
+llama3.2:3b,A,19,2,결제/환불,경계,True,결제 문제,True,True,False,False,True,True,False,3.191,147,136.31
+llama3.2:3b,B,19,2,결제/환불,경계,True,결제 문제,True,True,False,False,True,True,False,2.586,65,140.28
+llama3.2:3b,C,19,2,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.532,64,142.37
+llama3.2:3b,B,20,2,결제/환불,경계,True,정보 부족,True,True,True,False,False,False,True,2.755,77,120.93
+llama3.2:3b,C,20,2,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.473,53,141.29
+llama3.2:3b,A,20,2,결제/환불,경계,True,고객 문의,True,True,False,False,False,False,False,2.715,83,130.97
+llama3.2:3b,C,21,2,결제/환불,경계,True,기능 오류,True,True,True,False,False,False,False,2.519,57,140.75
+llama3.2:3b,A,21,2,결제/환불,경계,True,앱 사용 문제,True,True,False,False,False,False,False,2.491,60,143.27
+llama3.2:3b,B,21,2,결제/환불,경계,True,정보 부족,True,True,True,False,False,False,True,2.548,59,138.64
+llama3.2:3b,A,22,2,정보 부족,특수: 정보부족,False,결제 관련,True,True,False,False,False,False,False,2.595,66,131.09
+llama3.2:3b,B,22,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.397,38,125.03
+llama3.2:3b,C,22,2,정보 부족,특수: 정보부족,False,로그인/계정,True,True,True,False,False,False,False,2.304,27,121.92
+llama3.2:3b,B,23,2,결제/환불,특수: 범위밖,False,환불 규정에 대한 문의,True,True,False,False,True,True,False,2.771,82,123.29
+llama3.2:3b,C,23,2,결제/환불,특수: 범위밖,False,기능 오류,True,True,True,False,False,False,False,2.491,57,141.51
+llama3.2:3b,A,23,2,결제/환불,특수: 범위밖,False,고객이 환불 규정을 잘못 이해한 문의,True,True,False,False,True,True,False,2.899,110,133.17
+llama3.2:3b,C,24,2,결제/환불,특수: 범위밖,False,기능 오류,True,True,True,False,False,False,False,2.638,79,141.3
+llama3.2:3b,A,24,2,결제/환불,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.545,65,135.8
+llama3.2:3b,B,24,2,결제/환불,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.385,43,141.63
+llama3.2:3b,A,25,2,기능 오류,정상,True,파일 업로드,True,True,False,False,False,False,False,3.264,161,136.23
+llama3.2:3b,B,25,2,기능 오류,정상,True,용량 초과,True,True,False,False,False,False,False,2.877,108,138.59
+llama3.2:3b,C,25,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.428,49,143.26
+llama3.2:3b,B,26,2,기능 오류,정상,True,앱이 꺼지기 issue,True,True,False,False,False,False,False,3.391,174,134.07
+llama3.2:3b,C,26,2,기능 오류,정상,True,기능 오류,True,True,True,True,True,True,False,2.563,63,134.02
+llama3.2:3b,A,26,2,기능 오류,정상,True,앱 사용 문제,True,True,False,False,False,False,False,3.117,145,140.43
+llama3.2:3b,C,27,2,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.425,52,142.68
+llama3.2:3b,A,27,2,기능 오류,경계,True,비대면 고객 문의,True,True,False,False,False,False,False,3.042,134,136.37
+llama3.2:3b,B,27,2,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.452,47,137.27
+llama3.2:3b,A,28,2,기능 오류,경계,True,저장이 안 되는 문제,True,True,False,False,False,False,False,3.312,168,134.64
+llama3.2:3b,B,28,2,기능 오류,경계,True,정보 부족,True,True,True,False,False,False,True,2.411,43,139.53
+llama3.2:3b,C,28,2,기능 오류,경계,True,기능 오류,True,True,True,True,True,True,False,2.471,56,134.55
+llama3.2:3b,B,29,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.441,47,140.98
+llama3.2:3b,C,29,2,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,2.344,37,126.83
+llama3.2:3b,A,29,2,정보 부족,특수: 정보부족,False,오류,True,True,False,False,False,False,False,2.526,61,129.91
+llama3.2:3b,C,30,2,정보 부족,특수: 정보부족,False,기능 오류,True,True,True,False,False,False,False,2.314,37,144.02
+llama3.2:3b,A,30,2,정보 부족,특수: 정보부족,False,오류 문의,True,True,False,False,False,False,False,2.361,38,124.74
+llama3.2:3b,B,30,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.433,42,115.04
+llama3.2:3b,A,31,2,기능 오류,특수: 범위밖,False,소스코드 요청,True,True,False,False,False,False,False,2.856,104,139.42
+llama3.2:3b,B,31,2,기능 오류,특수: 범위밖,False,문의 유형,True,True,False,False,False,False,False,2.276,29,141.85
+llama3.2:3b,C,31,2,기능 오류,특수: 범위밖,False,기능 오류,True,True,True,True,True,True,False,2.475,47,117.95
+llama3.2:3b,B,32,2,배송/주문,정상,True,상품 파손,True,True,False,False,False,False,False,2.758,82,132.59
+llama3.2:3b,C,32,2,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.492,59,143.48
+llama3.2:3b,A,32,2,배송/주문,정상,True,교환 및 반품,True,True,False,False,False,False,False,2.638,79,134.93
+llama3.2:3b,C,33,2,배송/주문,정상,True,배송/주문,True,True,True,True,True,True,False,2.355,40,143.62
+llama3.2:3b,A,33,2,배송/주문,정상,True,배송 변경 문의,True,True,False,False,True,True,False,2.627,74,133.86
+llama3.2:3b,B,33,2,배송/주문,정상,True,배송 변경 요청,True,True,False,False,True,True,False,2.497,59,140.0
+llama3.2:3b,A,34,2,배송/주문,경계,True,고객 문의,True,True,False,False,False,False,False,3.092,135,135.02
+llama3.2:3b,B,34,2,배송/주문,경계,True,고객이 주문한 제품이 아직 도착하지 못한 경우,True,True,False,False,True,True,False,2.722,91,139.11
+llama3.2:3b,C,34,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.569,72,142.57
+llama3.2:3b,B,35,2,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,2.579,70,144.3
+llama3.2:3b,C,35,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.672,77,130.6
+llama3.2:3b,A,35,2,배송/주문,경계,True,배송 문제,True,True,False,False,True,True,False,2.62,78,142.34
+llama3.2:3b,C,36,2,배송/주문,경계,True,배송/주문,True,True,True,True,True,True,False,2.715,87,140.88
+llama3.2:3b,A,36,2,배송/주문,경계,True,고객 문의,True,True,False,False,False,False,False,2.435,47,144.24
+llama3.2:3b,B,36,2,배송/주문,경계,True,문의 유형,True,True,False,False,False,False,False,2.357,35,123.66
+llama3.2:3b,A,37,2,정보 부족,특수: 정보부족,False,배송 관련 문의,True,True,False,False,False,False,False,2.471,49,127.13
+llama3.2:3b,B,37,2,정보 부족,특수: 정보부족,False,배송,True,True,False,False,False,False,False,2.348,37,138.24
+llama3.2:3b,C,37,2,정보 부족,특수: 정보부족,False,배송/주문,True,True,True,False,False,False,False,2.514,53,129.13
+llama3.2:3b,B,38,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.377,38,139.92
+llama3.2:3b,C,38,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.416,44,131.4
+llama3.2:3b,A,38,2,정보 부족,특수: 정보부족,False,고객 문의,True,True,False,False,True,False,False,2.375,41,132.06
+llama3.2:3b,C,39,2,배송/주문,특수: 범위밖,False,배송/주문,True,True,True,True,True,True,False,2.459,50,131.43
+llama3.2:3b,A,39,2,배송/주문,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.479,48,125.51
+llama3.2:3b,B,39,2,배송/주문,특수: 범위밖,False,고객이 배송 기사를 해고하라고 문의한다.,True,True,False,False,True,True,False,2.626,72,129.81
+llama3.2:3b,A,40,2,컴플레인/보상요구,정상,True,고객 문의,True,True,False,False,False,False,False,2.473,49,131.32
+llama3.2:3b,B,40,2,컴플레인/보상요구,정상,True,전화 끊기,True,True,False,False,False,False,False,2.461,53,136.18
+llama3.2:3b,C,40,2,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.426,50,139.27
+llama3.2:3b,B,41,2,컴플레인/보상요구,정상,True,문의 유형,True,True,False,False,False,False,False,2.372,34,123.7
+llama3.2:3b,C,41,2,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.537,58,129.12
+llama3.2:3b,A,41,2,컴플레인/보상요구,정상,True,고객 문의,True,True,False,False,False,False,False,3.229,163,139.49
+llama3.2:3b,C,42,2,컴플레인/보상요구,정상,True,기능 오류,True,True,True,False,False,False,False,2.621,66,132.48
+llama3.2:3b,A,42,2,컴플레인/보상요구,정상,True,기능 사용 문제,True,True,False,False,False,False,False,2.537,63,140.12
+llama3.2:3b,B,42,2,컴플레인/보상요구,정상,True,정보 부족,True,True,True,False,False,False,True,2.375,41,141.78
+llama3.2:3b,A,43,2,컴플레인/보상요구,경계,True,서비스 실망,True,True,False,False,False,False,False,2.9,114,135.18
+llama3.2:3b,B,43,2,컴플레인/보상요구,경계,True,서비스 실망,True,True,False,False,False,False,False,2.305,32,139.09
+llama3.2:3b,C,43,2,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.429,43,132.26
+llama3.2:3b,B,44,2,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,2.884,104,136.2
+llama3.2:3b,C,44,2,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.612,70,134.39
+llama3.2:3b,A,44,2,컴플레인/보상요구,경계,True,고객 문의,True,True,False,False,False,False,False,2.628,81,142.69
+llama3.2:3b,C,45,2,컴플레인/보상요구,경계,True,기능 오류,True,True,True,False,False,False,False,2.451,52,143.28
+llama3.2:3b,A,45,2,컴플레인/보상요구,경계,True,문의 유형,True,True,False,False,False,False,False,2.439,47,130.22
+llama3.2:3b,B,45,2,컴플레인/보상요구,경계,True,정보 부족,True,True,True,False,False,False,True,2.347,34,131.13
+llama3.2:3b,A,46,2,정보 부족,특수: 정보부족,False,불만,True,True,False,False,False,False,False,2.705,86,134.95
+llama3.2:3b,B,46,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.336,33,143.34
+llama3.2:3b,C,46,2,정보 부족,특수: 정보부족,False,기타,True,True,True,False,True,False,False,2.271,23,129.24
+llama3.2:3b,B,47,2,컴플레인/보상요구,특수: 범위밖,False,정보 부족,True,True,True,False,False,False,False,2.541,52,117.57
+llama3.2:3b,C,47,2,컴플레인/보상요구,특수: 범위밖,False,컴플레인/보상요구,True,True,True,True,True,True,False,2.554,62,141.0
+llama3.2:3b,A,47,2,컴플레인/보상요구,특수: 범위밖,False,고객 문의 유형,True,True,False,False,False,False,False,2.555,66,141.68
+llama3.2:3b,C,48,2,기타,정상,True,정보 부족,True,True,True,False,False,False,True,2.53,59,131.55
+llama3.2:3b,A,48,2,기타,정상,True,회사 제휴 문의,True,True,False,False,False,False,False,2.651,76,130.39
+llama3.2:3b,B,48,2,기타,정상,True,문의 유형,True,True,False,False,False,False,False,2.403,46,141.77
+llama3.2:3b,A,49,2,기타,정상,True,탈퇴 관련 문의,True,True,False,False,False,False,False,2.726,85,133.38
+llama3.2:3b,B,49,2,기타,정상,True,탈퇴 관련 문의,True,True,False,False,False,False,False,3.007,118,129.42
+llama3.2:3b,C,49,2,기타,정상,True,기능 오류,True,True,True,False,False,False,False,2.484,52,131.08
+llama3.2:3b,B,50,2,기타,정상,True,이용약관 개정 정보,True,True,False,False,False,False,False,2.522,54,130.01
+llama3.2:3b,C,50,2,기타,정상,True,정보 부족,True,True,True,False,False,False,True,2.403,42,141.88
+llama3.2:3b,A,50,2,기타,정상,True,고객 문의,True,True,False,False,False,False,False,2.465,55,136.79
+llama3.2:3b,C,51,2,기타(판단 불가),경계,True,기타,True,True,True,True,True,True,False,2.264,28,147.76
+llama3.2:3b,A,51,2,기타(판단 불가),경계,True,uncertain inquiry,True,True,False,False,False,False,False,2.475,56,130.98
+llama3.2:3b,B,51,2,기타(판단 불가),경계,True,정보 부족,True,True,True,False,False,False,True,2.344,34,140.54
+llama3.2:3b,A,52,2,기타(판단 불가),경계,True,고객 문의,True,True,False,False,False,False,False,2.821,103,136.22
+llama3.2:3b,B,52,2,기타(판단 불가),경계,True,문의 유형,True,True,False,False,False,False,False,2.377,31,124.93
+llama3.2:3b,C,52,2,기타(판단 불가),경계,True,기능 오류,True,True,True,False,False,False,False,2.533,58,135.97
+llama3.2:3b,B,53,2,정보 부족,특수: 정보부족,False,,True,False,False,False,False,False,False,2.346,29,125.53
+llama3.2:3b,C,53,2,정보 부족,특수: 정보부족,False,정보 부족,True,True,True,True,True,True,False,2.413,41,126.41
+llama3.2:3b,A,53,2,정보 부족,특수: 정보부족,False,unknown,True,True,False,False,False,False,False,2.244,19,122.32
+llama3.2:3b,C,54,2,기타,특수: 범위밖,False,컴플레인/보상요구,True,True,True,False,False,False,False,2.594,66,132.59
+llama3.2:3b,A,54,2,기타,특수: 범위밖,False,개인정보 삭제,True,True,False,False,False,False,False,2.567,65,131.0
+llama3.2:3b,B,54,2,기타,특수: 범위밖,False,개인정보 삭제,True,True,False,False,False,False,False,2.641,74,140.08
